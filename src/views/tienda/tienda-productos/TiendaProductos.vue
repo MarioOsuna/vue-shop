@@ -1,11 +1,15 @@
 <template>
 <div>
-    <!-- Productos -->
-
     <b-row class="match-height">
         <b-col v-for="item in products" :key="item.id" md="12" lg="3">
-            <b-card :img-src="item.image" img-top :title="item.title" class="ecommerce-card">
+            <b-card class="ecommerce-card" no-body>
+                <div class="item-img">
+                    <b-img fluid class="card-img-top" :src="item.image" />
+                </div>
                 <b-card-body>
+                    <b-card-text class="item-title">
+                        <h6>{{ item.title }}</h6>
+                    </b-card-text>
                     <div class="item-rating">
                         <ul class="unstyled-list list-inline">
                             {{ item.rating.rate }}
@@ -14,14 +18,21 @@
                             </li>
                             ({{ item.rating.count }})
                         </ul>
-                        <b-card-text>
-                            <h6>{{ item.price }}€</h6>
-                        </b-card-text>
-                        <b-card-text class="item-description">
-                            {{ item.description }}
-                        </b-card-text>
                     </div>
+                    <hr>
+                    <b-card-text class="item-price">
+                        <h6>{{ item.price }}€</h6>
+                    </b-card-text>
+                    <b-card-tex>
+                        Available - On Stock
+                    </b-card-tex>
+                    <hr>
+                    <b-card-text class="item-description">
+                        {{ item.description }}
+                    </b-card-text>
+
                 </b-card-body>
+
             </b-card>
         </b-col>
     </b-row>
@@ -29,25 +40,14 @@
 </template>
 
 <script>
-import Ripple from 'vue-ripple-directive'
 import axios from '@axios'
 import {
-    BDropdown,
-    BDropdownItem,
-    BFormRadioGroup,
-    BFormRadio,
     BRow,
     BCol,
-    BInputGroup,
-    BInputGroupAppend,
-    BFormInput,
     BCard,
-    BCardBody,
-    BLink,
     BImg,
-    BCardText,
-    BButton,
-    BPagination,
+    BCardBody,
+    BCardText
 } from 'bootstrap-vue'
 export default {
     name: 'Productos',
@@ -63,28 +63,27 @@ export default {
             })
     },
     components: {
-        BDropdown,
-        BDropdownItem,
-        BFormRadioGroup,
-        BFormRadio,
         BRow,
         BCol,
-        BInputGroup,
-        BInputGroupAppend,
-        BFormInput,
         BCard,
-        BCardBody,
-        BLink,
         BImg,
-        BCardText,
-        BButton,
-        BPagination
-    },
-    directives: {
-        Ripple,
+        BCardBody,
+        BCardText
     }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "~@core/scss/base/pages/app-ecommerce.scss";
+
+.item-img {
+    align-items: center;
+    justify-content: center;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
 </style>

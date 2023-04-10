@@ -1,5 +1,5 @@
 <template>
-<b-row>
+<b-row class="match-height">
     <b-col cols="12" md="3">
         <b-card :img-src="require('@/assets/images/shop/electronica.jpg')" img-top no-body>
             <b-card-body>
@@ -54,6 +54,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

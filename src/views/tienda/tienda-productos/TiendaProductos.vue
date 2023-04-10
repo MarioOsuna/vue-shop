@@ -1,73 +1,30 @@
 <template>
-<div style="height: inherit">
+<div>
     <!-- Productos -->
 
-    <b-row>
+    <b-row class="match-height">
         <b-col v-for="item in products" :key="item.id" md="12" lg="3">
             <b-card :img-src="item.image" img-top :title="item.title" class="ecommerce-card">
-            <b-card-body>
-                <b-card-text>{{item.description}}</b-card-text>
-            </b-card-body>
-        </b-card>
-        </b-col>
-    </b-row>
-
-    <section class="app-ecommerce-details">
-        <b-card v-for="item in products" :key="item.id" class="ecommerce-card" no-body>
-            <b-card-body>
-                <b-row class="my-2">
-
-                    <!-- Parte Izq. Foto del producto-->
-                    <b-col cols="12" md="5" class="d-flex align-items-center justify-content-center mb-2 mb-md-0">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <b-img :src="item.image" :alt="`Image of ${item.name}`" class="product-img" fluid style="width: 350px; height: 250px;" />
-                        </div>
-                    </b-col>
-
-                    <!-- Parte Derecha. Info y detalles-->
-                    <b-col cols="12" md="7">
-                        <!-- Nombre -->
-                        <h4>{{ item.title }}</h4>
-
-                        <!-- Precio y Valoración -->
-                        <div class="ecommerce-details-price d-flex flex-wrap mt-1">
-                            <h4 class="item-price mr-1">
-                                {{ item.price }}€
-                            </h4>
-                        </div>
-
-                        <!-- Stock -->
+                <b-card-body>
+                    <div class="item-rating">
+                        <ul class="unstyled-list list-inline">
+                            {{ item.rating.rate }}
+                            <li v-for="star in 5" :key="star" class="ratings-list-item" :class="{'ml-25': star-1}">
+                                <feather-icon icon="StarIcon" size="16" :class="[{'fill-current': star <= item.rating.rate}, star <= item.rating.rate ? 'text-warning' : 'text-muted']" />
+                            </li>
+                            ({{ item.rating.count }})
+                        </ul>
                         <b-card-text>
-                            Available -
-                            <span class="text-success">
-                                On Stock
-                            </span>
+                            <h6>{{ item.price }}€</h6>
                         </b-card-text>
-                        <!-- Descripción -->
-                        <b-card-text>
+                        <b-card-text class="item-description">
                             {{ item.description }}
                         </b-card-text>
-
-                        <hr>
-
-                        <!-- Botones Carrito y Fav -->
-                        <div class="d-flex felx-column flex-sm-row pt-1">
-                            <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0">
-                                <feather-icon icon="ShoppingCartIcon" class="mr-50" />
-                                <span>Añadir al carrito</span>
-                            </b-button>
-                            <b-button variant="outline-secondary" class="btn-wishlist mr-0 mr-sm-1 mb-1 mb-sm-0">
-                                <feather-icon icon="HeartIcon" class="mr-50" />
-                                <span>Favorito</span>
-                            </b-button>
-                        </div>
-
-                    </b-col>
-
-                </b-row>
-            </b-card-body>
-        </b-card>
-    </section>
+                    </div>
+                </b-card-body>
+            </b-card>
+        </b-col>
+    </b-row>
 </div>
 </template>
 

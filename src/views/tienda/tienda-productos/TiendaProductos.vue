@@ -1,19 +1,17 @@
 <template>
 <div style="height: inherit">
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0" style="margin: auto;">
-            <span>Men's Clothing</span>
-        </b-button>
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0" style="margin: auto;">
-            <span>Jewelery</span>
-        </b-button>
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0" style="margin: auto;">
-            <span>Electronics</span>
-        </b-button>
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0" style="margin: auto;">
-            <span>Women's Clothing</span>
-        </b-button>
-
     <!-- Productos -->
+
+    <b-row>
+        <b-col v-for="item in products" :key="item.id" md="12" lg="3">
+            <b-card :img-src="item.image" img-top :title="item.title" class="ecommerce-card">
+            <b-card-body>
+                <b-card-text>{{item.description}}</b-card-text>
+            </b-card-body>
+        </b-card>
+        </b-col>
+    </b-row>
+
     <section class="app-ecommerce-details">
         <b-card v-for="item in products" :key="item.id" class="ecommerce-card" no-body>
             <b-card-body>

@@ -1,50 +1,19 @@
 <template>
 <b-row class="match-height">
-    <b-col md="12" lg="3">
+    <b-col v-for="categoria in categorias" :key="categoria" md="12" lg="3">
         <b-card class="ecommerce-card" no-body>
-            <b-link :to="{name: 'tienda-categorias-productos', params: {name: names[0]}}">
-                <b-img src="@/assets/images/shop/electronica.jpg" fluid />
+            <b-link :to="{name: 'tienda-categorias-productos', params: {name: categoria}}">
                 <b-card-body>
-                    <b-card-title>Electronics</b-card-title>
+                    <b-card-title>{{categoria}}</b-card-title>
                 </b-card-body>
             </b-link>
         </b-card>
     </b-col>
-    <b-col md="12" lg="3">
-        <b-card class="ecommerce-card" no-body>
-            <b-link :to="{name: 'tienda-categorias-productos', params: {name: names[1]}}">
-                <b-img src="@/assets/images/shop/joyeria.jpg" fluid />
-                <b-card-body>
-                    <b-card-title>Jewelery</b-card-title>
-                </b-card-body>
-            </b-link>
-        </b-card>
-    </b-col>
-    <b-col md="12" lg="3">
-        <b-card class="ecommerce-card" no-body>
-            <b-link :to="{name: 'tienda-categorias-productos', params: {name: names[2]}}">
-                <b-img src="@/assets/images/shop/hombre.jpg" fluid />
-                <b-card-body>
-                    <b-card-title>Men's Clothing</b-card-title>
-                </b-card-body>
-            </b-link>
-        </b-card>
-    </b-col>
-    <b-col md="12" lg="3">
-        <b-card class="ecommerce-card" no-body>
-            <b-link :to="{name: 'tienda-categorias-productos', params: {name: names[3]}}">
-                <b-img src="@/assets/images/shop/mujer.jpg" fluid />
-                <b-card-body>
-                    <b-card-title>Women's Clothing</b-card-title>
-                </b-card-body>
-            </b-link>
-        </b-card>
-    </b-col>
-
 </b-row>
 </template>
 
 <script>
+import axios from '@axios'
 import {
     BRow,
     BCol,
@@ -65,8 +34,14 @@ export default {
   },*/
     data: () => {
         return {
-            names: ["electronics", "jewelery", "men's clothing", "women's clothing"]
+            categorias: [],
         }
+    },
+    created() {
+        axios.get('https://fakestoreapi.com/products/categories')
+            .then((resp) => {
+                this.categorias = resp.data
+            })
     },
     components: {
         BRow,

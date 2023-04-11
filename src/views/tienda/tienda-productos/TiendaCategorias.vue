@@ -1,31 +1,43 @@
 <template>
 <b-row class="match-height">
-    <b-col cols="12" md="3">
-        <b-card :img-src="require('@/assets/images/shop/electronica.jpg')" img-top no-body>
-            <b-card-body>
-                <b-card-title>Electronics</b-card-title>
-            </b-card-body>
+    <b-col md="12" lg="3">
+        <b-card class="ecommerce-card" no-body>
+            <b-link :to="{name: 'tienda-categorias-productos', params: {name: names[0]}}">
+                <b-img src="@/assets/images/shop/electronica.jpg" fluid />
+                <b-card-body>
+                    <b-card-title>Electronics</b-card-title>
+                </b-card-body>
+            </b-link>
         </b-card>
     </b-col>
-    <b-col cols="12" md="3">
-        <b-card :img-src="require('@/assets/images/shop/joyeria.jpg')" img-top no-body>
-            <b-card-body>
-                <b-card-title>Jewelery</b-card-title>
-            </b-card-body>
+    <b-col md="12" lg="3">
+        <b-card class="ecommerce-card" no-body>
+            <b-link :to="{name: 'tienda-categorias-productos', params: {name: names[1]}}">
+                <b-img src="@/assets/images/shop/joyeria.jpg" fluid />
+                <b-card-body>
+                    <b-card-title>Jewelery</b-card-title>
+                </b-card-body>
+            </b-link>
         </b-card>
     </b-col>
-    <b-col cols="12" md="3">
-        <b-card :img-src="require('@/assets/images/shop/hombre.jpg')" img-top no-body>
-            <b-card-body>
-                <b-card-title>Men's Clothing</b-card-title>
-            </b-card-body>
+    <b-col md="12" lg="3">
+        <b-card class="ecommerce-card" no-body>
+            <b-link :to="{name: 'tienda-categorias-productos', params: {name: names[2]}}">
+                <b-img src="@/assets/images/shop/hombre.jpg" fluid />
+                <b-card-body>
+                    <b-card-title>Men's Clothing</b-card-title>
+                </b-card-body>
+            </b-link>
         </b-card>
     </b-col>
-    <b-col cols="12" md="3">
-        <b-card :img-src="require('@/assets/images/shop/mujer.jpg')" img-top no-body>
-            <b-card-body>
-                <b-card-title>Women's Clothing</b-card-title>
-            </b-card-body>
+    <b-col md="12" lg="3">
+        <b-card class="ecommerce-card" no-body>
+            <b-link :to="{name: 'tienda-categorias-productos', params: {name: names[3]}}">
+                <b-img src="@/assets/images/shop/mujer.jpg" fluid />
+                <b-card-body>
+                    <b-card-title>Women's Clothing</b-card-title>
+                </b-card-body>
+            </b-link>
         </b-card>
     </b-col>
 
@@ -39,21 +51,32 @@ import {
     BCardGroup,
     BCard,
     BCardBody,
-    BCardTitle
+    BCardTitle,
+    BImg,
+    BLink
 } from 'bootstrap-vue'
 
 export default {
+    /*props: {
+    name: {
+      type: String,
+      default: false,
+    }
+  },*/
+    data: () => {
+        return {
+            names: ["electronics", "jewelery", "men's clothing", "women's clothing"]
+        }
+    },
     components: {
         BRow,
         BCol,
         BCardGroup,
         BCard,
         BCardBody,
-        BCardTitle
+        BCardTitle,
+        BImg,
+        BLink
     }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -23,9 +23,9 @@
                     <b-card-text class="item-price">
                         <h6>{{ item.price }}€</h6>
                     </b-card-text>
-                    <b-card-tex>
+                    <b-card-text>
                         Available - On Stock
-                    </b-card-tex>
+                    </b-card-text>
                     <hr>
                     <b-card-text class="item-description">
                         {{ item.description }}
@@ -53,14 +53,22 @@ export default {
     name: 'Productos',
     data: () => {
         return {
-            products: []
+            products: [],
         }
     },
     created() {
-        axios.get('https://fakestoreapi.com/products')
+        let parametro = this.$route.params.name
+        let api = ''
+        if (parametro == null) {
+            api = 'https://fakestoreapi.com/products'
+        } else {
+            api = 'https://fakestoreapi.com/products/category/' + this.$route.params.name
+        }
+        axios.get(api)
             .then((resp) => {
                 this.products = resp.data
             })
+
     },
     components: {
         BRow,

@@ -1,5 +1,27 @@
 <template>
-<div>
+<div style="height: inherit">
+
+    <section class="ecommerce-header">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ecommerce-header-items">
+                    <!-- Filtro -->
+                    <b-dropdown v-ripple.400="'rgba(113, 102, 240, 0.15)'" :text="sortBy.text" right variant="outline-primary">
+                        <b-dropdown-item v-for="sortOption in sortByOptions" :key="sortOption.value" @click="sortBy=sortOption">
+                            {{ sortOption.text }}
+                        </b-dropdown-item>
+                    </b-dropdown>
+                    <!-- Botones Vistas -->
+                    <b-form-radio-group v-model="itemView" class="ml-1 list item-view-radio-group" buttons size="sm" button-variant="outline-primary">
+                        <b-form-radio v-for="option in itemViewOptions" :key="option.value" :value="option.value">
+                            <feather-icon :icon="option.icon" size="18" />
+                        </b-form-radio>
+                    </b-form-radio-group>
+                </div>
+            </div>
+        </div>
+
+    </section>
 
     <div class="ecommerce-searchbar mt-1">
         <b-row>
@@ -13,7 +35,9 @@
             </b-col>
         </b-row>
     </div>
+
     <hr>
+
     <b-row class="match-height">
         <b-col v-for="item in filtrarUsuarios" :key="item.id" md="12" lg="3">
             <b-card class="ecommerce-card" no-body>
@@ -53,6 +77,8 @@
 
 <script>
 import axios from '@axios'
+import Ripple from 'vue-ripple-directive'
+import { ref } from '@vue/composition-api'
 import {
     BRow,
     BCol,
@@ -64,7 +90,9 @@ import {
     BFormInput,
     BInputGroupAppend,
     BFormRadioGroup,
-    BFormRadio
+    BFormRadio,
+    BDropdown,
+    BDropdownItem
 } from 'bootstrap-vue'
 export default {
     name: 'Productos',
@@ -72,13 +100,32 @@ export default {
         return {
             products: [],
             buscar: '',
-            vista: 'grid-view',
-            opcionesVista: [{
-                    icon: 'GridView',
+            // FILTROS
+            sortBy: ref({
+                text: 'Featured',
+                value: 'featured'
+            }),
+            sortByOptions: [{
+                    text: 'Featured',
+                    value: 'featured'
+                },
+                {
+                    text: 'Lowest',
+                    value: 'price-asc',
+                },
+                {
+                    text: 'Highest',
+                    value: 'price-desc'
+                }
+            ],
+            // BOTONES VISTAS
+            itemView: 'grid-view',
+            itemViewOptions: [{
+                    icon: 'GridIcon',
                     value: 'grid-view'
                 },
                 {
-                    icon: 'ListView',
+                    icon: 'ListIcon',
                     value: 'list-view'
                 }
             ]
@@ -96,7 +143,6 @@ export default {
             .then((resp) => {
                 this.products = resp.data
             })
-
     },
     computed: {
         filtrarUsuarios() {
@@ -119,14 +165,19 @@ export default {
         BFormInput,
         BInputGroupAppend,
         BFormRadioGroup,
-        BFormRadio
+        BFormRadio,
+        BDropdown,
+        BDropdownItem
+    },
+    directives: {
+        Ripple
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "~@core/scss/base/pages/app-ecommerce.scss";
-
+</style><style lang="scss" scoped>
 .item-img {
     align-items: center;
     justify-content: center;
@@ -136,5 +187,12 @@ export default {
     width: 100%;
     height: 300px;
     overflow: hidden;
+}
+
+.item-view-radio-group ::v-deep {
+    .btn {
+        display: flex;
+        align-items: center;
+    }
 }
 </style>

@@ -88,7 +88,7 @@
                 <b-card-text class="item-description">
                     {{ product.description }}
                 </b-card-text>
-            </b-card-body> 
+            </b-card-body>
 
             <!-- Product Actions -->
             <div class="item-options text-center">
@@ -107,7 +107,7 @@
                     <feather-icon icon="ShoppingCartIcon" class="mr-50" />
                     <span>{{ product.isInCart ? 'View In Cart' : 'Add to Cart' }}</span>
                 </b-button>
-            </div> 
+            </div>
         </b-card>
     </section>
 

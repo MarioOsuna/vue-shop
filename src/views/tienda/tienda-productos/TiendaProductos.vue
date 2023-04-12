@@ -1,7 +1,21 @@
 <template>
 <div>
+
+    <div class="ecommerce-searchbar mt-1">
+        <b-row>
+            <b-col cols="12">
+                <b-input-group class="input-group-merge">
+                    <b-form-input v-model="buscar" placeholder="Buscar producto" class="search-product" />
+                    <b-input-group-append is-text>
+                        <feather-icon icon="SearchIcon" class="text-muted" />
+                    </b-input-group-append>
+                </b-input-group>
+            </b-col>
+        </b-row>
+    </div>
+    <hr>
     <b-row class="match-height">
-        <b-col v-for="item in products" :key="item.id" md="12" lg="3">
+        <b-col v-for="item in filtrarUsuarios" :key="item.id" md="12" lg="3">
             <b-card class="ecommerce-card" no-body>
                 <div class="item-img">
                     <b-img fluid class="card-img-top" :src="item.image" />
@@ -30,9 +44,7 @@
                     <b-card-text class="item-description">
                         {{ item.description }}
                     </b-card-text>
-
                 </b-card-body>
-
             </b-card>
         </b-col>
     </b-row>
@@ -47,13 +59,29 @@ import {
     BCard,
     BImg,
     BCardBody,
-    BCardText
+    BCardText,
+    BInputGroup,
+    BFormInput,
+    BInputGroupAppend,
+    BFormRadioGroup,
+    BFormRadio
 } from 'bootstrap-vue'
 export default {
     name: 'Productos',
     data: () => {
         return {
             products: [],
+            buscar: '',
+            vista: 'grid-view',
+            opcionesVista: [{
+                    icon: 'GridView',
+                    value: 'grid-view'
+                },
+                {
+                    icon: 'ListView',
+                    value: 'list-view'
+                }
+            ]
         }
     },
     created() {
@@ -70,13 +98,28 @@ export default {
             })
 
     },
+    computed: {
+        filtrarUsuarios() {
+            if (this.products) {
+                return this.products.filter((item) => {
+                    return item.title.match(this.buscar);
+                });
+            }
+            return false;
+        }
+    },
     components: {
         BRow,
         BCol,
         BCard,
         BImg,
         BCardBody,
-        BCardText
+        BCardText,
+        BInputGroup,
+        BFormInput,
+        BInputGroupAppend,
+        BFormRadioGroup,
+        BFormRadio
     }
 }
 </script>

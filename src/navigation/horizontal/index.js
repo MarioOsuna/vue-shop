@@ -31,6 +31,7 @@ import uiElements from './ui-elements'
 import formAndTable from './forms-and-table'
 import others from './others'
 import tienda from './shop'
+import usuario from './usuario'
 
 // Array of sections
-export default [...dashboard, ...tienda,...apps, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others]
+export default [...dashboard, ...usuario, ...tienda,...apps, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others]

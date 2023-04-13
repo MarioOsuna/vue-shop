@@ -9,6 +9,10 @@ export default [
           {
             title: 'Productos',
             route: 'tienda-productos',
+          },
+          {
+            title: 'Categorias',
+            route: 'tienda-categorias'
           }
         ],
       }

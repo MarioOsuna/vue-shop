@@ -1,135 +1,209 @@
 <template>
 <div style="height: inherit">
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0" style="margin: auto;">
-            <span>Men's Clothing</span>
-        </b-button>
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0" style="margin: auto;">
-            <span>Jewelery</span>
-        </b-button>
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0" style="margin: auto;">
-            <span>Electronics</span>
-        </b-button>
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0" style="margin: auto;">
-            <span>Women's Clothing</span>
-        </b-button>
+
+    <section class="ecommerce-header">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ecommerce-header-items">
+                    <div class="view-options d-flex">
+                        <!-- Filtro -->
+                        <b-dropdown v-ripple.400="'rgba(113, 102, 240, 0.15)'" :text="sortBy.text" right variant="outline-primary">
+                            <b-dropdown-item v-for="sortOption in sortByOptions" :key="sortOption.value" @click="sortBy=sortOption">
+                                {{ sortOption.text }}
+                            </b-dropdown-item>
+                        </b-dropdown>
+                        <!-- Botones Vistas -->
+                        <b-form-radio-group v-model="itemView" class="ml-1 list item-view-radio-group" buttons size="sm" button-variant="outline-primary">
+                            <b-form-radio v-for="option in itemViewOptions" :key="option.value" :value="option.value">
+                                <feather-icon :icon="option.icon" size="18" />
+                            </b-form-radio>
+                        </b-form-radio-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barra de búsqueda -->
+    <div class="ecommerce-searchbar mt-1">
+        <b-row>
+            <b-col cols="12">
+                <b-input-group class="input-group-merge">
+                    <b-form-input v-model="buscar" placeholder="Buscar producto" class="search-product" />
+                    <b-input-group-append is-text>
+                        <feather-icon icon="SearchIcon" class="text-muted" />
+                    </b-input-group-append>
+                </b-input-group>
+            </b-col>
+        </b-row>
+    </div>
+
+    <hr>
 
     <!-- Productos -->
-    <section class="app-ecommerce-details">
-        <b-card v-for="item in products" :key="item.id" class="ecommerce-card" no-body>
-            <b-card-body>
-                <b-row class="my-2">
+    <section :class="itemView">
+        <b-row class="match-height">
+            <b-col v-for="item in filtrarUsuarios" :key="item.id" md="12" lg="3">
+                <b-card class="ecommerce-card" no-body>
+                    <div class="item-img">
+                        <b-img :alt="`${item.title}-${item.id}`" fluid class="card-img-top" :src="item.image" />
+                    </div>
 
-                    <!-- Parte Izq. Foto del producto-->
-                    <b-col cols="12" md="5" class="d-flex align-items-center justify-content-center mb-2 mb-md-0">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <b-img :src="item.image" :alt="`Image of ${item.name}`" class="product-img" fluid style="width: 350px; height: 250px;" />
+                    <!-- Detalles -->
+                    <b-card-body>
+                        <div class="item-wrapper">
+                            <div class="item-rating">
+                                <ul class="unstyled-list list-inline">
+                                    <li v-for="star in 5" :key="star" class="ratings-list-item" :class="{'ml-25': star-1}">
+                                        <feather-icon icon="StarIcon" size="16" :class="[{'fill-current': star <= item.rating.rate}, star <= item.rating.rate ? 'text-warning' : 'text-muted']" />
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h6 class="item-price">
+                                    ${{ item.price }}
+                                </h6>
+                            </div>
                         </div>
-                    </b-col>
-
-                    <!-- Parte Derecha. Info y detalles-->
-                    <b-col cols="12" md="7">
-                        <!-- Nombre -->
-                        <h4>{{ item.title }}</h4>
-
-                        <!-- Precio y Valoración -->
-                        <div class="ecommerce-details-price d-flex flex-wrap mt-1">
-                            <h4 class="item-price mr-1">
-                                {{ item.price }}€
-                            </h4>
-                        </div>
-
-                        <!-- Stock -->
-                        <b-card-text>
-                            Available -
-                            <span class="text-success">
-                                On Stock
-                            </span>
-                        </b-card-text>
-                        <!-- Descripción -->
-                        <b-card-text>
+                        <h6 class="item-name">
+                            <b-link class="text-body">
+                                {{ item.title }}
+                            </b-link>
+                        </h6>
+                        <b-card-text class="item-description">
                             {{ item.description }}
                         </b-card-text>
-
-                        <hr>
-
-                        <!-- Botones Carrito y Fav -->
-                        <div class="d-flex felx-column flex-sm-row pt-1">
-                            <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0">
-                                <feather-icon icon="ShoppingCartIcon" class="mr-50" />
-                                <span>Añadir al carrito</span>
-                            </b-button>
-                            <b-button variant="outline-secondary" class="btn-wishlist mr-0 mr-sm-1 mb-1 mb-sm-0">
-                                <feather-icon icon="HeartIcon" class="mr-50" />
-                                <span>Favorito</span>
-                            </b-button>
-                        </div>
-
-                    </b-col>
-
-                </b-row>
-            </b-card-body>
-        </b-card>
+                    </b-card-body>
+                </b-card>
+            </b-col>
+        </b-row>
     </section>
 </div>
 </template>
 
 <script>
-import Ripple from 'vue-ripple-directive'
 import axios from '@axios'
+import Ripple from 'vue-ripple-directive'
+import ShopLeftFilterSidebar from './BarraIzqFiltros.vue'
 import {
-    BDropdown,
-    BDropdownItem,
-    BFormRadioGroup,
-    BFormRadio,
+    ref
+} from '@vue/composition-api'
+import {
     BRow,
     BCol,
-    BInputGroup,
-    BInputGroupAppend,
-    BFormInput,
     BCard,
-    BCardBody,
-    BLink,
     BImg,
+    BCardBody,
     BCardText,
-    BButton,
-    BPagination,
+    BInputGroup,
+    BFormInput,
+    BInputGroupAppend,
+    BFormRadioGroup,
+    BFormRadio,
+    BDropdown,
+    BDropdownItem
 } from 'bootstrap-vue'
 export default {
     name: 'Productos',
     data: () => {
         return {
-            products: []
+            products: [],
+            buscar: '',
+            // FILTROS
+            sortBy: ref({
+                text: 'Featured',
+                value: 'featured'
+            }),
+            sortByOptions: [{
+                    text: 'Featured',
+                    value: 'featured'
+                },
+                {
+                    text: 'Lowest',
+                    value: 'price-asc',
+                },
+                {
+                    text: 'Highest',
+                    value: 'price-desc'
+                }
+            ],
+            // BOTONES VISTAS
+            itemView: 'grid-view',
+            itemViewOptions: [{
+                    icon: 'GridIcon',
+                    value: 'grid-view'
+                },
+                {
+                    icon: 'ListIcon',
+                    value: 'list-view'
+                }
+            ]
         }
     },
     created() {
-        axios.get('https://fakestoreapi.com/products')
+        let parametro = this.$route.params.name
+        let api = ''
+        if (parametro == null) {
+            api = 'https://fakestoreapi.com/products'
+        } else {
+            api = 'https://fakestoreapi.com/products/category/' + this.$route.params.name
+        }
+        axios.get(api)
             .then((resp) => {
                 this.products = resp.data
             })
     },
+    computed: {
+        filtrarUsuarios() {
+            if (this.products) {
+                return this.products.filter((item) => {
+                    return item.title.match(this.buscar);
+                });
+            }
+            return false;
+        }
+    },
     components: {
-        BDropdown,
-        BDropdownItem,
-        BFormRadioGroup,
-        BFormRadio,
         BRow,
         BCol,
-        BInputGroup,
-        BInputGroupAppend,
-        BFormInput,
         BCard,
-        BCardBody,
-        BLink,
         BImg,
+        BCardBody,
         BCardText,
-        BButton,
-        BPagination
+        BInputGroup,
+        BFormInput,
+        BInputGroupAppend,
+        BFormRadioGroup,
+        BFormRadio,
+        BDropdown,
+        BDropdownItem,
+
+        ShopLeftFilterSidebar
     },
     directives: {
-        Ripple,
+        Ripple
     }
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "~@core/scss/base/pages/app-ecommerce.scss";
+</style><style lang="scss" scoped>
+.item-img {
+    align-items: center;
+    justify-content: center;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.item-view-radio-group ::v-deep {
+    .btn {
+        display: flex;
+        align-items: center;
+    }
+}
 </style>

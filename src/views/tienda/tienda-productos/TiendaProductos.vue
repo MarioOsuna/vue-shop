@@ -5,24 +5,26 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="ecommerce-header-items">
-                    <!-- Filtro -->
-                    <b-dropdown v-ripple.400="'rgba(113, 102, 240, 0.15)'" :text="sortBy.text" right variant="outline-primary">
-                        <b-dropdown-item v-for="sortOption in sortByOptions" :key="sortOption.value" @click="sortBy=sortOption">
-                            {{ sortOption.text }}
-                        </b-dropdown-item>
-                    </b-dropdown>
-                    <!-- Botones Vistas -->
-                    <b-form-radio-group v-model="itemView" class="ml-1 list item-view-radio-group" buttons size="sm" button-variant="outline-primary">
-                        <b-form-radio v-for="option in itemViewOptions" :key="option.value" :value="option.value">
-                            <feather-icon :icon="option.icon" size="18" />
-                        </b-form-radio>
-                    </b-form-radio-group>
+                    <div class="view-options d-flex">
+                        <!-- Filtro -->
+                        <b-dropdown v-ripple.400="'rgba(113, 102, 240, 0.15)'" :text="sortBy.text" right variant="outline-primary">
+                            <b-dropdown-item v-for="sortOption in sortByOptions" :key="sortOption.value" @click="sortBy=sortOption">
+                                {{ sortOption.text }}
+                            </b-dropdown-item>
+                        </b-dropdown>
+                        <!-- Botones Vistas -->
+                        <b-form-radio-group v-model="itemView" class="ml-1 list item-view-radio-group" buttons size="sm" button-variant="outline-primary">
+                            <b-form-radio v-for="option in itemViewOptions" :key="option.value" :value="option.value">
+                                <feather-icon :icon="option.icon" size="18" />
+                            </b-form-radio>
+                        </b-form-radio-group>
+                    </div>
                 </div>
             </div>
         </div>
-
     </section>
 
+    <!-- Barra de búsqueda -->
     <div class="ecommerce-searchbar mt-1">
         <b-row>
             <b-col cols="12">
@@ -38,47 +40,54 @@
 
     <hr>
 
-    <b-row class="match-height">
-        <b-col v-for="item in filtrarUsuarios" :key="item.id" md="12" lg="3">
-            <b-card class="ecommerce-card" no-body>
-                <div class="item-img">
-                    <b-img fluid class="card-img-top" :src="item.image" />
-                </div>
-                <b-card-body>
-                    <b-card-text class="item-title">
-                        <h6>{{ item.title }}</h6>
-                    </b-card-text>
-                    <div class="item-rating">
-                        <ul class="unstyled-list list-inline">
-                            {{ item.rating.rate }}
-                            <li v-for="star in 5" :key="star" class="ratings-list-item" :class="{'ml-25': star-1}">
-                                <feather-icon icon="StarIcon" size="16" :class="[{'fill-current': star <= item.rating.rate}, star <= item.rating.rate ? 'text-warning' : 'text-muted']" />
-                            </li>
-                            ({{ item.rating.count }})
-                        </ul>
+    <!-- Productos -->
+    <section :class="itemView">
+        <b-row class="match-height">
+            <b-col v-for="item in filtrarUsuarios" :key="item.id" md="12" lg="3">
+                <b-card class="ecommerce-card" no-body>
+                    <div class="item-img">
+                        <b-img :alt="`${item.title}-${item.id}`" fluid class="card-img-top" :src="item.image" />
                     </div>
-                    <hr>
-                    <b-card-text class="item-price">
-                        <h6>{{ item.price }}€</h6>
-                    </b-card-text>
-                    <b-card-text>
-                        Available - On Stock
-                    </b-card-text>
-                    <hr>
-                    <b-card-text class="item-description">
-                        {{ item.description }}
-                    </b-card-text>
-                </b-card-body>
-            </b-card>
-        </b-col>
-    </b-row>
+
+                    <!-- Detalles -->
+                    <b-card-body>
+                        <div class="item-wrapper">
+                            <div class="item-rating">
+                                <ul class="unstyled-list list-inline">
+                                    <li v-for="star in 5" :key="star" class="ratings-list-item" :class="{'ml-25': star-1}">
+                                        <feather-icon icon="StarIcon" size="16" :class="[{'fill-current': star <= item.rating.rate}, star <= item.rating.rate ? 'text-warning' : 'text-muted']" />
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h6 class="item-price">
+                                    ${{ item.price }}
+                                </h6>
+                            </div>
+                        </div>
+                        <h6 class="item-name">
+                            <b-link class="text-body">
+                                {{ item.title }}
+                            </b-link>
+                        </h6>
+                        <b-card-text class="item-description">
+                            {{ item.description }}
+                        </b-card-text>
+                    </b-card-body>
+                </b-card>
+            </b-col>
+        </b-row>
+    </section>
 </div>
 </template>
 
 <script>
 import axios from '@axios'
 import Ripple from 'vue-ripple-directive'
-import { ref } from '@vue/composition-api'
+import ShopLeftFilterSidebar from './BarraIzqFiltros.vue'
+import {
+    ref
+} from '@vue/composition-api'
 import {
     BRow,
     BCol,
@@ -167,7 +176,9 @@ export default {
         BFormRadioGroup,
         BFormRadio,
         BDropdown,
-        BDropdownItem
+        BDropdownItem,
+
+        ShopLeftFilterSidebar
     },
     directives: {
         Ripple

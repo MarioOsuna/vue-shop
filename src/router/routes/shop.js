@@ -49,5 +49,22 @@ export default [
             }
           ]
         }
+      },
+      {
+        path: '/tienda/productosBD',
+        name: 'tienda-productosBD',
+        component: () => import('@/views/tienda/tienda-productos/TiendaProductosBD.vue'),
+        meta: {
+          pageTitle: 'ProductosBD',
+          breadcrumb: [
+            {
+              text: 'Basic Clothing Project'
+            },
+            {
+              text: 'ProductosBD',
+              active: true
+            }
+          ]
+        }
       }
 ]

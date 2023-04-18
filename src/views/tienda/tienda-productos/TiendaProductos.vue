@@ -1,6 +1,5 @@
 <template>
-<div style="height: inherit">
-
+<div style="height: inherit">   
     <section class="ecommerce-header">
         <div class="row">
             <div class="col-sm-12">
@@ -144,7 +143,7 @@ export default {
         let parametro = this.$route.params.name
         let api = ''
         if (parametro == null) {
-            api = 'https://fakestoreapi.com/products'
+            api = 'https://fakestoreapi.com/products/'
         } else {
             api = 'https://fakestoreapi.com/products/category/' + this.$route.params.name
         }

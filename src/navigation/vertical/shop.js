@@ -13,6 +13,10 @@ export default [
           {
             title: 'Categorias',
             route: 'tienda-categorias'
+          },
+          {
+            title: 'ProductosBD',
+            route: 'tienda-productosBD'
           }
         ],
       }

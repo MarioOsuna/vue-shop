@@ -16,7 +16,25 @@ export default [
           },
           {
             title: 'ProductosBD',
-            route: 'tienda-productosBD'
+            children: [
+              {
+                title: 'Crear',
+                route: 'tienda-productosBD-crear'
+              },
+              {
+                title: 'Consultar',
+                route: 'tienda-productosBD-consultar'
+              },
+              {
+                title: 'Actualizar',
+                route: 'tienda-productosBD-actualizar'
+              },
+              {
+                title: 'Eliminar',
+                route: 'tienda-productosBD-eliminar'
+              }
+
+            ]
           }
         ],
       }

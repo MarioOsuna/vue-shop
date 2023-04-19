@@ -51,17 +51,68 @@ export default [
         }
       },
       {
-        path: '/tienda/productosBD',
-        name: 'tienda-productosBD',
-        component: () => import('@/views/tienda/tienda-productos/TiendaProductosBD.vue'),
+        path: '/tienda/productosBD/crear',
+        name: 'tienda-productosBD-crear',
+        component: () => import('@/views/tienda/tienda-productos/TiendaProductosCrear.vue'),
         meta: {
-          pageTitle: 'ProductosBD',
+          pageTitle: 'Crear Productos',
           breadcrumb: [
             {
               text: 'Basic Clothing Project'
             },
             {
-              text: 'ProductosBD',
+              text: 'Crear Productos',
+              active: true
+            }
+          ]
+        }
+      },
+      {
+        path: '/tienda/productosBD/consultar',
+        name: 'tienda-productosBD-consultar',
+        component: () => import('@/views/tienda/tienda-productos/TiendaProductosConsultar.vue'),
+        meta: {
+          pageTitle: 'Consultar Productos',
+          breadcrumb: [
+            {
+              text: 'Basic Clothing Project'
+            },
+            {
+              text: 'Consultar Productos',
+              active: true
+            }
+          ]
+        }
+      },
+      {
+        path: '/tienda/productosBD/actualizar',
+        name: 'tienda-productosBD-actualizar',
+        component: () => import('@/views/tienda/tienda-productos/TiendaProductosActualizar.vue'),
+        meta: {
+          pageTitle: 'Actualizar Productos',
+          breadcrumb: [
+            {
+              text: 'Basic Clothing Project'
+            },
+            {
+              text: 'Actualizar Productos',
+              active: true
+            }
+          ]
+        }
+      },
+      {
+        path: '/tienda/productosBD/eliminar',
+        name: 'tienda-productosBD-eliminar',
+        component: () => import('@/views/tienda/tienda-productos/TiendaProductosEliminar.vue'),
+        meta: {
+          pageTitle: 'Actualizar Productos',
+          breadcrumb: [
+            {
+              text: 'Basic Clothing Project'
+            },
+            {
+              text: 'Actualizar Productos',
               active: true
             }
           ]

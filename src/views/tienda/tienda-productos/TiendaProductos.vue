@@ -42,7 +42,7 @@
     <!-- Productos -->
     <section :class="itemView">
         <b-row class="match-height">
-            <b-col v-for="item in filtrarUsuarios" :key="item.id" md="12" lg="3">
+            <b-col v-for="item in filtrarProductos" :key="item.id" md="12" lg="3">
                 <b-card class="ecommerce-card" no-body>
                     <div class="item-img">
                         <b-img :alt="`${item.title}-${item.id}`" fluid class="card-img-top" :src="item.image" />
@@ -153,7 +153,7 @@ export default {
             })
     },
     computed: {
-        filtrarUsuarios() {
+        filtrarProductos() {
             if (this.products) {
                 return this.products.filter((item) => {
                     return item.title.match(this.buscar);

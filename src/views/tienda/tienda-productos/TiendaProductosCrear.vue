@@ -64,8 +64,6 @@ export default {
     },
     methods: {
         agregarProducto() {
-            console.log(this.producto)
-
             var datosEnviar = {
                 referencia: this.producto.referencia,
                 nombre: this.producto.nombre,
@@ -76,9 +74,7 @@ export default {
 
             axios.post('http://localhost/shop.php/?insertar=1', JSON.stringify(datosEnviar))
             .then((resp) => {
-                console.log(resp);
                 console.log("Producto añadido");
-                console.log(resp);
             })
         }
     },

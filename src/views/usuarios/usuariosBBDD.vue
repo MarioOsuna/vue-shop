@@ -27,7 +27,7 @@
                         <feather-icon icon="EditIcon" />
                         <span class="align-middle ml-50">Editar</span>
                     </b-dropdown-item>
-                    <b-dropdown-item @click="makeToast('primary')" variant="primary" class="mb-1 mb-sm-0 mr-0 mr-sm-1" v-on:click="eliminarValor(item.id)">
+                    <b-dropdown-item  @click="makeToast('primary')" variant="primary" class="mb-1 mb-sm-0 mr-0 mr-sm-1" v-on:click="eliminarValor(item.id) ">
                         <feather-icon icon="TrashIcon" />
                         <span class="align-middle ml-50">Eliminar</span>
                     </b-dropdown-item>
@@ -98,7 +98,7 @@ export default {
             .then((resp) => {
                 console.log(resp)
                 console.log("Usuario Eliminado Correctamente")
-                window.location.href="users-usuarios-bbdd"
+                location.reload()
             })
 
         },

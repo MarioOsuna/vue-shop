@@ -132,11 +132,15 @@ export default {
                 numero: this.users.numero,
                 codigo_postal: this.users.codigo_postal
             }  
-            axios.put('http://localhost/users.php/?actualizar=' + this.$route.params.id, JSON.stringify(datossEnviar))
+            fetch('http://localhost/users.php/?actualizar=' + this.$route.params.id, {
+                method: "POST",
+                body:JSON.stringify(datossEnviar)
+            })
             .then((resp) => {
                 console.log(resp)
                 console.log("Actualizado Correctamente")
                 console.log(resp)
+                location.reload()
             })
 
         },

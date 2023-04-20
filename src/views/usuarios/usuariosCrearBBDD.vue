@@ -123,15 +123,13 @@ export default {
                 numero:this.users.numero,
                 codigo_postal:this.users.codigo_postal} 
 
-            fetch('http://localhost/users.php/?insertar=1', {
-                method:"POST",
-                body:JSON.stringify(datosEnviar)
-            })
-            .then((resp) => {
-                console.log(resp)
-                console.log("Actualizado Correctamente")
-                console.log(resp)
-            })
+                axios.post('http://localhost/users.php/?insertar=1', JSON.stringify(datosEnviar))
+                .then((resp) => {
+                    console.log(resp)
+                    console.log("Actualizado Correctamente")
+                    console.log(resp)
+                    location.reload()
+                })
 
         },
         makeToast(variant = null) {

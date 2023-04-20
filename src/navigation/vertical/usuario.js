@@ -10,10 +10,14 @@ export default [
           title: 'Listar Usuarios',
           route: 'users-usuarios',
         },
-       /* {
+        {
           title: 'Editar Usuarios',
-          route: 'users-usuarios-editar',
-        },*/
+          route: 'users-usuarios-bbdd',
+        },
+        {
+          title: 'Crear Usuarios',
+          route: 'users-usuarios-crearbbdd',
+        },
       ]
     },
     

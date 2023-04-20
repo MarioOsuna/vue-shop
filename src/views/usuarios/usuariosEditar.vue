@@ -24,7 +24,7 @@
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
-                    <b-form-group label="Telefono" label-for="tlf">
+                    <b-form-group label="Teléfono" label-for="tlf">
                         <b-form-input id="tlf" v-model="telefono" />
                     </b-form-group>
                 </b-col>
@@ -39,7 +39,7 @@
                     </b-form-group>
                 </b-col>
                 <b-col cols="12" md="4">
-                    <b-form-group label="Numero" label-for="num">
+                    <b-form-group label="Número" label-for="num">
                         <b-form-input id="num" v-model="numero" />
                     </b-form-group>
                 </b-col>

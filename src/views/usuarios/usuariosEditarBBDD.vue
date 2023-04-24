@@ -58,9 +58,6 @@
     v-on:click="actualizarRegistro" @click="makeToast('primary')" variant="primary" class="mb-1 mb-sm-0 mr-0 mr-sm-1" >
         Guardar Cambios
     </b-button>
-    <b-button variant="outline-secondary" type="reset">
-        Resetear
-    </b-button>
 
 </div>
 </template>

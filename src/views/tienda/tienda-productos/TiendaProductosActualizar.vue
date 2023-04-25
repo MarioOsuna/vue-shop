@@ -14,14 +14,6 @@
                         <b-form-input id="nombre" placeholder="Nombre" v-model="products.nombre" disabled />
                     </b-form-group>
                 </b-col>
-                <!--<b-col>
-                    <b-form-group label="Imagen" label-for="imagen">
-                        <b-form-file class="mt-1" v-model="file1" plain disabled />
-                    </b-form-group>
-                    <div class="mt-1">
-                        Archivo seleccionado: <strong>{{ file1 ? file1.name : '' }}</strong>
-                    </div>
-                </b-col> -->
             </b-row>
             <b-row>
                 <b-col>
@@ -42,7 +34,7 @@
             </b-row>
             <b-row>
                 <b-col>
-                    <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary">
+                    <b-button @click="makeToast()" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" :click="editarProducto()" :to="{name: 'tienda-productosBD'}">
                         Actualizar Producto
                     </b-button>
                 </b-col>
@@ -67,8 +59,8 @@ import {
     BCardTitle
 } from 'bootstrap-vue'
 export default {
-    data(){
-        return{
+    data() {
+        return {
             products: []
         }
     },
@@ -81,14 +73,51 @@ export default {
         BFormInput,
         BFormFile,
         BButton,
-    BCardTitle
+        BCardTitle
     },
-    created(){
-        axios.get('http://localhost/shop.php/?referencia='+ this.$route.params.referencia)
-        .then((resp) => {
-            this.products = resp.data[0]
-            console.log(this.products)
-        })
+    created() {
+        axios.get('http://localhost/shop.php/?referencia=' + this.$route.params.referencia)
+            .then((resp) => {
+                this.products = resp.data[0]
+                console.log(this.products)
+            })
+    },
+    methods: {
+        editarProducto() {
+            var datosEnviar = {
+                referencia: this.$route.params.referencia,
+                precio: this.products.precio,
+                cantidad: this.products.cantidad
+            }
+
+            const axios = require('axios');
+            let data = JSON.stringify(datosEnviar);
+
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: 'http://localhost/shop.php/?actualizar='+ this.$route.params.referencia,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            axios.request(config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data));
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        makeToast() {
+            this.$bvToast.toast('El producto se ha actualizado correctamente', {
+                title: `Actualización de producto`,
+                variant: 'primary',
+                solid: true
+            })
+        }
     },
     directives: {
         Ripple

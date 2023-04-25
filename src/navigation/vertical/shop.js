@@ -1,41 +1,10 @@
 export default [
     {
-        header: 'Tienda'
+        header: 'Basic Clothin Project'
     },
     {
-        title: 'Basic Clothin Project',
+        title: 'Productos',
         icon: 'ShoppingCartIcon',
-        children: [
-          {
-            title: 'Productos',
-            route: 'tienda-productos',
-          },
-          {
-            title: 'Categorias',
-            route: 'tienda-categorias'
-          },
-          {
-            title: 'ProductosBD',
-            children: [
-              {
-                title: 'Crear',
-                route: 'tienda-productosBD-crear'
-              },
-              {
-                title: 'Consultar',
-                route: 'tienda-productosBD-consultar'
-              },
-              {
-                title: 'Actualizar',
-                route: 'tienda-productosBD-actualizar'
-              },
-              {
-                title: 'Eliminar',
-                route: 'tienda-productosBD-eliminar'
-              }
-
-            ]
-          }
-        ],
+        route: 'tienda-productosBD'
       }
 ]

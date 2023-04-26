@@ -43,7 +43,7 @@ export default [
             text: 'Listar Usuarios BBDD',
           },
           {
-            text: 'Información del Usuario',
+            text: 'Información de Los Usuarios',
             active: true,
           },
         ],
@@ -56,15 +56,21 @@ export default [
       meta:{activeItem:'users-usuarios'},
       component: () => import('@/views/usuarios/usuariosEditarBBDD.vue'),
       meta: {
-        pageTitle: 'Usuarios',
+        pageTitle: 'Editar Usuarios',
         breadcrumb: [
           {
-            text: 'Editar Usuarios BBDD',
+            text: 'Listar Usuarios BBDD',
+            redirect: "/users/usuarios/bbdd"
+
           },
           {
-            text: 'Información De Edición del Usuario',
+            text: 'Editar Usuarios BBDD'
+          },
+          {
+            text: 'Información del Usuario',
             active: true,
           },
+          
         ],
       },
       

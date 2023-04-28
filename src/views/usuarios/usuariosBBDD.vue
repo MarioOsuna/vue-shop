@@ -1,127 +1,34 @@
 <template>
 <div>
-    <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-b-toggle.sidebar-right variant="primary" class="btn-icon" style="float: right; position: static;">
-        <feather-icon icon="UserPlusIcon" />
-    </b-button>
-    <div class="table">
-        <h2>Usuarios En La Base De Datos</h2>
-        <br>
-        <table>
-            <tr>
-                <td>Usuario</td>
-                <td>Nombre</td>
-                <td>Apellido</td>
-                <td>Email</td>
-                <td>Teléfono</td>
-                <td>Acciones</td>
-            </tr>
-            <tr v-for="item in users" :key="item.id">
-                <td>{{item.usuario}}</td>
-                <td>{{ item.nombre}}</td>
-                <td>{{ item.apellido }}</td>
-                <td>{{item.email}}</td>
-                <td>{{ item.telefono }}</td>
-                <td>
-                    <b-dropdown variant="link" no-caret :right="$store.state.appConfig.isRTL">
-                        <template #button-content>
-                            <feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
-                        </template>
-                        <b-dropdown-item :to="{ name: 'users-usuarios-editarbbdd', params: { id: item.id }} ">
-                            <feather-icon icon="EditIcon" />
-                            <span class="align-middle ml-50">Editar</span>
-                        </b-dropdown-item>
-                        <b-dropdown-item variant="primary" class="mb-1 mb-sm-0 mr-0 mr-sm-1" v-on:click="eliminarValor(item.id) ">
-                            <feather-icon icon="TrashIcon" />
-                            <span class="align-middle ml-50">Eliminar</span>
-                        </b-dropdown-item>
-                    </b-dropdown>
-                </td>
-            </tr>
-        </table>
-        <div>
+    <section class="ecommerce-header">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ecommerce-header-items">
+                    <div class="view-options d-flex">
+                      <!-- Botones Vistas -->
+                        <b-tabs>
+                            <!-- Tab: Vista Tabla -->
+                            <b-tab active>
+                                <template #title>
+                                    <feather-icon icon="GridIcon" size="16" class="mr-0 mr-sm-50" />
+                                </template>
+                                 <UsuariosBBDDTabla/>
+                            </b-tab>
 
-            <b-sidebar ref="mySidebar" id="sidebar-right" bg-variant="white" right backdrop shadow>
-                <template>
-                    <b-form id="miform" @submit.prevent="agregarRegistro">
-                        <b-overlay :show="show" rounded="sm">
-                            <div class="m-2">
-                                <div class="text-center mb-3">
-                                    <!-- Name -->
-                                    <b-card-text class="mt-2 h4 color-inherit text-reset">
-                                        Crear Usuarios
-                                    </b-card-text>
-                                </div>
-                                <b-row>
-                                    <b-col cols="12" md="6">
-                                        <b-form-group label="Usuario" label-for="usuario">
-                                            <b-form-input placeholder="alex1234" id="usuario" v-model="users.usuario" required />
-                                        </b-form-group>
-                                    </b-col>
-                                    <b-col cols="12" md="6">
-                                        <b-form-group label="Nombre" label-for="nombre">
-                                            <b-form-input placeholder="Francisco" id="nombre" v-model="users.nombre" required />
-                                        </b-form-group>
-                                    </b-col>
-                                </b-row>
-                                <b-row>
-                                    <b-col cols="12" md="6">
-                                        <b-form-group label="Apellido" label-for="apellido">
-                                            <b-form-input placeholder="Sanchez" id="apellido" v-model="users.apellido" required />
-                                        </b-form-group>
-                                    </b-col>
-                                    <b-col cols="12" md="6">
-                                        <b-form-group label="Email" label-for="email">
-                                            <b-form-input type="email" placeholder="francis@example.com" id="email" v-model="users.email" />
-                                        </b-form-group>
-                                    </b-col>
-                                </b-row>
-                                <b-row>
-                                    <b-col cols="12" md="6">
-                                        <b-form-group label="Teléfono" label-for="telefono">
-                                            <b-form-input type="number" placeholder="675890123" id="telefono" v-model="users.telefono" />
-                                        </b-form-group>
-                                    </b-col>
-                                    <b-col cols="12" md="6">
-                                        <b-form-group label="Ciudad" label-for="ciudad">
-                                            <b-form-input placeholder="Madrid" id="ciudad" v-model="users.ciudad" required />
-                                        </b-form-group>
-                                    </b-col>
-                                </b-row>
-                                <b-row>
-                                    <b-col cols="12" md="6">
-                                        <b-form-group label="Dirección" label-for="direccion">
-                                            <b-form-input placeholder="Calle Borja Pavon" id="direccion" v-model="users.direccion" />
-                                        </b-form-group>
-                                    </b-col>
-                                    <b-col cols="12" md="6">
-                                        <b-form-group label="Número" label-for="numero">
-                                            <b-form-input type="number" placeholder="2" id="numero" v-model="users.numero" />
-                                        </b-form-group>
-                                    </b-col>
-                                </b-row>
-                                <b-row class="justify-content-center">
-                                    <b-col>
-                                        <b-form-group label="Código Postal" label-for="codigo_postal" style="text-align: center;">
-                                            <b-form-input type="number" placeholder="14700" id="codigo_postal" v-model="users.codigo_postal" required />
-                                        </b-form-group>
-                                    </b-col>
-                                </b-row>
-                                <b-row class="justify-content-center m-1">
-                                    <b-button @click=completado type="submit" v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="primary" class="mb-1 mb-sm-0 mr-0 mr-sm-1">
-                                        Crear Usuario
-                                    </b-button>
-
-                                </b-row>
-                                <b-row class="justify-content-center m-1">
-                                    <b-button type="reset" v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="secondary" class="mb-1 mb-sm-0 mr-0 mr-sm-1" style=""> Resetear Campos</b-button>
-                                </b-row>
-                            </div>
-                        </b-overlay>
-                    </b-form>
-                </template>
-            </b-sidebar>
+                            <!-- Tab: Vista Cards -->
+                            <b-tab>
+                                <template #title>
+                                    <feather-icon icon="MenuIcon" size="16" class="mr-0 mr-sm-50" />
+                                </template>
+                               <usuariosBBDDCards/>
+                            </b-tab>
+                        </b-tabs>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+    <br>
 </div>
 </template>
 
@@ -129,6 +36,8 @@
 import {
     BDropdown,
     VBToggle,
+    BTab,
+    BTabs,
     BDropdownItem,
     BFormRadioGroup,
     BFormRadio,
@@ -150,14 +59,20 @@ import {
     BFormGroup,
     BForm,
     BOverlay,
+    BAvatar,
+
 } from 'bootstrap-vue'
 import axios from '@axios'
 import Ripple from 'vue-ripple-directive'
+import usuariosBBDDCards from './usuariosBBDDCards.vue'
+import usuariosBBDDTabla from './usuariosBBDDTabla.vue'
+import UsuariosBBDDTabla from './usuariosBBDDTabla.vue'
 export default {
     data: () => {
         return {
             users: [],
             show: false,
+            search: '',
         }
     },
     directives: {
@@ -165,42 +80,57 @@ export default {
         Ripple,
     },
     components: {
-        // BSV
-        BDropdown,
-        BDropdownItem,
-        BFormRadioGroup,
-        BFormRadio,
-        BRow,
-        BForm,
-        BCol,
-        BFormGroup,
-        BInputGroup,
-        BInputGroupAppend,
-        BFormInput,
-        BCard,
-        BCardBody,
-        BLink,
-        BImg,
-        BCardText,
-        BButton,
-        BPagination,
-        BSidebar,
-        BListGroup,
-        BListGroupItem,
-        BOverlay,
-    },
+    usuariosBBDDCards,
+    usuariosBBDDTabla,
+    // BSV
+    BDropdown,
+    BDropdownItem,
+    BTab,
+    BTabs,
+    BFormRadioGroup,
+    BFormRadio,
+    BRow,
+    BForm,
+    BCol,
+    BFormGroup,
+    BInputGroup,
+    BInputGroupAppend,
+    BFormInput,
+    BCard,
+    BCardBody,
+    BLink,
+    BImg,
+    BCardText,
+    BButton,
+    BPagination,
+    BSidebar,
+    BListGroup,
+    BListGroupItem,
+    BOverlay,
+    BAvatar,
+    UsuariosBBDDTabla
+},
     created() {
         this.getData()
     },
+    computed: {
+        filteredUsers() {
+            if (this.users) {
+                return this.users.filter((item) => {
+                    return item.usuario.match(this.search);
+                });
+            }
+            return false;
+        }
+    },
     methods: {
         eliminarValor(id) {
-            this.confirmarEliminar()
             axios.delete('http://localhost/users.php/?borrar=' + id)
                 .then((resp) => {
                     console.log(resp)
                     console.log("Usuario Eliminado Correctamente")
-                   // location.reload()
-                   this.getData()
+                    // location.reload()
+                    this.getData()
                 })
 
         },
@@ -269,11 +199,11 @@ export default {
                 buttonsStyling: false,
             })
         },
-        confirmarEliminar() {
+        confirmarEliminar(id) {
             this.$swal({
-                title: 'Estas Seguro?',
+                title: '¿Estas Seguro?',
                 text: "¡Una Vez Eliminado No Lo Podrás Recuperar!",
-                icon: 'warning',
+                icon: 'error',
                 showCancelButton: true,
                 confirmButtonText: 'Si, eliminar',
                 customClass: {
@@ -285,12 +215,13 @@ export default {
                 if (result.value) {
                     this.$swal({
                         icon: 'success',
-                        title: 'Usuario Eliminado!',
+                        title: '¡Usuario Eliminado!',
                         text: 'El Usuario Se Ha Eliminado Correctamente',
                         customClass: {
                             confirmButton: 'btn btn-success',
                         },
                     })
+                    this.eliminarValor(id)
                 }
             })
         },

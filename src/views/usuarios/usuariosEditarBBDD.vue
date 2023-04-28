@@ -56,7 +56,7 @@
             </b-form>
         </b-card>
         <!-- Action Buttons -->
-        <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-on:click="actualizarRegistro" @click="makeToast('primary')" variant="primary" class="mb-1 mb-sm-0 mr-0 mr-sm-1">
+        <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-on:click="actualizarRegistro" @click=completado variant="primary" class="mb-1 mb-sm-0 mr-0 mr-sm-1">
             Guardar Cambios
         </b-button>
     </div>
@@ -170,6 +170,17 @@ export default {
                     console.log(resp)
                 })
 
+        },
+        completado() {
+            this.$swal({
+                title: '¡Usuario Actualizado!',
+                text: 'Usuario Actualizado Correctamene',
+                icon: 'success',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+            })
         },
         makeToast(variant = null) {
             this.$bvToast.toast('La Información Del Usuario Se Ha Actualizado Correctamente', {

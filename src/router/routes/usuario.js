@@ -60,7 +60,7 @@ export default [
         breadcrumb: [
           {
             text: 'Listar Usuarios BBDD',
-            redirect: "/users/usuarios/bbdd"
+            to: {name: 'users-usuarios-bbdd'}
 
           },
           {
@@ -88,6 +88,25 @@ export default [
           },
           {
             text: 'Información De Creación del Usuario',
+            active: true,
+          },
+        ],
+      },
+      
+    },
+    {
+      path: '/users/usuarios/bbddcards',
+      name: 'users-usuarios-bbddcard',
+      meta:{activeItem:'users-usuarios'},
+      component: () => import('@/views/usuarios/usuariosBBDDCards.vue'),
+      meta: {
+        pageTitle: 'Usuarios',
+        breadcrumb: [
+          {
+            text: 'Listar Usuarios BBDD',
+          },
+          {
+            text: 'Información De Los Usuarios',
             active: true,
           },
         ],

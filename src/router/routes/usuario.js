@@ -31,6 +31,7 @@ export default [
         ],
       },
     },
+<<<<<<< HEAD
     {
       path: '/users/usuarios/bbbdd',
       name: 'users-usuarios-bbdd',
@@ -113,4 +114,6 @@ export default [
       },
       
     },
+=======
+>>>>>>> origin/master
 ]

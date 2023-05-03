@@ -5,6 +5,6 @@ export default [
     {
         title: 'Productos',
         icon: 'ShoppingCartIcon',
-        route: 'tienda-productosBD'
+        route: 'tienda-productos'
       }
 ]

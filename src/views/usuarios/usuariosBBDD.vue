@@ -136,7 +136,7 @@ export default {
 
         },
         getData() {
-            axios.get('http://localhost/users.php')
+            axios.get('http://localhost/vue_project.php')
                 .then((resp) => {
                     this.users = resp.data
                     console.log(resp)

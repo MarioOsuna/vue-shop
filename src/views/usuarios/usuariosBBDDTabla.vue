@@ -209,13 +209,16 @@ export default {
         BOverlay,
         BAvatar,
     },
-    created() {
-        this.getData()
-    },
+    props:{
+        user: {
+            type: Array,
+            default: () => []
+        }
+    }, 
     computed: {
         filteredUsers() {
-            if (this.users) {
-                return this.users.filter((item) => {
+            if (this.user) {
+                return this.user.filter((item) => {
                     return item.usuario.match(this.search);
                 });
             }
@@ -229,16 +232,9 @@ export default {
                     console.log(resp)
                     console.log("Usuario Eliminado Correctamente")
                     // location.reload()
-                    this.getData()
+                    this.$emit('refresh');
                 })
 
-        },
-        getData() {
-            axios.get('http://localhost/users.php')
-                .then((resp) => {
-                    this.users = resp.data
-                    console.log(resp)
-                })
         },
 
         agregarRegistro() {
@@ -262,9 +258,9 @@ export default {
                     console.log(resp)
                     // location.reload()
                     // this.crearUsuarioToast('primary')
-                    this.resetearDatos()
-                    this.getData()
-
+                    this.$refs.mySidebar.hide();
+                    this.$emit('refresh');
+                    this.resetearDatos();
                 })
 
         },

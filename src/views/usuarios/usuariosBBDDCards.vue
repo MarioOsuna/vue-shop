@@ -18,8 +18,8 @@
         <feather-icon icon="UserPlusIcon" />
     </b-button>
     <b-row>
-        <b-col>
-            <b-card v-for="item in filteredUsers" :key="item.usuario" :img-src="require('@/assets/images/banner/banner-12.jpg')" img-alt="Profile Cover Photo" img-top class="card-profile">
+        <b-col v-for="item in filteredUsers" :key="item.usuario"  md="4">
+            <b-card :img-src="require('@/assets/images/banner/banner-12.jpg')" img-alt="Profile Cover Photo" img-top class="card-profile">
                 <div class="profile-image-wrapper">
                     <div class="profile-image p-0">
                         <b-avatar size="114" variant="light" :src="require('@/views/usuarios/imagenes/user.png')" />
@@ -35,28 +35,30 @@
                 <hr class="mb-2">
 
                 <!-- follower projects rank -->
-                <div class="d-flex justify-content-between align-items-center">
+                <div >
                     <div>
-                        <h6 class="text-muted font-weight-bolder">
+                        <h5 class="text-muted font-weight-bolder">
                             Email
-                        </h6>
-                        <h3 class="mb-0">
+                        </h5>
+                        <h6 class="mb-0">
                             {{ item.email }}
-                        </h3>
+                        </h6>
                     </div>
+                    <br>
                     <div>
-                        <h6 class="text-muted font-weight-bolder">
+                        <h5 class="text-muted font-weight-bolder">
                             Teléfono De Contacto
-                        </h6>
-                        <h3 class="mb-0">
+                        </h5>
+                        <h6 class="mb-0">
                             {{item.telefono}}
-                        </h3>
-                    </div>
-                    <div>
-                        <h6 class="text-muted font-weight-bolder">
-                            Acciones Del Usuario
                         </h6>
-                        <h3 class="mb-0">
+                    </div>
+                    <br>
+                    <div>
+                        <h5 class="text-muted font-weight-bolder">
+                            Acciones Del Usuario
+                        </h5>
+                        <h6 class="mb-0">
                             <b-dropdown variant="link" no-caret :right="$store.state.appConfig.isRTL">
                                 <template #button-content>
                                     <feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
@@ -70,7 +72,7 @@
                                     <span class="align-middle ml-50">Eliminar</span>
                                 </b-dropdown-item>
                             </b-dropdown>
-                        </h3>
+                        </h6>
                     </div>
 
                 </div>
@@ -194,6 +196,7 @@ import {
 } from 'bootstrap-vue'
 import axios from '@axios'
 import Ripple from 'vue-ripple-directive'
+import usuariosBBDDTabla from './usuariosBBDDTabla.vue'
 export default {
     data: () => {
         return {
@@ -233,13 +236,17 @@ export default {
         BOverlay,
         BAvatar,
     },
-    created() {
-        this.getData()
+    props: {
+        user: {
+            type: Array,
+            default: () => []
+        }
     },
+    
     computed: {
         filteredUsers() {
-            if (this.users) {
-                return this.users.filter((item) => {
+            if (this.user) {
+                return this.user.filter((item) => {
                     return item.usuario.match(this.search);
                 });
             }
@@ -253,18 +260,10 @@ export default {
                     console.log(resp)
                     console.log("Usuario Eliminado Correctamente")
                     // location.reload()
-                    this.getData()
+                    this.$emit('refresh');
                 })
 
         },
-        getData() {
-            axios.get('http://localhost/users.php')
-                .then((resp) => {
-                    this.users = resp.data
-                    console.log(resp)
-                })
-        },
-
         agregarRegistro() {
             console.log(this.users)
             var datosEnviar = {
@@ -286,9 +285,9 @@ export default {
                     console.log(resp)
                     // location.reload()
                     // this.crearUsuarioToast('primary')
+                    this.$refs.mySidebar.hide();
+                    this.$emit('refresh');
                     this.resetearDatos()
-                    this.getData()
-
                 })
 
         },

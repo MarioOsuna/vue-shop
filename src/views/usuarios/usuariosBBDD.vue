@@ -5,22 +5,23 @@
             <div class="col-sm-12">
                 <div class="ecommerce-header-items">
                     <div class="view-options d-flex">
-                      <!-- Botones Vistas -->
+                        <!-- Botones Vistas -->
                         <b-tabs>
                             <!-- Tab: Vista Tabla -->
                             <b-tab active>
                                 <template #title>
-                                    <feather-icon icon="GridIcon" size="16" class="mr-0 mr-sm-50" />
+                                    <feather-icon icon="MenuIcon" size="16" class="mr-0 mr-sm-50" />
                                 </template>
-                                 <UsuariosBBDDTabla/>
-                            </b-tab>
+                                <UsuariosBBDDTabla :user="users" @refresh="getData()"/> 
 
+                            </b-tab>
                             <!-- Tab: Vista Cards -->
                             <b-tab>
                                 <template #title>
-                                    <feather-icon icon="MenuIcon" size="16" class="mr-0 mr-sm-50" />
+                                    <feather-icon icon="GridIcon" size="16" class="mr-0 mr-sm-50" />
                                 </template>
-                               <usuariosBBDDCards/>
+                                <usuariosBBDDCards :user="users" @refresh="getData()"/>
+
                             </b-tab>
                         </b-tabs>
                     </div>
@@ -80,36 +81,36 @@ export default {
         Ripple,
     },
     components: {
-    usuariosBBDDCards,
-    usuariosBBDDTabla,
-    // BSV
-    BDropdown,
-    BDropdownItem,
-    BTab,
-    BTabs,
-    BFormRadioGroup,
-    BFormRadio,
-    BRow,
-    BForm,
-    BCol,
-    BFormGroup,
-    BInputGroup,
-    BInputGroupAppend,
-    BFormInput,
-    BCard,
-    BCardBody,
-    BLink,
-    BImg,
-    BCardText,
-    BButton,
-    BPagination,
-    BSidebar,
-    BListGroup,
-    BListGroupItem,
-    BOverlay,
-    BAvatar,
-    UsuariosBBDDTabla
-},
+        usuariosBBDDCards,
+        usuariosBBDDTabla,
+        // BSV
+        BDropdown,
+        BDropdownItem,
+        BTab,
+        BTabs,
+        BFormRadioGroup,
+        BFormRadio,
+        BRow,
+        BForm,
+        BCol,
+        BFormGroup,
+        BInputGroup,
+        BInputGroupAppend,
+        BFormInput,
+        BCard,
+        BCardBody,
+        BLink,
+        BImg,
+        BCardText,
+        BButton,
+        BPagination,
+        BSidebar,
+        BListGroup,
+        BListGroupItem,
+        BOverlay,
+        BAvatar,
+        UsuariosBBDDTabla
+    },
     created() {
         this.getData()
     },

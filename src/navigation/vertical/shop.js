@@ -1,19 +1,10 @@
 export default [
     {
-        header: 'Tienda'
+        header: 'Basic Clothin Project'
     },
     {
-        title: 'Basic Clothin Project',
+        title: 'Productos',
         icon: 'ShoppingCartIcon',
-        children: [
-          {
-            title: 'Productos',
-            route: 'tienda-productos',
-          },
-          {
-            title: 'Categorias',
-            route: 'tienda-categorias'
-          }
-        ],
+        route: 'tienda-productos'
       }
 ]

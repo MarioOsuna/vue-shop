@@ -1,0 +1,205 @@
+<template>
+<div>
+        <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="primary" style="float: right; position: static;" :to="{name: 'tienda-productos'}">
+            <feather-icon icon="ArrowLeftIcon" />
+        </b-button>
+    <div>
+        <b-card>
+            <b-form class="position-relative" @submit.prevent="onSubmit">
+                <b-row>
+                    <b-col>
+                        <b-form-group label="Referencia" label-for="referencia">
+                            <b-form-input id="referencia" placeholder="Referencia" v-model="products.referencia" disabled />
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group label="Nombre" label-for="nombre">
+                            <b-form-input id="nombre" placeholder="Nombre" v-model="products.nombre" disabled />
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <b-form-group label="Talla" label-for="talla">
+                            <b-form-input id="talla" placeholder="XS, S, M, L, XL, XXL" v-model="products.talla" disabled />
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group label="Precio" label-for="precio">
+                            <b-form-input id="precio" placeholder="Precio (0.00)" v-model="products.precio" />
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group label="Cantidad" label-for="cantidad">
+                            <b-form-input id="cantidad" placeholder="Cantidad" v-model="products.cantidad" />
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" ref="submit" type="submit" :disabled="busy">
+                            Actualizar Producto
+                        </b-button>
+                    </b-col>
+                </b-row>
+            </b-form>
+        </b-card>
+    </div>
+    <b-overlay :show="busy" no-wrap @shown="onShown" @hidden="onHidden">
+        <template v-slot:overlay>
+            <div v-if="processing" class="text-center p-4 primary text-light rounded">
+                <b-icon icon="cloud-upload" font-scale="4" />
+                <div class="mb-3">Procesando petición...</div>
+                <b-progress min="1" max="20" :value="counter" variant="success" height="3px" class="mx-n4 rounded-0" />
+            </div>
+            <div v-else ref="dialog" tabindex="-1" role="dialog" aria-modal="false" aria-labelledby="form-confirm-label" class="text-center p-3">
+                <p><strong id="form-confirm-label">¿Estás seguro?</strong></p>
+                <div class="d-flex">
+                    <b-button v-ripple.400="'rgba(234, 84, 85, 0.15)'" variant="outline-danger" class="mr-3" @click="onCancel">
+                        Cancelar
+                    </b-button>
+                    <b-button v-ripple.400="'rgba(40, 199, 111, 0.15)'" variant="outline-success" @click="onOK">
+                        OK
+                    </b-button>
+                </div>
+            </div>
+        </template>
+    </b-overlay>
+</div>
+</template>
+
+<script>
+import axios from '@axios'
+import Ripple from 'vue-ripple-directive'
+import {
+    BCard,
+    BForm,
+    BRow,
+    BCol,
+    BFormGroup,
+    BFormInput,
+    BFormFile,
+    BButton,
+    BCardTitle,
+    BOverlay,
+    BProgress,
+    BIcon,
+    BInputGroup,
+    BInputGroupPrepend
+} from 'bootstrap-vue'
+export default {
+    data: () => ({
+        products: [],
+        busy: false,
+        processing: false,
+        counter: 1,
+        interval: null,
+    }),
+    beforeDestroy() {
+        this.clearInterval()
+    },
+    components: {
+        BCard,
+        BForm,
+        BRow,
+        BCol,
+        BFormGroup,
+        BFormInput,
+        BFormFile,
+        BButton,
+        BCardTitle,
+        BOverlay,
+        BProgress,
+        BIcon,
+        BInputGroup,
+        BInputGroupPrepend
+    },
+    created() {
+        axios.get('http://localhost/shop.php/?referencia=' + this.$route.params.referencia)
+            .then((resp) => {
+                this.products = resp.data[0]
+                console.log(this.products)
+            })
+    },
+    methods: {
+        editarProducto() {
+            var datosEnviar = {
+                referencia: this.$route.params.referencia,
+                precio: this.products.precio,
+                cantidad: this.products.cantidad
+            }
+
+            const axios = require('axios');
+            let data = JSON.stringify(datosEnviar);
+
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: 'http://localhost/shop.php/?actualizar=' + this.$route.params.referencia,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            axios.request(config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data));
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            this.makeToast();
+        },
+        makeToast() {
+            this.$bvToast.toast('El producto se ha actualizado correctamente', {
+                title: `Actualización de producto`,
+                variant: 'primary',
+                solid: true
+            })
+        },
+        clearInterval() {
+            if (this.interval) {
+                clearInterval(this.interval)
+                this.interval = null
+            }
+        },
+        onShown() {
+            this.$refs.dialog.focus()
+        },
+        onHidden() {
+            this.$refs.submit.focus()
+        },
+        onSubmit() {
+            this.processing = false
+            this.busy = true
+        },
+        onCancel() {
+            this.busy = false
+        },
+        onOK() {
+            this.counter = 1
+            this.processing = true
+            this.clearInterval()
+            this.interval = setInterval(() => {
+                if (this.counter < 20) {
+                    this.counter += 1
+                } else {
+                    this.clearInterval()
+                    this.$nextTick(() => {
+                        this.busy = this.processing = false
+                    })
+                }
+            }, 350)
+            this.editarProducto()
+        }
+    },
+    directives: {
+        Ripple
+    }
+}
+</script>
+
+<style>
+
+</style>

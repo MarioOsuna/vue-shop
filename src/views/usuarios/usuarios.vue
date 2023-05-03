@@ -39,7 +39,7 @@
                         <feather-icon icon="EditIcon" />
                         <span class="align-middle ml-50">Editar</span>
                     </b-dropdown-item>
-                    <b-dropdown-item>
+                    <b-dropdown-item @click="eliminarValor">
                         <feather-icon icon="TrashIcon" />
                         <span class="align-middle ml-50">Eliminar</span>
                     </b-dropdown-item>
@@ -115,6 +115,29 @@ export default {
             }
             return false;
         }
+    },
+    methods: {
+        eliminarValor() {
+            method: "DELETE",
+            JSON.stringify({
+                id: this.$route.params.id,
+                usuario: this.users.usuario,
+                nombre: this.users.nombre,
+                apellido: this.users.apellido,
+                email: this.users.email,
+                telefono: this.users.telefono,
+                ciudad: this.users.ciudad,
+                direccion: this.users.direccion,
+                numero: this.users.numero,
+                codigo_postal: this.users.codigo_postals
+            })
+            axios.put('http://localhost/users.php/?borrar=' + this.$route.params.id)
+            .then((resp) => {
+                console.log(resp)
+                console.log("Usuario Eliminado Correctamente")
+            })
+
+        },
     }
 
 }

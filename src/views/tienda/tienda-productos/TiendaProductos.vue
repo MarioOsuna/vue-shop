@@ -132,9 +132,12 @@ export default {
     },
     methods: {
         getData() {
-            axios.get("http://localhost/shop.php/?consultar").then((resp) => {
-                this.products = resp.data;
-            });
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?consultar')
+                .then(res => res.json())
+                .then(json => {
+                    this.products = json
+                });
+
         },
         crearProducto() {
             var datosEnviar = {
@@ -144,7 +147,7 @@ export default {
                 precio: this.products.precio,
                 cantidad: this.products.cantidad
             }
-            axios.post("http://localhost/shop.php/?insertar", JSON.stringify(datosEnviar))
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?insertar', JSON.stringify(datosEnviar))
                 .then((resp) => {
                     console.log("Producto creado")
                     this.$refs.sidebar.hide()

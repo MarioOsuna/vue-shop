@@ -15,7 +15,9 @@
                             <template #title>
                                 <feather-icon icon="GridIcon" size="16" class="mr-0 mr-sm-50" />
                             </template>
-                            <vistaCarta :product="products" @refresh="getData()" />
+                            <b-overlay :show="show" rounded="sm" variant="transparent">
+                                <vistaCarta :product="products" @refresh="getData()" />
+                            </b-overlay>
                         </b-tab>
                     </b-tabs>
                 </div>
@@ -93,7 +95,8 @@ import {
     BFormGroup,
     BFormInput,
     VBToggle,
-    BButton
+    BButton,
+    BOverlay
 } from "bootstrap-vue";
 export default {
     components: {
@@ -108,13 +111,15 @@ export default {
         BFormGroup,
         BFormInput,
         BButton,
+        BOverlay,
         vistaTabla,
         vistaCarta
     },
     data: () => {
         return {
             products: [],
-            buscar: ''
+            buscar: '',
+            show: false
         };
     },
     created() {
@@ -132,14 +137,17 @@ export default {
     },
     methods: {
         getData() {
+            this.show = true;
             fetch('https://vuealvaro.000webhostapp.com/shop.php/?consultar')
                 .then(res => res.json())
                 .then(json => {
                     this.products = json
+                    this.show = false;
                 });
 
         },
         crearProducto() {
+            this.show = true;
             var datosEnviar = {
                 referencia: this.products.referencia,
                 nombre: this.products.nombre,
@@ -147,12 +155,17 @@ export default {
                 precio: this.products.precio,
                 cantidad: this.products.cantidad
             }
-            fetch('https://vuealvaro.000webhostapp.com/shop.php/?insertar', JSON.stringify(datosEnviar))
-                .then((resp) => {
-                    console.log("Producto creado")
-                    this.$refs.sidebar.hide()
-                    this.getData()
-                });
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?insertar', {
+                    method: "POST",
+                    body: JSON.stringify(datosEnviar)
+                })
+                .then(res => {
+                    this.$refs.sidebar.hide();
+                    this.getData();
+
+                }).catch(
+                    error => console.log(error)
+                )
 
         },
         crear() {
@@ -167,7 +180,6 @@ export default {
 
             })
             this.crearProducto()
-
         }
     },
     directives: {

@@ -15,7 +15,7 @@
             </b-button>
         </b-row>
     </div>
-    <div class="table">
+        <div class="table">
         <table>
             <tr>
                 <td>Referencia</td>
@@ -86,10 +86,12 @@ export default {
         BDropdown,
         BDropdownItem,
         BLink,
+        
     },
     data: () => {
         return {
-            buscar: ''
+            buscar: '',
+            show: false
         };
     },
     props: {

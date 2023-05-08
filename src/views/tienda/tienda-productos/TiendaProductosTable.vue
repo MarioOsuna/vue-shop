@@ -15,55 +15,38 @@
             </b-button>
         </b-row>
     </div>
-        <div class="table">
-        <table>
-            <tr>
-                <td>Referencia</td>
-                <td>Nombre</td>
-                <td>Tipo</td>
-                <td>Talla</td>
-                <td>Precio</td>
-                <td>Cantidad</td>
-                <td>Acciones</td>
-            </tr>
-            <tr v-for="item in filtrarProducto" :key="item.referencia">
-                <td>{{ item.referencia }}</td>
-                <td>{{ item.nombre }}</td>
-                <td>{{ item.tipo }}</td>
-                <td>{{ item.talla }}</td>
-                <td>{{ item.precio }}</td>
-                <td>{{ item.cantidad }}</td>
-                <td>
-                    <template>
-                        <b-dropdown variant="link" no-caret :right="$store.state.appConfig.isRTL">
-                            <template #button-content>
-                                <feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
-                            </template>
-                            <b-dropdown-item>
-                                <b-link :to="{ name: 'tienda-productos-editar', params: { referencia: item.referencia }}">
-                                    <feather-icon icon="EditIcon" />
-                                    <span class="align-middle ml-50">Editar</span>
-                                </b-link>
-                            </b-dropdown-item>
-                            <b-dropdown-item @click="eliminar(item.referencia)">
-                                <b-link>
-                                    <feather-icon icon="TrashIcon" />
-                                    <span class="align-middle ml-50">Eliminar</span>
-                                </b-link>
-                            </b-dropdown-item>
-                        </b-dropdown>
+    <hr />
+    <div>
+        <b-table :fields="fields" :items="product" responsive="sm">
+            <template #cell(action)="data">
+                <b-dropdown variant="link" no-caret :right="$store.state.appConfig.isRTL">
+                    <template #button-content>
+                        <feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
                     </template>
-                </td>
-            </tr>
-        </table>
+                    <b-dropdown-item>
+                        <b-link :to="{ name: 'tienda-productos-editar', params: { referencia: data.item.referencia }}" :product="product">
+                            <feather-icon icon="EditIcon" />
+                            <span class="align-middle ml-50">Editar</span>
+                        </b-link>
+                    </b-dropdown-item>
+                    <b-dropdown-item @click="eliminar(data.item.referencia)">
+                        <b-link>
+                            <feather-icon icon="TrashIcon" />
+                            <span class="align-middle ml-50">Eliminar</span>
+                        </b-link>
+                    </b-dropdown-item>
+                </b-dropdown>
+            </template>
+        </b-table>
+
     </div>
 </div>
 </template>
 
 <script>
-import axios from '@axios'
 import Ripple from 'vue-ripple-directive'
 import {
+    BTable,
     BRow,
     BCol,
     BInputGroup,
@@ -77,6 +60,7 @@ import {
 } from 'bootstrap-vue'
 export default {
     components: {
+        BTable,
         BRow,
         BCol,
         BInputGroup,
@@ -86,10 +70,22 @@ export default {
         BDropdown,
         BDropdownItem,
         BLink,
-        
+
     },
     data: () => {
         return {
+            fields: [
+                'referencia',
+                'nombre',
+                'tipo',
+                'talla',
+                'precio',
+                'cantidad',
+                {
+                    key: 'action',
+                    label: 'Acciones',
+                }
+            ],
             buscar: '',
             show: false
         };
@@ -112,15 +108,19 @@ export default {
     },
     methods: {
         eliminarProducto(referencia) {
-            axios
-                .delete('http://localhost/shop.php/?borrar="' + referencia + '"')
-                .then((resp) => {
-                    console.log("Eliminado correctamente");
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?borrar=' + referencia, {
+                    method: "DELETE"
+                })
+                .then(res => {
                     this.$emit('refresh');
-                });
+                })
+                .catch(error => {
+                    console.log(error)
+                })
 
         },
         crearProducto() {
+            this.show = true;
             var datosEnviar = {
                 referencia: this.product.referencia,
                 nombre: this.product.nombre,
@@ -128,13 +128,16 @@ export default {
                 precio: this.product.precio,
                 cantidad: this.product.cantidad
             }
-            axios.post("http://localhost/shop.php/?insertar", JSON.stringify(datosEnviar))
-                .then((resp) => {
-                    console.log("Producto creado");
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?insertar', {
+                    method: "POST",
+                    body: JSON.stringify(datosEnviar)
+                })
+                .then(res => {
                     this.$refs.sidebar.hide();
-                    this.$emit('refresh');
-                });
-
+                    this.getData();
+                }).catch(
+                    error => console.log(error)
+                )
         },
         crear() {
             this.$swal({
@@ -145,10 +148,8 @@ export default {
                     confirmButton: 'btn btn-primary',
                 },
                 buttonStyling: false,
-
-            });
-            this.crearProducto();
-
+            })
+            this.crearProducto()
         },
         eliminar(referencia) {
             this.$swal({

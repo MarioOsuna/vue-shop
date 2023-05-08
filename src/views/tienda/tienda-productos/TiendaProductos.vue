@@ -177,7 +177,6 @@ export default {
                     confirmButton: 'btn btn-primary',
                 },
                 buttonStyling: false,
-
             })
             this.crearProducto()
         }

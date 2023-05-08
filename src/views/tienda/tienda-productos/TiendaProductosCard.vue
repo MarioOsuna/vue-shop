@@ -158,29 +158,33 @@ export default {
     },
     methods: {
         eliminarProducto(referencia) {
-            axios
-                .delete('http://localhost/shop.php/?borrar="' + referencia + '"')
-                .then((resp) => {
-                    console.log("Eliminado correctamente");
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?borrar="' + referencia + '"', {
+                    method: "DELETE"
+                })
+                .then(res => {
                     this.$emit('refresh');
-                });
+                })
 
         },
         crearProducto() {
+            this.show = true;
             var datosEnviar = {
-                referencia: this.products.referencia,
-                nombre: this.products.nombre,
-                talla: this.products.talla,
-                precio: this.products.precio,
-                cantidad: this.products.cantidad
+                referencia: this.product.referencia,
+                nombre: this.product.nombre,
+                talla: this.product.talla,
+                precio: this.product.precio,
+                cantidad: this.product.cantidad
             }
-            axios.post("http://localhost/shop.php/?insertar", JSON.stringify(datosEnviar))
-                .then((resp) => {
-                    console.log("Producto creado");
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?insertar', {
+                    method: "POST",
+                    body: JSON.stringify(datosEnviar)
+                })
+                .then(res => {
                     this.$refs.sidebar.hide();
-                    this.$emit('refresh');
-                });
-
+                    this.getData();
+                }).catch(
+                    error => console.log(error)
+                )
         },
         crear() {
             this.$swal({
@@ -191,10 +195,8 @@ export default {
                     confirmButton: 'btn btn-primary',
                 },
                 buttonStyling: false,
-
-            });
-            this.crearProducto();
-
+            })
+            this.crearProducto()
         },
         eliminar(referencia) {
             this.$swal({
@@ -219,6 +221,7 @@ export default {
                         },
                     })
                     this.eliminarProducto(referencia)
+
                 } else {
                     this.$swal({
                         icon: 'error',

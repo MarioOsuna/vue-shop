@@ -277,7 +277,7 @@ export default {
                 codigo_postal: this.users.codigo_postal
             }
 
-            fetch('https://vueproyect.000webhostapp.com/vue_proyect.php/?insertar=1',{
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/?insertar=1',{
                     method: "POST",
                     body: JSON.stringify(datosEnviar)
                 }) 

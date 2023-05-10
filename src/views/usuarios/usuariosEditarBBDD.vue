@@ -163,7 +163,7 @@ export default {
                 numero: this.users.numero,
                 codigo_postal: this.users.codigo_postal
             }
-            fetch('https://vueproyect.000webhostapp.com/vue_proyect.php/?actualizar=' + this.$route.params.id, {
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/?actualizar=' + this.$route.params.id, {
                     method: "POST",
                     body: JSON.stringify(datossEnviar)
                 })

@@ -126,7 +126,6 @@ export default {
         eliminarValor(id) {
             fetch('https://vueproyect.000webhostapp.com/vue_project.php/?borrar=' + id, {
                     method: "DELETE",
-                    mode: 'no-cors'
                 })
                 .then((resp) => {
                     console.log(resp)
@@ -158,10 +157,9 @@ export default {
                 codigo_postal: this.users.codigo_postal
             }
 
-            fetch('https://vueproyect.000webhostapp.com/vue_proyect.php/?insertar=1',{
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/?insertar=1',{
                     method: "POST",
                     body: JSON.stringify(datosEnviar),
-                    mode: 'no-cors'
                 })
                 .then((resp) => {
                     console.log(resp)

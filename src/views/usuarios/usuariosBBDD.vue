@@ -12,7 +12,7 @@
                                 <template #title>
                                     <feather-icon icon="MenuIcon" size="16" class="mr-0 mr-sm-50" />
                                 </template>
-                                <UsuariosBBDDTabla :user="users" @refresh="getData()"/> 
+                                <usuariosBBDDTabla :user="users" @refresh="getData()" />
 
                             </b-tab>
                             <!-- Tab: Vista Cards -->
@@ -20,7 +20,7 @@
                                 <template #title>
                                     <feather-icon icon="GridIcon" size="16" class="mr-0 mr-sm-50" />
                                 </template>
-                                <usuariosBBDDCards :user="users" @refresh="getData()"/>
+                                <usuariosBBDDCards :user="users" @refresh="getData()" />
 
                             </b-tab>
                         </b-tabs>
@@ -67,7 +67,6 @@ import axios from '@axios'
 import Ripple from 'vue-ripple-directive'
 import usuariosBBDDCards from './usuariosBBDDCards.vue'
 import usuariosBBDDTabla from './usuariosBBDDTabla.vue'
-import UsuariosBBDDTabla from './usuariosBBDDTabla.vue'
 export default {
     data: () => {
         return {
@@ -109,7 +108,6 @@ export default {
         BListGroupItem,
         BOverlay,
         BAvatar,
-        UsuariosBBDDTabla
     },
     created() {
         this.getData()
@@ -126,7 +124,10 @@ export default {
     },
     methods: {
         eliminarValor(id) {
-            axios.delete('http://localhost/users.php/?borrar=' + id)
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/?borrar=' + id, {
+                    method: "DELETE",
+                    mode: 'no-cors'
+                })
                 .then((resp) => {
                     console.log(resp)
                     console.log("Usuario Eliminado Correctamente")
@@ -136,10 +137,10 @@ export default {
 
         },
         getData() {
-            axios.get('http://localhost/vue_project.php')
-                .then((resp) => {
-                    this.users = resp.data
-                    console.log(resp)
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/')
+                .then(response => response.json())
+                .then(responseData => {
+                    this.users = responseData;
                 })
         },
 
@@ -157,16 +158,20 @@ export default {
                 codigo_postal: this.users.codigo_postal
             }
 
-            axios.post('http://localhost/users.php/?insertar=1', JSON.stringify(datosEnviar))
+            fetch('https://vueproyect.000webhostapp.com/vue_proyect.php/?insertar=1',{
+                    method: "POST",
+                    body: JSON.stringify(datosEnviar),
+                    mode: 'no-cors'
+                })
                 .then((resp) => {
                     console.log(resp)
                     console.log("Actualizado Correctamente")
                     console.log(resp)
                     // location.reload()
                     // this.crearUsuarioToast('primary')
-                    this.resetearDatos()
-                    this.getData()
-
+                    this.$refs.mySidebar.hide();
+                    this.$emit('refresh');
+                    this.resetearDatos();
                 })
 
         },

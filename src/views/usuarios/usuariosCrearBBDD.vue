@@ -119,7 +119,10 @@ export default {
                 numero:this.users.numero,
                 codigo_postal:this.users.codigo_postal} 
 
-                axios.post('http://localhost/users.php/?insertar=1', JSON.stringify(datosEnviar))
+                fetch('https://vueproyect.000webhostapp.com/vue_proyect.php/?insertar=1',{
+                    method: "POST",
+                    body: JSON.stringify(datosEnviar)
+                }) 
                 .then((resp) => {
                     console.log(resp)
                     console.log("Actualizado Correctamente")

@@ -227,12 +227,15 @@ export default {
     },
     methods: {
         eliminarValor(id) {
-            axios.delete('http://localhost/users.php/?borrar=' + id)
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/?borrar=' + id,{
+                method: "DELETE"
+            })
                 .then((resp) => {
                     console.log(resp)
                     console.log("Usuario Eliminado Correctamente")
                     // location.reload()
-                    this.$emit('refresh');
+                    this.getData()
+                    this.users = resp
                 })
 
         },
@@ -251,7 +254,10 @@ export default {
                 codigo_postal: this.users.codigo_postal
             }
 
-            axios.post('http://localhost/users.php/?insertar=1', JSON.stringify(datosEnviar))
+            fetch('https://vueproyect.000webhostapp.com/vue_proyect.php/?insertar=1',{
+                    method: "POST",
+                    body: JSON.stringify(datosEnviar),
+                })
                 .then((resp) => {
                     console.log(resp)
                     console.log("Actualizado Correctamente")

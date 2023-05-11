@@ -31,10 +31,6 @@ export default [
         ],
       },
     },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 3e75fdf1b131b5500431c15d4e6090f5923a85f0
     {
       path: '/users/usuarios/bbbdd',
       name: 'users-usuarios-bbdd',
@@ -117,9 +113,4 @@ export default [
       },
       
     },
-<<<<<<< HEAD
-=======
-=======
->>>>>>> origin/master
->>>>>>> 3e75fdf1b131b5500431c15d4e6090f5923a85f0
 ]

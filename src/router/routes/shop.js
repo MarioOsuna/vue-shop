@@ -1,6 +1,6 @@
 export default [
-    {
-        path: '/tienda/productos',
+      {
+        path: '/tienda/productos/',
         name: 'tienda-productos',
         component: () => import('@/views/tienda/tienda-productos/TiendaProductos.vue'),
         meta: {
@@ -17,34 +17,21 @@ export default [
         }
       },
       {
-        path: '/tienda/categorias',
-        name: 'tienda-categorias',
-        component: () => import('@/views/tienda/tienda-productos/TiendaCategorias.vue'),
+        path: '/tienda/productos/editar',
+        name: 'tienda-productos-editar',
+        component: () => import('@/views/tienda/tienda-productos/TiendaProductosActualizar.vue'),
         meta: {
-          pageTitle: 'Categorias',
+          pageTitle: 'Actualizar Productos',
           breadcrumb: [
             {
-              text: 'Basic Clothing Project'
-            },
-            {
-              text: 'Categorias',
-              active: true
-            }
-          ]
-        }
-      },
-      {
-        path: '/tienda/categorias/productos/:name',
-        name: 'tienda-categorias-productos',
-        component: () => import('@/views/tienda/tienda-productos/TiendaProductos.vue'),
-        meta: {
-          pageTitle: 'Productos',
-          breadcrumb: [
-            {
-              text: 'Basic Clothing Project'
+              text: 'Basic Clothing Project',
             },
             {
               text: 'Productos',
+              to: {name: 'tienda-productos'}
+            },
+            {
+              text: 'Actualizar Productos',
               active: true
             }
           ]

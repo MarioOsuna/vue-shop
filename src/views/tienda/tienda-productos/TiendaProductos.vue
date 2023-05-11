@@ -1,209 +1,178 @@
 <template>
-<div style="height: inherit">
-
+<div>
     <section class="ecommerce-header">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="ecommerce-header-items">
-                    <div class="view-options d-flex">
-                        <!-- Filtro -->
-                        <b-dropdown v-ripple.400="'rgba(113, 102, 240, 0.15)'" :text="sortBy.text" right variant="outline-primary">
-                            <b-dropdown-item v-for="sortOption in sortByOptions" :key="sortOption.value" @click="sortBy=sortOption">
-                                {{ sortOption.text }}
-                            </b-dropdown-item>
-                        </b-dropdown>
-                        <!-- Botones Vistas -->
-                        <b-form-radio-group v-model="itemView" class="ml-1 list item-view-radio-group" buttons size="sm" button-variant="outline-primary">
-                            <b-form-radio v-for="option in itemViewOptions" :key="option.value" :value="option.value">
-                                <feather-icon :icon="option.icon" size="18" />
-                            </b-form-radio>
-                        </b-form-radio-group>
-                    </div>
+            <div class="ecommerce-header-items">
+                <div class="view-options d-flex">
+                    <b-tabs>
+                        <b-tab active>
+                            <template #title>
+                                <feather-icon icon="ListIcon" size="16" class="mr-0 mr-sm-50" />
+                            </template>
+                            <vistaTabla :product="products" @refresh="getData()" />
+                        </b-tab>
+                        <b-tab>
+                            <template #title>
+                                <feather-icon icon="GridIcon" size="16" class="mr-0 mr-sm-50" />
+                            </template>
+                            <vistaCarta :product="products" @refresh="getData()" />
+                        </b-tab>
+                    </b-tabs>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Barra de búsqueda -->
-    <div class="ecommerce-searchbar mt-1">
-        <b-row>
-            <b-col cols="12">
-                <b-input-group class="input-group-merge">
-                    <b-form-input v-model="buscar" placeholder="Buscar producto" class="search-product" />
-                    <b-input-group-append is-text>
-                        <feather-icon icon="SearchIcon" class="text-muted" />
-                    </b-input-group-append>
-                </b-input-group>
-            </b-col>
-        </b-row>
-    </div>
-
-    <hr>
-
-    <!-- Productos -->
-    <section :class="itemView">
-        <b-row class="match-height">
-            <b-col v-for="item in filtrarUsuarios" :key="item.id" md="12" lg="3">
-                <b-card class="ecommerce-card" no-body>
-                    <div class="item-img">
-                        <b-img :alt="`${item.title}-${item.id}`" fluid class="card-img-top" :src="item.image" />
-                    </div>
-
-                    <!-- Detalles -->
-                    <b-card-body>
-                        <div class="item-wrapper">
-                            <div class="item-rating">
-                                <ul class="unstyled-list list-inline">
-                                    <li v-for="star in 5" :key="star" class="ratings-list-item" :class="{'ml-25': star-1}">
-                                        <feather-icon icon="StarIcon" size="16" :class="[{'fill-current': star <= item.rating.rate}, star <= item.rating.rate ? 'text-warning' : 'text-muted']" />
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h6 class="item-price">
-                                    ${{ item.price }}
-                                </h6>
-                            </div>
-                        </div>
-                        <h6 class="item-name">
-                            <b-link class="text-body">
-                                {{ item.title }}
-                            </b-link>
-                        </h6>
-                        <b-card-text class="item-description">
-                            {{ item.description }}
-                        </b-card-text>
-                    </b-card-body>
-                </b-card>
-            </b-col>
-        </b-row>
-    </section>
+    <b-sidebar ref="sidebar" id="sidebar-right" bg-variant="white" right backdrop shadow>
+        <div>
+            <b-card>
+                <b-card-title>Crear Productos</b-card-title>
+                <b-form>
+                    <b-row>
+                        <b-col>
+                            <b-form-group label="Referencia" label-for="referencia" style="text-align: center;">
+                                <b-form-input id="referencia" placeholder="Referencia" v-model="products.referencia" />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <b-form-group label="Nombre" label-for="nombre" style="text-align: center;">
+                                <b-form-input id="nombre" placeholder="Nombre" v-model="products.nombre" />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <b-form-group label="Talla" label-for="talla" style="text-align: center;">
+                                <b-form-input id="talla" placeholder="XS, S, M, L, XL, XXL" v-model="products.talla" />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <b-form-group label="Precio" label-for="precio" style="text-align: center;">
+                                <b-form-input id="precio" placeholder="Precio (0.00)" v-model="products.precio" />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <b-form-group label="Cantidad" label-for="cantidad" style="text-align: center;">
+                                <b-form-input id="cantidad" placeholder="Cantidad" v-model="products.cantidad" />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" @click="crear" style="align-items: center;">
+                                Crear Producto
+                            </b-button>
+                        </b-col>
+                    </b-row>
+                </b-form>
+            </b-card>
+        </div>
+    </b-sidebar>
 </div>
 </template>
 
 <script>
-import axios from '@axios'
+import axios from "@axios";
 import Ripple from 'vue-ripple-directive'
-import ShopLeftFilterSidebar from './BarraIzqFiltros.vue'
+import vistaTabla from './TiendaProductosTable.vue'
+import vistaCarta from './TiendaProductosCard.vue'
 import {
-    ref
-} from '@vue/composition-api'
-import {
+    BTabs,
+    BTab,
+    BSidebar,
+    BCard,
+    BCardTitle,
+    BForm,
     BRow,
     BCol,
-    BCard,
-    BImg,
-    BCardBody,
-    BCardText,
-    BInputGroup,
+    BFormGroup,
     BFormInput,
-    BInputGroupAppend,
-    BFormRadioGroup,
-    BFormRadio,
-    BDropdown,
-    BDropdownItem
-} from 'bootstrap-vue'
+    VBToggle,
+    BButton
+} from "bootstrap-vue";
 export default {
-    name: 'Productos',
+    components: {
+        BTabs,
+        BTab,
+        BSidebar,
+        BCard,
+        BCardTitle,
+        BForm,
+        BRow,
+        BCol,
+        BFormGroup,
+        BFormInput,
+        BButton,
+        vistaTabla,
+        vistaCarta
+    },
     data: () => {
         return {
             products: [],
-            buscar: '',
-            // FILTROS
-            sortBy: ref({
-                text: 'Featured',
-                value: 'featured'
-            }),
-            sortByOptions: [{
-                    text: 'Featured',
-                    value: 'featured'
-                },
-                {
-                    text: 'Lowest',
-                    value: 'price-asc',
-                },
-                {
-                    text: 'Highest',
-                    value: 'price-desc'
-                }
-            ],
-            // BOTONES VISTAS
-            itemView: 'grid-view',
-            itemViewOptions: [{
-                    icon: 'GridIcon',
-                    value: 'grid-view'
-                },
-                {
-                    icon: 'ListIcon',
-                    value: 'list-view'
-                }
-            ]
-        }
+            buscar: ''
+        };
     },
     created() {
-        let parametro = this.$route.params.name
-        let api = ''
-        if (parametro == null) {
-            api = 'https://fakestoreapi.com/products'
-        } else {
-            api = 'https://fakestoreapi.com/products/category/' + this.$route.params.name
-        }
-        axios.get(api)
-            .then((resp) => {
-                this.products = resp.data
-            })
+        this.getData();
     },
     computed: {
-        filtrarUsuarios() {
+        filtrarProducto() {
             if (this.products) {
                 return this.products.filter((item) => {
-                    return item.title.match(this.buscar);
+                    return item.nombre.match(this.buscar);
                 });
             }
             return false;
         }
     },
-    components: {
-        BRow,
-        BCol,
-        BCard,
-        BImg,
-        BCardBody,
-        BCardText,
-        BInputGroup,
-        BFormInput,
-        BInputGroupAppend,
-        BFormRadioGroup,
-        BFormRadio,
-        BDropdown,
-        BDropdownItem,
+    methods: {
+        getData() {
+            axios.get("http://localhost/shop.php/?consultar").then((resp) => {
+                this.products = resp.data;
+            });
+        },
+        crearProducto() {
+            var datosEnviar = {
+                referencia: this.products.referencia,
+                nombre: this.products.nombre,
+                talla: this.products.talla,
+                precio: this.products.precio,
+                cantidad: this.products.cantidad
+            }
+            axios.post("http://localhost/shop.php/?insertar", JSON.stringify(datosEnviar))
+                .then((resp) => {
+                    console.log("Producto creado")
+                    this.$refs.sidebar.hide()
+                    this.getData()
+                });
 
-        ShopLeftFilterSidebar
+        },
+        crear() {
+            this.$swal({
+                title: '¡Añadido!',
+                text: '¡El producto se añadió a la base de datos correctamente!',
+                icon: 'success',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                },
+                buttonStyling: false,
+
+            })
+            this.crearProducto()
+
+        }
     },
     directives: {
-        Ripple
-    }
-}
+        Ripple,
+        'b-toggle': VBToggle
+    },
+};
 </script>
 
-<style lang="scss">
-@import "~@core/scss/base/pages/app-ecommerce.scss";
-</style><style lang="scss" scoped>
-.item-img {
-    align-items: center;
-    justify-content: center;
-}
-
-.card-img-top {
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-}
-
-.item-view-radio-group ::v-deep {
-    .btn {
-        display: flex;
-        align-items: center;
-    }
-}
+<style>
 </style>

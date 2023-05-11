@@ -80,88 +80,6 @@
             </b-card>
         </b-col>
     </b-row>
-
-    <div>
-        <b-sidebar ref="mySidebar" id="sidebar-right" bg-variant="white" right backdrop shadow>
-            <template>
-                <b-form id="miform" @submit.prevent="agregarRegistro">
-
-                    <div class="m-2">
-                        <div class="text-center mb-3">
-                            <!-- Name -->
-                            <b-card-text class="mt-2 h4 color-inherit text-reset">
-                                Crear Usuarios
-                            </b-card-text>
-                        </div>
-                        <b-row>
-                            <b-col cols="12" md="6">
-                                <b-form-group label="Usuario" label-for="usuario">
-                                    <b-form-input placeholder="alex1234" id="usuario" v-model="users.usuario" required />
-                                </b-form-group>
-                            </b-col>
-                            <b-col cols="12" md="6">
-                                <b-form-group label="Nombre" label-for="nombre">
-                                    <b-form-input placeholder="Francisco" id="nombre" v-model="users.nombre" required />
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="12" md="6">
-                                <b-form-group label="Apellido" label-for="apellido">
-                                    <b-form-input placeholder="Sanchez" id="apellido" v-model="users.apellido" required />
-                                </b-form-group>
-                            </b-col>
-                            <b-col cols="12" md="6">
-                                <b-form-group label="Email" label-for="email">
-                                    <b-form-input type="email" placeholder="francis@example.com" id="email" v-model="users.email" />
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="12" md="6">
-                                <b-form-group label="Teléfono" label-for="telefono">
-                                    <b-form-input type="number" placeholder="675890123" id="telefono" v-model="users.telefono" />
-                                </b-form-group>
-                            </b-col>
-                            <b-col cols="12" md="6">
-                                <b-form-group label="Ciudad" label-for="ciudad">
-                                    <b-form-input placeholder="Madrid" id="ciudad" v-model="users.ciudad" required />
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="12" md="6">
-                                <b-form-group label="Dirección" label-for="direccion">
-                                    <b-form-input placeholder="Calle Borja Pavon" id="direccion" v-model="users.direccion" />
-                                </b-form-group>
-                            </b-col>
-                            <b-col cols="12" md="6">
-                                <b-form-group label="Número" label-for="numero">
-                                    <b-form-input type="number" placeholder="2" id="numero" v-model="users.numero" />
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row class="justify-content-center">
-                            <b-col>
-                                <b-form-group label="Código Postal" label-for="codigo_postal" style="text-align: center;">
-                                    <b-form-input type="number" placeholder="14700" id="codigo_postal" v-model="users.codigo_postal" required />
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row class="justify-content-center m-1">
-                            <b-button @click=completado type="submit" v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="primary" class="mb-1 mb-sm-0 mr-0 mr-sm-1">
-                                Crear Usuario
-                            </b-button>
-
-                        </b-row>
-                        <b-row class="justify-content-center m-1">
-                            <b-button type="reset" v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="secondary" class="mb-1 mb-sm-0 mr-0 mr-sm-1" style=""> Resetear Campos</b-button>
-                        </b-row>
-                    </div>
-                </b-form>
-            </template>
-        </b-sidebar>
-    </div>
 </div>
 </template>
 
@@ -254,14 +172,15 @@ export default {
     },
     methods: {
         eliminarValor(id) {
-            axios.delete('https://vueproyect.000webhostapp.com/vue_project.php/?borrar=' + id)
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/?borrar=' + id, {
+                    method: "POST"
+                })
                 .then((resp) => {
                     console.log(resp)
                     console.log("Usuario Eliminado Correctamente")
                     // location.reload()
-                    this.$emit('refresh');
+                    this.$emit('refresh');                    
                 })
-
         },
         agregarRegistro() {
             console.log(this.users)

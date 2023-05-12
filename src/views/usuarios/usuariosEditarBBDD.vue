@@ -152,7 +152,7 @@
           variant="primary"
           class="mb-1 mb-sm-0 mr-0 mr-sm-1"
           @click="actualizarRegistro"
-          @click="completado"
+          :click="completado"
         >
           Guardar Cambios
         </b-button>
@@ -299,7 +299,6 @@ export default {
       })
     },
   },
-
 }
 </script>
 

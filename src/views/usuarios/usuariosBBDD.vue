@@ -32,7 +32,6 @@
     </section>
     <br>
     <div>
-
         <b-sidebar ref="mySidebar" id="sidebar-right" bg-variant="white" right backdrop shadow>
             <b-overlay :show="show" rounded="sm">
                 <template>
@@ -226,7 +225,6 @@ export default {
             fetch('https://vueproyect.000webhostapp.com/vue_project.php/')
                 .then(response => response.json())
                 .then(responseData => {
-
                     this.users = responseData;
                     this.show = false;
                 })

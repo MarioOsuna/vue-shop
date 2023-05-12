@@ -6,7 +6,7 @@
         class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column"
         :class="{'show': isCalendarOverlaySidebarActive}"
       >
-        <calendar-sidebar v-model:is-event-handler-sidebar-active="isEventHandlerSidebarActive" />
+        <calendar-sidebar :is-event-handler-sidebar-active="isEventHandlerSidebarActive" />
       </div>
 
       <!-- Calendar -->

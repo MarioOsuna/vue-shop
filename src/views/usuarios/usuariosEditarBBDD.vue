@@ -131,7 +131,6 @@ export default {
         BListGroup,
         BListGroupItem,
         BOverlay,
-
     },
     directives: {
         Ripple

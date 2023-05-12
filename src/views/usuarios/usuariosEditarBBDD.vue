@@ -130,6 +130,7 @@ export default {
         BSidebar,
         BListGroup,
         BListGroupItem,
+        BOverlay,
 
     },
     directives: {
@@ -184,8 +185,6 @@ export default {
                 .then(response => response.json())
                 .then(responseData => {
                     this.users = responseData[0]
-                    this.show = false;
-
                 })
         },
         completado() {

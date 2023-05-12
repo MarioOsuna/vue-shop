@@ -7,9 +7,6 @@ export default [
           pageTitle: 'Productos',
           breadcrumb: [
             {
-              text: 'Basic Clothing Project'
-            },
-            {
               text: 'Productos',
               active: true
             }
@@ -17,15 +14,12 @@ export default [
         }
       },
       {
-        path: '/tienda/productos/editar',
+        path: '/tienda/productos/editar/:referencia',
         name: 'tienda-productos-editar',
         component: () => import('@/views/tienda/tienda-productos/TiendaProductosActualizar.vue'),
         meta: {
           pageTitle: 'Actualizar Productos',
           breadcrumb: [
-            {
-              text: 'Basic Clothing Project',
-            },
             {
               text: 'Productos',
               to: {name: 'tienda-productos'}

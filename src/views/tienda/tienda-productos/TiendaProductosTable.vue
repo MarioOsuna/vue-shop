@@ -70,7 +70,6 @@ export default {
         BDropdown,
         BDropdownItem,
         BLink,
-
     },
     data: () => {
         return {

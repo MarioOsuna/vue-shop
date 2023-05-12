@@ -224,7 +224,6 @@ export default {
                         },
                     })
                     this.eliminarProducto(referencia)
-
                 } else {
                     this.$swal({
                         icon: 'error',

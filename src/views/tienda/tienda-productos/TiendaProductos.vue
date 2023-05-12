@@ -4,80 +4,83 @@
         <div class="row">
             <div class="ecommerce-header-items">
                 <div class="view-options d-flex">
-                    <b-tabs>
-                        <b-tab active>
-                            <template #title>
-                                <feather-icon icon="ListIcon" size="16" class="mr-0 mr-sm-50" />
-                            </template>
-                            <vistaTabla :product="products" @refresh="getData()" />
-                        </b-tab>
-                        <b-tab>
-                            <template #title>
-                                <feather-icon icon="GridIcon" size="16" class="mr-0 mr-sm-50" />
-                            </template>
-                            <vistaCarta :product="products" @refresh="getData()" />
-                        </b-tab>
-                    </b-tabs>
+                    <b-overlay :show="show" rounded="sm" variant="transparent">
+                        <b-tabs>
+                            <b-tab active>
+                                <template #title>
+                                    <feather-icon icon="ListIcon" size="16" class="mr-0 mr-sm-50" />
+                                </template>
+                                <vistaTabla :product="products" @refresh="getData()" />
+                            </b-tab>
+                            <b-tab>
+                                <template #title>
+                                    <feather-icon icon="GridIcon" size="16" class="mr-0 mr-sm-50" />
+                                </template>
+                                <vistaCarta :product="products" @refresh="getData()" />
+                            </b-tab>
+                        </b-tabs>
+                    </b-overlay>
                 </div>
             </div>
         </div>
     </section>
     <b-sidebar ref="sidebar" id="sidebar-right" bg-variant="white" right backdrop shadow>
-        <div>
-            <b-card>
-                <b-card-title>Crear Productos</b-card-title>
-                <b-form>
-                    <b-row>
-                        <b-col>
-                            <b-form-group label="Referencia" label-for="referencia" style="text-align: center;">
-                                <b-form-input id="referencia" placeholder="Referencia" v-model="products.referencia" />
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-form-group label="Nombre" label-for="nombre" style="text-align: center;">
-                                <b-form-input id="nombre" placeholder="Nombre" v-model="products.nombre" />
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-form-group label="Talla" label-for="talla" style="text-align: center;">
-                                <b-form-input id="talla" placeholder="XS, S, M, L, XL, XXL" v-model="products.talla" />
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-form-group label="Precio" label-for="precio" style="text-align: center;">
-                                <b-form-input id="precio" placeholder="Precio (0.00)" v-model="products.precio" />
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-form-group label="Cantidad" label-for="cantidad" style="text-align: center;">
-                                <b-form-input id="cantidad" placeholder="Cantidad" v-model="products.cantidad" />
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" @click="crear" style="align-items: center;">
-                                Crear Producto
-                            </b-button>
-                        </b-col>
-                    </b-row>
-                </b-form>
-            </b-card>
-        </div>
+        <b-overlay :show="show" rounded="sm" variant="transparent">
+            <div>
+                <b-card>
+                    <b-card-title>Crear Productos</b-card-title>
+                    <b-form>
+                        <b-row>
+                            <b-col>
+                                <b-form-group label="Referencia" label-for="referencia" style="text-align: center;">
+                                    <b-form-input id="referencia" placeholder="Referencia" v-model="products.referencia" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-form-group label="Nombre" label-for="nombre" style="text-align: center;">
+                                    <b-form-input id="nombre" placeholder="Nombre" v-model="products.nombre" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-form-group label="Talla" label-for="talla" style="text-align: center;">
+                                    <b-form-input id="talla" placeholder="XS, S, M, L, XL, XXL" v-model="products.talla" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-form-group label="Precio" label-for="precio" style="text-align: center;">
+                                    <b-form-input id="precio" placeholder="Precio (0.00)" v-model="products.precio" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-form-group label="Cantidad" label-for="cantidad" style="text-align: center;">
+                                    <b-form-input id="cantidad" placeholder="Cantidad" v-model="products.cantidad" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col>
+                                <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" @click="crear" style="align-items: center;">
+                                    Crear Producto
+                                </b-button>
+                            </b-col>
+                        </b-row>
+                    </b-form>
+                </b-card>
+            </div>
+        </b-overlay>
     </b-sidebar>
 </div>
 </template>
 
 <script>
-import axios from "@axios";
 import Ripple from 'vue-ripple-directive'
 import vistaTabla from './TiendaProductosTable.vue'
 import vistaCarta from './TiendaProductosCard.vue'
@@ -93,7 +96,8 @@ import {
     BFormGroup,
     BFormInput,
     VBToggle,
-    BButton
+    BButton,
+    BOverlay
 } from "bootstrap-vue";
 export default {
     components: {
@@ -108,13 +112,15 @@ export default {
         BFormGroup,
         BFormInput,
         BButton,
+        BOverlay,
         vistaTabla,
         vistaCarta
     },
     data: () => {
         return {
             products: [],
-            buscar: ''
+            buscar: '',
+            show: false
         };
     },
     created() {
@@ -132,9 +138,14 @@ export default {
     },
     methods: {
         getData() {
-            axios.get("http://localhost/shop.php/?consultar").then((resp) => {
-                this.products = resp.data;
-            });
+            this.show = true;
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?consultar')
+                .then(res => res.json())
+                .then(json => {
+                    this.products = json
+                    this.show = false;
+                });
+
         },
         crearProducto() {
             var datosEnviar = {
@@ -144,12 +155,19 @@ export default {
                 precio: this.products.precio,
                 cantidad: this.products.cantidad
             }
-            axios.post("http://localhost/shop.php/?insertar", JSON.stringify(datosEnviar))
-                .then((resp) => {
-                    console.log("Producto creado")
-                    this.$refs.sidebar.hide()
-                    this.getData()
-                });
+            this.show = true;
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?insertar', {
+                    method: "POST",
+                    body: JSON.stringify(datosEnviar)
+                })
+                .then(res => {
+                    this.$refs.sidebar.hide();
+                    this.show = false;
+                    this.getData();
+
+                }).catch(
+                    error => console.log(error)
+                )
 
         },
         crear() {
@@ -161,10 +179,8 @@ export default {
                     confirmButton: 'btn btn-primary',
                 },
                 buttonStyling: false,
-
             })
             this.crearProducto()
-
         }
     },
     directives: {

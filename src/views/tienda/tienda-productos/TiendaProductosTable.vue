@@ -107,20 +107,7 @@ export default {
         }
     },
     methods: {
-        eliminarProducto(referencia) {
-            fetch('https://vuealvaro.000webhostapp.com/shop.php/?borrar=' + referencia, {
-                    method: "DELETE"
-                })
-                .then(res => {
-                    this.$emit('refresh');
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-
-        },
         crearProducto() {
-            this.show = true;
             var datosEnviar = {
                 referencia: this.product.referencia,
                 nombre: this.product.nombre,
@@ -128,7 +115,7 @@ export default {
                 precio: this.product.precio,
                 cantidad: this.product.cantidad
             }
-            fetch('https://vuealvaro.000webhostapp.com/shop.php/?insertar', {
+            fetch("https://vuealvaro.000webhostapp.com/shop.php/?insertar", {
                     method: "POST",
                     body: JSON.stringify(datosEnviar)
                 })
@@ -150,6 +137,18 @@ export default {
                 buttonStyling: false,
             })
             this.crearProducto()
+        },
+        eliminarProducto(referencia) {
+            fetch("https://vuealvaro.000webhostapp.com/shop.php/?borrar='" + referencia + "'", {
+                    method: "POST"
+                })
+                .then(res => {
+                    this.$emit('refresh');
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
         },
         eliminar(referencia) {
             this.$swal({

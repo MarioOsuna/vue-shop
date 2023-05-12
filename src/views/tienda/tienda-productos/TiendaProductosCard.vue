@@ -51,7 +51,7 @@
                                             <feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
                                         </template>
                                         <b-dropdown-item>
-                                            <b-link :to="{ name: 'tienda-productos-editar', params: { referencia: item.referencia }}">
+                                            <b-link :to="{ name: 'tienda-productos-editar', params: { referencia: item.referencia }}" :product="product">
                                                 <feather-icon icon="EditIcon" />
                                                 <span class="align-middle ml-50">Editar</span>
                                             </b-link>
@@ -164,6 +164,9 @@ export default {
                 .then(res => {
                     this.$emit('refresh');
                 })
+                .catch(error => {
+                    console.log(error)
+                })
 
         },
         crearProducto() {
@@ -175,7 +178,7 @@ export default {
                 precio: this.product.precio,
                 cantidad: this.product.cantidad
             }
-            fetch('https://vuealvaro.000webhostapp.com/shop.php/?insertar', {
+            fetch("https://vuealvaro.000webhostapp.com/shop.php/?insertar", {
                     method: "POST",
                     body: JSON.stringify(datosEnviar)
                 })

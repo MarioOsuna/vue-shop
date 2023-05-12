@@ -32,7 +32,7 @@
           <b-col md="6">
             <b-form-group label="Credit Card">
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Credit Card"
                 rules="required|credit-card"
               >
@@ -48,7 +48,7 @@
           <b-col md="6">
             <b-form-group label="Enter Only Positive Number">
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Number"
                 rules="required|positive"
               >

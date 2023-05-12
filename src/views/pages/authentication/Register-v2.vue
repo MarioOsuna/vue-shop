@@ -57,7 +57,7 @@
                 label-for="register-username"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Username"
                   rules="required"
                 >
@@ -78,7 +78,7 @@
                 label-for="register-email"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Email"
                   rules="required|email"
                 >
@@ -99,7 +99,7 @@
                 label="Password"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Password"
                   rules="required"
                 >

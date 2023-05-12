@@ -8,7 +8,7 @@
         <b-col md="6">
           <b-form-group>
             <validation-provider
-              #default="{ errors }"
+              v-slot="{ errors }"
               name="email"
               rules="required|email"
             >
@@ -25,7 +25,7 @@
         <b-col md="6">
           <b-form-group>
             <validation-provider
-              #default="{ errors }"
+              v-slot="{ errors }"
               name="password"
               rules="required|min:6"
             >

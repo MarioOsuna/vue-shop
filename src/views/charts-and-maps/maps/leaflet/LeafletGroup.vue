@@ -32,7 +32,7 @@
 
     <!-- map -->
     <l-map
-      :zoom.sync="zoom"
+      v-model:zoom="zoom"
       :options="mapOptions"
       :center="center"
       :bounds="bounds"
@@ -64,9 +64,9 @@
       <l-marker
         v-for="marker in markers"
         :key="marker.id"
+        v-model:lat-lng="marker.position"
         :visible="marker.visible"
         :draggable="marker.draggable"
-        :lat-lng.sync="marker.position"
         :icon="marker.icon"
         @click="alert(marker)"
       >
@@ -88,7 +88,7 @@
       <l-layer-group
         v-for="item in stuff"
         :key="item.id"
-        :visible.sync="item.visible"
+        v-model:visible="item.visible"
         layer-type="overlay"
         name="Layer 1"
       >

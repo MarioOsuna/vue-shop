@@ -74,6 +74,8 @@
     </b-card-body>
 
     <b-table
+      v-model:sort-by="sortBy"
+      v-model:sort-desc="sortDesc"
       striped
       hover
       responsive
@@ -82,8 +84,6 @@
       :current-page="currentPage"
       :items="items"
       :fields="fields"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection"
       :filter="filter"
       :filter-included-fields="filterOn"

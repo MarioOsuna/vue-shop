@@ -61,6 +61,27 @@ export default {
   directives: {
     'b-tooltip': VBTooltip,
   },
+  setup() {
+    const toast = useToast()
+    const { copy } = useClipboard()
+
+    const copyIconName = iconName => {
+      copy(iconName)
+
+      toast({
+        component: ToastificationContent,
+        props: {
+          title: 'Icon name copied',
+          icon: 'CopyIcon',
+          variant: 'success',
+        },
+      })
+    }
+
+    return {
+      copyIconName,
+    }
+  },
   data() {
     return {
       seachQuery: '',
@@ -359,27 +380,6 @@ export default {
       const seachQueryIcon = this.seachQuery.toLowerCase()
       return this.icons.filter(item => item.toLowerCase().includes(seachQueryIcon))
     },
-  },
-  setup() {
-    const toast = useToast()
-    const { copy } = useClipboard()
-
-    const copyIconName = iconName => {
-      copy(iconName)
-
-      toast({
-        component: ToastificationContent,
-        props: {
-          title: 'Icon name copied',
-          icon: 'CopyIcon',
-          variant: 'success',
-        },
-      })
-    }
-
-    return {
-      copyIconName,
-    }
   },
 }
 </script>

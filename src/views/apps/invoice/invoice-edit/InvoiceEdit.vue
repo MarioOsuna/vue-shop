@@ -648,46 +648,6 @@ export default {
     'b-toggle': VBToggle,
   },
   mixins: [heightTransition],
-
-  // Reset Tr Height if data changes
-  watch: {
-    // eslint-disable-next-line func-names
-    'invoiceData.items': function () {
-      this.initTrHeight()
-    },
-  },
-  mounted() {
-    this.initTrHeight()
-  },
-  created() {
-    window.addEventListener('resize', this.initTrHeight)
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.initTrHeight)
-  },
-  methods: {
-    addNewItemInItemForm() {
-      this.$refs.form.style.overflow = 'hidden'
-      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
-
-      this.$nextTick(() => {
-        this.trAddHeight(this.$refs.row[0].offsetHeight)
-        setTimeout(() => {
-          this.$refs.form.style.overflow = null
-        }, 350)
-      })
-    },
-    removeItem(index) {
-      this.invoiceData.items.splice(index, 1)
-      this.trTrimHeight(this.$refs.row[0].offsetHeight)
-    },
-    initTrHeight() {
-      this.trSetHeight(null)
-      this.$nextTick(() => {
-        this.trSetHeight(this.$refs.form ? this.$refs.form.scrollHeight : 0)
-      })
-    },
-  },
   setup() {
     const INVOICE_APP_STORE_MODULE_NAME = 'app-invoice'
 
@@ -779,6 +739,46 @@ export default {
       itemFormBlankItem,
       paymentMethods,
     }
+  },
+
+  // Reset Tr Height if data changes
+  watch: {
+    // eslint-disable-next-line func-names
+    'invoiceData.items': function () {
+      this.initTrHeight()
+    },
+  },
+  mounted() {
+    this.initTrHeight()
+  },
+  created() {
+    window.addEventListener('resize', this.initTrHeight)
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.initTrHeight)
+  },
+  methods: {
+    addNewItemInItemForm() {
+      this.$refs.form.style.overflow = 'hidden'
+      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
+
+      this.$nextTick(() => {
+        this.trAddHeight(this.$refs.row[0].offsetHeight)
+        setTimeout(() => {
+          this.$refs.form.style.overflow = null
+        }, 350)
+      })
+    },
+    removeItem(index) {
+      this.invoiceData.items.splice(index, 1)
+      this.trTrimHeight(this.$refs.row[0].offsetHeight)
+    },
+    initTrHeight() {
+      this.trSetHeight(null)
+      this.$nextTick(() => {
+        this.trSetHeight(this.$refs.form ? this.$refs.form.scrollHeight : 0)
+      })
+    },
   },
 }
 </script>

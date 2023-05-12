@@ -151,20 +151,20 @@
 
     <!-- Active Chat Contact Details Sidebar -->
     <chat-active-chat-content-details-sidedbar
-      :shall-show-active-chat-contact-sidebar.sync="shallShowActiveChatContactSidebar"
+      v-model:shall-show-active-chat-contact-sidebar="shallShowActiveChatContactSidebar"
       :contact="activeChat.contact || {}"
     />
 
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <chat-left-sidebar
+        v-model:shall-show-user-profile-sidebar="shallShowUserProfileSidebar"
+        v-model:mq-shall-show-left-sidebar="mqShallShowLeftSidebar"
         :chats-contacts="chatsContacts"
         :contacts="contacts"
         :active-chat-contact-id="activeChat.contact ? activeChat.contact.id : null"
-        :shall-show-user-profile-sidebar.sync="shallShowUserProfileSidebar"
         :profile-user-data="profileUserData"
         :profile-user-minimal-data="profileUserDataMinimal"
-        :mq-shall-show-left-sidebar.sync="mqShallShowLeftSidebar"
         @show-user-profile="showUserProfileSidebar"
         @open-chat="openChatOfContact"
       />

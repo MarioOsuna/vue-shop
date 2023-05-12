@@ -39,7 +39,7 @@ export default {
   created() {
     this.$store.commit('verticalMenu/UPDATE_VERTICAL_MENU_COLLAPSED', true)
   },
-  destroyed() {
+  unmounted() {
     this.$store.commit('verticalMenu/UPDATE_VERTICAL_MENU_COLLAPSED', this.isVerticalMenuCollapsed)
   },
 }

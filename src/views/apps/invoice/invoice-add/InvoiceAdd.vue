@@ -631,38 +631,6 @@ export default {
 
   },
   mixins: [heightTransition],
-  mounted() {
-    this.initTrHeight()
-  },
-  created() {
-    window.addEventListener('resize', this.initTrHeight)
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.initTrHeight)
-  },
-  methods: {
-    addNewItemInItemForm() {
-      this.$refs.form.style.overflow = 'hidden'
-      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
-
-      this.$nextTick(() => {
-        this.trAddHeight(this.$refs.row[0].offsetHeight)
-        setTimeout(() => {
-          this.$refs.form.style.overflow = null
-        }, 350)
-      })
-    },
-    removeItem(index) {
-      this.invoiceData.items.splice(index, 1)
-      this.trTrimHeight(this.$refs.row[0].offsetHeight)
-    },
-    initTrHeight() {
-      this.trSetHeight(null)
-      this.$nextTick(() => {
-        this.trSetHeight(this.$refs.form.scrollHeight)
-      })
-    },
-  },
   setup() {
     const INVOICE_APP_STORE_MODULE_NAME = 'app-invoice'
 
@@ -745,6 +713,38 @@ export default {
       itemFormBlankItem,
       paymentMethods,
     }
+  },
+  mounted() {
+    this.initTrHeight()
+  },
+  created() {
+    window.addEventListener('resize', this.initTrHeight)
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.initTrHeight)
+  },
+  methods: {
+    addNewItemInItemForm() {
+      this.$refs.form.style.overflow = 'hidden'
+      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
+
+      this.$nextTick(() => {
+        this.trAddHeight(this.$refs.row[0].offsetHeight)
+        setTimeout(() => {
+          this.$refs.form.style.overflow = null
+        }, 350)
+      })
+    },
+    removeItem(index) {
+      this.invoiceData.items.splice(index, 1)
+      this.trTrimHeight(this.$refs.row[0].offsetHeight)
+    },
+    initTrHeight() {
+      this.trSetHeight(null)
+      this.$nextTick(() => {
+        this.trSetHeight(this.$refs.form.scrollHeight)
+      })
+    },
   },
 }
 </script>

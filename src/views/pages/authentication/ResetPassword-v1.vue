@@ -34,7 +34,7 @@
               label-for="reset-password-new"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Password"
                 vid="Password"
                 rules="required|password"
@@ -70,7 +70,7 @@
               label="Confirm Password"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Confirm Password"
                 rules="required|confirmed:Password"
               >

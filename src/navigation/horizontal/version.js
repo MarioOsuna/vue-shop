@@ -1,5 +1,5 @@
 export default [
-    {
-        header: 'V.1.5'
-    }
+  {
+    header: 'V.1.5',
+  },
 ]

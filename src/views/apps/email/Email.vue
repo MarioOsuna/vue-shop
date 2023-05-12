@@ -238,7 +238,7 @@
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <email-left-sidebar
-        :shall-show-email-compose-modal.sync="shallShowEmailComposeModal"
+        v-model:shall-show-email-compose-modal="shallShowEmailComposeModal"
         :emails-meta="emailsMeta"
         :class="{'show': mqShallShowLeftSidebar}"
         @close-left-sidebar="mqShallShowLeftSidebar = false"

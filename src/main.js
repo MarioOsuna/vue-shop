@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, { createApp, h } from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 
@@ -40,11 +40,7 @@ require('@core/scss/core.scss')
 // import assets styles
 require('@/assets/scss/style.scss')
 
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  store,
+createApp({
   i18n,
-  render: h => h(App),
-}).$mount('#app')
+  render: () => h(App),
+}).use(router).use(store).mount('#app')

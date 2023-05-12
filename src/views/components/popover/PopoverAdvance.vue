@@ -34,9 +34,9 @@
       <!-- We specify the same container as the trigger button, so that popover is close to button -->
       <b-popover
         ref="popover"
+        v-model:show="popoverShow"
         target="popover-reactive-1"
         triggers="click"
-        :show.sync="popoverShow"
         placement="auto"
         container="my-container"
       >

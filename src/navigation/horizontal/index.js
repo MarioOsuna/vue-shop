@@ -34,4 +34,4 @@ import tienda from './shop'
 import usuario from './usuario'
 
 // Array of sections
-export default [...dashboard, ...usuario, ...tienda,...apps, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others]
+export default [...dashboard, ...usuario, ...tienda, ...apps, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others]

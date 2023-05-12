@@ -162,8 +162,8 @@
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <todo-left-sidebar
+        v-model:is-task-handler-sidebar-active="isTaskHandlerSidebarActive"
         :task-tags="taskTags"
-        :is-task-handler-sidebar-active.sync="isTaskHandlerSidebarActive"
         :class="{'show': mqShallShowLeftSidebar}"
         @close-left-sidebar="mqShallShowLeftSidebar = false"
       />

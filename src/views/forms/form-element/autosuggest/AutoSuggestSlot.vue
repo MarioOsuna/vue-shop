@@ -7,7 +7,7 @@
       :limit="10"
       @input="onInputChange"
     >
-      <template slot-scope="{suggestion}">
+      <template #default="{suggestion}">
         <div class="d-flex align-items-center">
           <b-avatar :src="suggestion.item.img" />
           <div class="detail ml-50">

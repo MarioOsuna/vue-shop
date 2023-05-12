@@ -39,7 +39,7 @@ export default {
   created() {
     this.$store.commit('appConfig/UPDATE_CONTENT_WIDTH', 'boxed')
   },
-  destroyed() {
+  unmounted() {
     this.$store.commit('appConfig/UPDATE_CONTENT_WIDTH', this.contentWidth)
   },
 }

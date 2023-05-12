@@ -30,7 +30,7 @@
               label-for="username"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Username"
                 rules="required"
               >
@@ -51,7 +51,7 @@
               label-for="email"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Email"
                 rules="required|email"
               >
@@ -72,7 +72,7 @@
               label-for="password"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Password"
                 rules="required"
               >

@@ -98,8 +98,7 @@
       @on-row-click="onRowClick"
     >
       <template
-        slot="table-row"
-        slot-scope="props"
+        #table-row="props"
       >
         <span
           v-if="props.column.field === 'fullName'"
@@ -118,8 +117,7 @@
 
       <!-- pagination -->
       <template
-        slot="pagination-bottom"
-        slot-scope="props"
+        #pagination-bottom="props"
       >
         <div class="d-flex justify-content-between flex-wrap">
           <div class="d-flex align-items-center mb-0 mt-1">

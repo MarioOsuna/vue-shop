@@ -11,8 +11,7 @@
 
     <b-form-file multiple>
       <template
-        slot="file-name"
-        slot-scope="{ names }"
+        #file-name="{ names }"
       >
         <b-badge variant="primary">
           {{ names[0] }}

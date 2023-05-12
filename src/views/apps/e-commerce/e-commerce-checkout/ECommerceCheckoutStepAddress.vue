@@ -1,6 +1,6 @@
 <template>
   <validation-observer
-    #default="{ handleSubmit }"
+    v-slot="{ handleSubmit }"
     ref="refFormObserver"
   >
     <b-form
@@ -25,7 +25,7 @@
               md="6"
             >
               <validation-provider
-                #default="validationContext"
+                v-slot="validationContext"
                 name="Full Name"
                 rules="required"
               >
@@ -54,7 +54,7 @@
               class="mb-2"
             >
               <validation-provider
-                #default="validationContext"
+                v-slot="validationContext"
                 name="Mobile Number"
                 rules="required|integer"
               >
@@ -82,7 +82,7 @@
               md="6"
             >
               <validation-provider
-                #default="validationContext"
+                v-slot="validationContext"
                 name="Flat, House No"
                 rules="required"
               >
@@ -110,7 +110,7 @@
               md="6"
             >
               <validation-provider
-                #default="validationContext"
+                v-slot="validationContext"
                 name="Landmark"
                 rules="required"
               >
@@ -138,7 +138,7 @@
               md="6"
             >
               <validation-provider
-                #default="validationContext"
+                v-slot="validationContext"
                 name="Town/city"
                 rules="required"
               >
@@ -166,7 +166,7 @@
               md="6"
             >
               <validation-provider
-                #default="validationContext"
+                v-slot="validationContext"
                 name="Pincode"
                 rules="required|integer"
               >
@@ -195,7 +195,7 @@
               md="6"
             >
               <validation-provider
-                #default="validationContext"
+                v-slot="validationContext"
                 name="State"
                 rules="required"
               >
@@ -223,7 +223,7 @@
               md="6"
             >
               <validation-provider
-                #default="validationContext"
+                v-slot="validationContext"
                 name="Address Type"
                 rules="required"
               >

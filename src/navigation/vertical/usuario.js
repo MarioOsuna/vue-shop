@@ -1,11 +1,11 @@
 export default [
-    {
-      header: 'Users',
-    },
-    {
-      title: 'Usuarios',   
-      icon: 'UserIcon',
-      route: 'users-usuarios-bbdd'
-    },
-    
+  {
+    header: 'Users',
+  },
+  {
+    title: 'Usuarios',
+    icon: 'UserIcon',
+    route: 'users-usuarios-bbdd',
+  },
+
 ]

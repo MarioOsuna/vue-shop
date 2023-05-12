@@ -38,7 +38,7 @@
                 label-for="name"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="username"
                   rules="required"
                 >
@@ -58,7 +58,7 @@
                 label-for="email"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="email"
                   rules="required|email"
                 >
@@ -79,7 +79,7 @@
                 label-for="password"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Password"
                   vid="Password"
                   rules="required|password"
@@ -101,7 +101,7 @@
                 label-for="c-password"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Password Confirm"
                   rules="required|confirmed:Password"
                 >
@@ -145,7 +145,7 @@
                 label-for="first-name"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="First Name"
                   rules="required"
                 >
@@ -165,7 +165,7 @@
                 label-for="last-name"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Last Name"
                   rules="required"
                 >
@@ -181,7 +181,7 @@
             </b-col>
             <b-col md="6">
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Country"
                 rules="required"
               >
@@ -206,7 +206,7 @@
             </b-col>
             <b-col md="6">
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Language"
                 rules="required"
               >
@@ -258,7 +258,7 @@
                 label-for="address"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Address"
                   rules="required"
                 >
@@ -278,7 +278,7 @@
                 label-for="landmark"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Landmark"
                   rules="required"
                 >
@@ -298,7 +298,7 @@
                 label-for="pincode"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Pincode"
                   rules="required"
                 >
@@ -319,7 +319,7 @@
                 label-for="city"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="City"
                   rules="required"
                 >
@@ -362,7 +362,7 @@
                 label-for="twitter"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Twitter"
                   rules="required|url"
                 >
@@ -382,7 +382,7 @@
                 label-for="facebook"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Facebook"
                   rules="required|url"
                 >
@@ -402,7 +402,7 @@
                 label-for="google-plus"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Google+"
                   rules="required|url"
                 >
@@ -422,7 +422,7 @@
                 label-for="linked-in"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="LinkedIn"
                   rules="required|url"
                 >

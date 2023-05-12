@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 // Routes
 import { canNavigate } from '@/libs/acl/routeProtection'
@@ -14,14 +13,13 @@ import others from './routes/others'
 import shop from './routes/shop'
 import usuario from './routes/usuario'
 
-Vue.use(VueRouter)
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
   scrollBehavior() {
     return { x: 0, y: 0 }
   },
+
   routes: [
     { path: '/', redirect: { name: 'dashboard-ecommerce' } },
     ...apps,

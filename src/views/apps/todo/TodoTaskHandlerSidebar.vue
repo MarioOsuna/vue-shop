@@ -54,7 +54,7 @@
 
         <!-- Body -->
         <validation-observer
-          #default="{ handleSubmit }"
+          v-slot="{ handleSubmit }"
           ref="refFormObserver"
         >
 
@@ -67,7 +67,7 @@
 
             <!-- Title -->
             <validation-provider
-              #default="validationContext"
+              v-slot="validationContext"
               name="Title"
               rules="required"
             >
@@ -127,7 +127,7 @@
 
             <!-- due Date -->
             <validation-provider
-              #default="validationContext"
+              v-slot="validationContext"
               name="Due Date"
               rules="required"
             >
@@ -267,13 +267,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      required,
-      email,
-      url,
-    }
-  },
   setup(props, { emit }) {
     const {
       taskLocal,
@@ -319,6 +312,13 @@ export default {
 
       // Filter/Formatter
       avatarText,
+    }
+  },
+  data() {
+    return {
+      required,
+      email,
+      url,
     }
   },
 }

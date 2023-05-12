@@ -39,8 +39,7 @@
       }"
     >
       <template
-        slot="table-row"
-        slot-scope="props"
+        #table-row="props"
       >
 
         <!-- Column: Name -->
@@ -70,7 +69,7 @@
               toggle-class="text-decoration-none"
               no-caret
             >
-              <template v-slot:button-content>
+              <template #button-content>
                 <feather-icon
                   icon="MoreVerticalIcon"
                   size="16"
@@ -103,8 +102,7 @@
 
       <!-- pagination -->
       <template
-        slot="pagination-bottom"
-        slot-scope="props"
+        #pagination-bottom="props"
       >
         <div class="d-flex justify-content-between flex-wrap">
           <div class="d-flex align-items-center mb-0 mt-1">

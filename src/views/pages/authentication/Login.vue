@@ -71,7 +71,7 @@
           <!-- form -->
           <validation-observer
             ref="loginForm"
-            #default="{invalid}"
+            v-slot="{invalid}"
           >
             <b-form
               class="auth-login-form mt-2"
@@ -83,7 +83,7 @@
                 label-for="login-email"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Email"
                   vid="email"
                   rules="required|email"
@@ -108,7 +108,7 @@
                   </b-link>
                 </div>
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Password"
                   vid="password"
                   rules="required"

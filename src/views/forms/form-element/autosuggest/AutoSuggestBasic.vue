@@ -6,7 +6,7 @@
       :input-props="{id:'autosuggest__input',class:'form-control', placeholder:'Do you feel lucky?'}"
       @input="onInputChange"
     >
-      <template slot-scope="{suggestion}">
+      <template #default="{suggestion}">
         <span class="my-suggestion-item">{{ suggestion.item.name }}</span>
       </template>
     </vue-autosuggest>

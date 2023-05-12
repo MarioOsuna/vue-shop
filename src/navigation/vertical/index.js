@@ -41,4 +41,4 @@ import version from './version'
 import usuario from './usuario'
 
 // Array of sections
-export default [...dashboard, ...usuario, ...tienda,...appsAndPages, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others, ...version]
+export default [...dashboard, ...usuario, ...tienda, ...appsAndPages, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others, ...version]

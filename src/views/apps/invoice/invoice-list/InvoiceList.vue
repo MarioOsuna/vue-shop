@@ -64,14 +64,14 @@
 
     <b-table
       ref="refInvoiceListTable"
+      v-model:sort-by="sortBy"
+      v-model:sort-desc="isSortDirDesc"
       :items="fetchInvoices"
       responsive
       :fields="tableColumns"
       primary-key="id"
-      :sort-by.sync="sortBy"
       show-empty
       empty-text="No matching records found"
-      :sort-desc.sync="isSortDirDesc"
       class="position-relative"
     >
 

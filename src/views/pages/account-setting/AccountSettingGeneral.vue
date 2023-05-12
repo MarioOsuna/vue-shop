@@ -184,17 +184,6 @@ export default {
       default: () => {},
     },
   },
-  data() {
-    return {
-      optionsLocal: JSON.parse(JSON.stringify(this.generalData)),
-      profileFile: null,
-    }
-  },
-  methods: {
-    resetForm() {
-      this.optionsLocal = JSON.parse(JSON.stringify(this.generalData))
-    },
-  },
   setup() {
     const refInputEl = ref(null)
     const previewEl = ref(null)
@@ -206,6 +195,17 @@ export default {
       previewEl,
       inputImageRenderer,
     }
+  },
+  data() {
+    return {
+      optionsLocal: JSON.parse(JSON.stringify(this.generalData)),
+      profileFile: null,
+    }
+  },
+  methods: {
+    resetForm() {
+      this.optionsLocal = JSON.parse(JSON.stringify(this.generalData))
+    },
   },
 }
 </script>

@@ -29,7 +29,7 @@
 
       <!-- BODY -->
       <validation-observer
-        #default="{ handleSubmit }"
+        v-slot="{ handleSubmit }"
         ref="refFormObserver"
       >
         <!-- Form -->
@@ -41,7 +41,7 @@
 
           <!-- Full Name -->
           <validation-provider
-            #default="validationContext"
+            v-slot="validationContext"
             name="Full Name"
             rules="required"
           >
@@ -66,7 +66,7 @@
 
           <!-- Username -->
           <validation-provider
-            #default="validationContext"
+            v-slot="validationContext"
             name="Username"
             rules="required|alpha-num"
           >
@@ -89,7 +89,7 @@
 
           <!-- Email -->
           <validation-provider
-            #default="validationContext"
+            v-slot="validationContext"
             name="Email"
             rules="required|email"
           >
@@ -112,7 +112,7 @@
 
           <!-- Company -->
           <validation-provider
-            #default="validationContext"
+            v-slot="validationContext"
             name="Contact"
             rules="required"
           >
@@ -135,7 +135,7 @@
 
           <!-- Company -->
           <validation-provider
-            #default="validationContext"
+            v-slot="validationContext"
             name="Company"
             rules="required"
           >
@@ -158,7 +158,7 @@
 
           <!-- Country -->
           <validation-provider
-            #default="validationContext"
+            v-slot="validationContext"
             name="Country"
             rules="required"
           >
@@ -182,7 +182,7 @@
 
           <!-- User Role -->
           <validation-provider
-            #default="validationContext"
+            v-slot="validationContext"
             name="User Role"
             rules="required"
           >
@@ -207,7 +207,7 @@
 
           <!-- Plan -->
           <validation-provider
-            #default="validationContext"
+            v-slot="validationContext"
             name="Plan"
             rules="required"
           >
@@ -304,14 +304,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      required,
-      alphaNum,
-      email,
-      countries,
-    }
-  },
   setup(props, { emit }) {
     const blankUserData = {
       fullName: '',
@@ -350,6 +342,14 @@ export default {
       refFormObserver,
       getValidationState,
       resetForm,
+    }
+  },
+  data() {
+    return {
+      required,
+      alphaNum,
+      email,
+      countries,
     }
   },
 }

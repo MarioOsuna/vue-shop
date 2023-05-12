@@ -55,7 +55,7 @@
       </b-button>
 
       <b-popover
-        :show.sync="show"
+        v-model:show="show"
         target="popover-button-3"
         placement="top"
         triggers="click"
@@ -84,7 +84,7 @@
 
       <b-popover
         ref="popover"
-        :disabled.sync="disabled"
+        v-model:disabled="disabled"
         target="popover-button-disable"
       >
         <template #title>

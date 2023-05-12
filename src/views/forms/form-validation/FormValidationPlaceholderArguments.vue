@@ -14,7 +14,7 @@
               label-for="a-password"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Password"
                 vid="Password"
                 rules="required|min:8|password"
@@ -38,7 +38,7 @@
               label-for="ac-password"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Confirm Password"
                 rules="required|confirmed:Password"
               >

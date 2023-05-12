@@ -46,7 +46,7 @@
         Toggle Tooltip
       </b-button>
       <b-tooltip
-        :show.sync="show"
+        v-model:show="show"
         target="tooltip-button-3"
         placement="top"
         triggers="click"
@@ -71,7 +71,7 @@
       </b-button>
       <b-tooltip
         ref="tooltip"
-        :disabled.sync="disabled"
+        v-model:disabled="disabled"
         target="tooltip-button-disable"
       >
         <span>Hello </span><strong>World!</strong>

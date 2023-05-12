@@ -160,7 +160,7 @@ export default {
   created() {
     window.addEventListener('resize', this.initTrHeight)
   },
-  destroyed() {
+  unmounted() {
     window.removeEventListener('resize', this.initTrHeight)
   },
   methods: {

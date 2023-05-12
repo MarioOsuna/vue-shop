@@ -191,6 +191,18 @@ export default {
   directives: {
     Ripple,
   },
+  setup() {
+    const refInputEl = ref(null)
+    const refPreviewEl = ref(null)
+
+    const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => { refPreviewEl.value.src = base64 })
+
+    return {
+      refInputEl,
+      refPreviewEl,
+      inputImageRenderer,
+    }
+  },
   data() {
     return {
       blogEdit: {},
@@ -204,18 +216,6 @@ export default {
   },
   created() {
     this.$http.get('/blog/list/data/edit').then(res => { this.blogEdit = res.data })
-  },
-  setup() {
-    const refInputEl = ref(null)
-    const refPreviewEl = ref(null)
-
-    const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => { refPreviewEl.value.src = base64 })
-
-    return {
-      refInputEl,
-      refPreviewEl,
-      inputImageRenderer,
-    }
   },
 }
 </script>

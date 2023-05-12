@@ -32,7 +32,7 @@
               label-for="forgot-password-email"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Email"
                 rules="required|email"
               >

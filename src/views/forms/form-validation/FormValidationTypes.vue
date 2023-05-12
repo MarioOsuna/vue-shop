@@ -9,7 +9,7 @@
             <b-form-group>
               <label>This field is required</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required"
                 name="First Name"
               >
@@ -28,7 +28,7 @@
             <b-form-group>
               <label>Enter Number between 10 & 20</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|between:10,20"
                 name="Number between"
               >
@@ -47,7 +47,7 @@
             <b-form-group>
               <label>Must only consist of numbers</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|integer"
                 name="Number"
               >
@@ -66,7 +66,7 @@
             <b-form-group>
               <label>Must match the specified regular expression : ^([0-9]+)$ - numbers only</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|regex:^([0-9]+)$"
                 name="Regex"
               >
@@ -85,7 +85,7 @@
             <b-form-group>
               <label>Only alphabetic characters</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|alpha"
                 name="Alpha"
               >
@@ -104,7 +104,7 @@
             <b-form-group>
               <label>Length should not be less than the specified length : 3</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|min:3"
                 name="Min Character"
               >
@@ -123,7 +123,7 @@
             <b-form-group>
               <label>Password Input Field</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|password"
                 name="password"
                 vid="password"
@@ -144,7 +144,7 @@
             <b-form-group>
               <label>The digits field must be numeric and exactly contain 3 digits</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|digits:3"
                 name="Numeric"
               >
@@ -163,7 +163,7 @@
             <b-form-group>
               <label>Repeat password must match</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|confirmed:password"
                 name="Confirm Password"
               >
@@ -183,7 +183,7 @@
             <b-form-group>
               <label>Only alphabetic characters, numbers, dashes or underscores</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 rules="required|alpha-dash"
                 name="All Character"
               >
@@ -202,7 +202,7 @@
             <b-form-group>
               <label>Must be a valid email</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Email"
                 rules="required|email"
               >
@@ -221,7 +221,7 @@
             <b-form-group>
               <label>Must be a valid url</label>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="URL"
                 rules="required|url"
               >

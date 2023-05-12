@@ -14,7 +14,7 @@
               label-for="username"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Username"
                 rules="required"
               >
@@ -36,7 +36,7 @@
               label-for="password"
             >
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Password"
                 rules="required"
               >

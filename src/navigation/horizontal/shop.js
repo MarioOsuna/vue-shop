@@ -9,8 +9,8 @@ export default [
       },
       {
         title: 'Categorias',
-        route: 'tienda-categorias'
-      }
-    ]
-  }
+        route: 'tienda-categorias',
+      },
+    ],
+  },
 ]

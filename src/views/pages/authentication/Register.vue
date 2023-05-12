@@ -48,7 +48,7 @@
           <!-- form -->
           <validation-observer
             ref="registerForm"
-            #default="{invalid}"
+            v-slot="{invalid}"
           >
             <b-form
               class="auth-register-form mt-2"
@@ -60,7 +60,7 @@
                 label-for="register-username"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Username"
                   vid="username"
                   rules="required"
@@ -82,7 +82,7 @@
                 label-for="register-email"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Email"
                   vid="email"
                   rules="required|email"
@@ -104,7 +104,7 @@
                 label="Password"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Password"
                   vid="password"
                   rules="required"

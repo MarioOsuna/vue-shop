@@ -59,7 +59,7 @@
                 label-for="login-email"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Email"
                   rules="required|email"
                 >
@@ -83,7 +83,7 @@
                   </b-link>
                 </div>
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Password"
                   rules="required"
                 >

@@ -18,7 +18,7 @@
     <!-- checkbox -->
     <b-form-checkbox
       v-model="checked"
-      :indeterminate.sync="indeterminate"
+      v-model:indeterminate="indeterminate"
     >
       Click me to see what happens
     </b-form-checkbox>

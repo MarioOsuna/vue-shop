@@ -89,7 +89,7 @@ export default {
       codeBusyState,
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.clearTimeout()
   },
   methods: {

@@ -39,7 +39,7 @@ export default {
   created() {
     this.$store.commit('appConfig/UPDATE_NAV_MENU_HIDDEN', true)
   },
-  destroyed() {
+  unmounted() {
     this.$store.commit('appConfig/UPDATE_NAV_MENU_HIDDEN', this.menuHidden)
   },
 }

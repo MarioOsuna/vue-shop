@@ -10,7 +10,7 @@
           <b-col md="6">
             <b-form-group>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Name"
                 rules="required"
               >
@@ -26,7 +26,7 @@
           <b-col md="6">
             <b-form-group>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Email"
                 rules="required|email"
               >
@@ -43,7 +43,7 @@
           <b-col md="6">
             <b-form-group>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Password"
                 vid="Password"
                 rules="required|password"
@@ -61,7 +61,7 @@
           <b-col md="6">
             <b-form-group>
               <validation-provider
-                #default="{ errors }"
+                v-slot="{ errors }"
                 name="Password Confirm"
                 rules="required|confirmed:Password"
               >

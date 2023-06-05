@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-button  :to="{ name: 'users-usuarios-bbdd'}" v-ripple.400="'rgba(113, 102, 240, 0.15)'"  v-b-toggle.sidebar-right variant="primary" class="btn-icon" style="float: right; position: static;">
+    <b-button :to="{ name: 'users-usuarios-bbdd'}" v-ripple.400="'rgba(113, 102, 240, 0.15)'"  variant="primary" class="btn-icon" style="float: right; position: static;">
         Volver
     </b-button>
     <div>
@@ -66,6 +66,7 @@
 <script>
 import Ripple from 'vue-ripple-directive'
 import {
+
     BButton,
     BMedia,
     BAvatar,
@@ -138,13 +139,15 @@ export default {
 
     },
     created() {
-        axios.get('http://localhost/users.php/?id_usuario=' + this.$route.params.id)
+        /*axios.get('http://localhost/vue_proyect.php/?id_usuario=' + this.$route.params.id)
             .then((resp) => {
                 this.users = resp.data[0]
                 console.log("La Consulta")
                 console.log(resp)
 
             })
+            */
+        this.getData()
     },
     methods: {
         actualizarRegistro() {
@@ -160,7 +163,7 @@ export default {
                 numero: this.users.numero,
                 codigo_postal: this.users.codigo_postal
             }
-            fetch('http://localhost/users.php/?actualizar=' + this.$route.params.id, {
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/?actualizar=' + this.$route.params.id, {
                     method: "POST",
                     body: JSON.stringify(datossEnviar)
                 })
@@ -170,6 +173,13 @@ export default {
                     console.log(resp)
                 })
 
+        },
+        getData() {
+            fetch('https://vueproyect.000webhostapp.com/vue_project.php/?id_usuario=' + this.$route.params.id)
+                .then(response => response.json())
+                .then(responseData => {
+                    this.users = responseData[0]
+                })
         },
         completado() {
             this.$swal({

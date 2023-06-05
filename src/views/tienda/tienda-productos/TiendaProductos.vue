@@ -145,7 +145,6 @@ export default {
                     this.products = json
                     this.show = false;
                 });
-
         },
         crearProducto() {
             var datosEnviar = {

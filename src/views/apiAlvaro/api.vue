@@ -40,7 +40,9 @@ export default {
     data: () => ({
         user: null,
         id: '',
-        array: []
+        array: [],
+        arrayHijas: [],
+        arrayFinal: []
     }),
     components: {
         BCard,
@@ -164,8 +166,8 @@ export default {
                     if (!childC) {
                         this.array.push(parent.node);
                     } else {
+                        console.log(parent.node)
                         for (let i = 0; i < this.array.length; i++) {
-                            console.log(parent.node)
                             for (let x = 0; x < this.array[i].childCategories.edges.length; x++) {
                                 console.log(this.array[i].childCategories.edges[x].node.id + " - " + parent.node.id)
                                 if (this.array[i].childCategories.edges[x].node.id == parent.node.id) {
@@ -180,25 +182,23 @@ export default {
                                 this.getData(child.node.id, childC = true);
                             })
                         }
-                    } else {
-
                     }
                 });
                 console.log(this.array);
-                /*const jsonData = JSON.stringify(array);
-                const blob = new Blob([jsonData], {
-                    type: 'application/json'
-                });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'datos.json';
-                link.click();
-                URL.revokeObjectURL(url);*/
+
             }).catch(err => {
                 console.log(err)
             })
-
+            /*const jsonData = JSON.stringify(this.array);
+            const blob = new Blob([jsonData], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'datos.json';
+            link.click();
+            URL.revokeObjectURL(url);*/
         },
         login() {
             useGraphJwt.login("", "").then(response => {

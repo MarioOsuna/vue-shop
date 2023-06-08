@@ -40,6 +40,8 @@ import tienda from './shop'
 import version from './version'
 import usuario from './usuario'
 import interactvty from './interactvty'
-
+import apiAlvaro from './apiAlvaro'
 // Array of sections
-export default [...dashboard, ...interactvty, ...usuario, ...tienda,...appsAndPages, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others, ...version]
+export default [...dashboard, ...interactvty, ...usuario, ...tienda, ...apiAlvaro, ...appsAndPages, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others, ...version]
+
+

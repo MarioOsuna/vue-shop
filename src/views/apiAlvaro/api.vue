@@ -188,6 +188,9 @@ export default {
                     console.log(err);
                 });
         },
+        getContent(id){
+
+        },
         login() {
             useGraphJwt
                 .login("", "")

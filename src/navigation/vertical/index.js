@@ -39,6 +39,7 @@ import formAndTable from './forms-and-table'
 import tienda from './shop'
 import version from './version'
 import usuario from './usuario'
+import apiAlvaro from './apiAlvaro'
 
 // Array of sections
-export default [...dashboard, ...usuario, ...tienda,...appsAndPages, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others, ...version]
+export default [...dashboard, ...usuario, ...tienda, ...apiAlvaro, ...appsAndPages, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others, ...version]

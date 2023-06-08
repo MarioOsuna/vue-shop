@@ -18,7 +18,7 @@
                 <b-form-input id="categoria" placeholder="ID CATEGORIA" v-model="id" />
             </b-form-group>
         </b-card>
-        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" @click="getData(id)">
+        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" @click="getCategory(id)">
             Exportar JSON
         </b-button>
     </b-overlay>
@@ -61,88 +61,7 @@ export default {
         this.login();
     },
     methods: {
-        /*getData() {
-                axios.post("", {
-                    query: `{
-                        allCategories(id: "${this.id}") {
-                            edges {
-                                node {
-                                    id
-                                    name
-                                    isFinal
-                                    type
-                                    quality
-                                    hasSubtitle
-                                    modeGrid
-                                    description
-                                    shortDescription
-                                    friendlyUrl
-                                    seoTitle
-                                    seoDescription
-                                    image
-                                    imageMobile
-                                    background
-                                    backgroundMobile
-                                    backgroundRoot
-                                    backgroundRootMobile
-                                    alternativeImage
-                                    titleImage
-                                    mediaLocation
-                                    imageUrl
-                                    imageMobileUrl
-                                    backgroundUrl
-                                    backgroundMobileUrl
-                                    backgroundRootUrl
-                                    backgroundRootMobileUrl
-                                    alternativeImageUrl
-                                    titleImageUrl
-                                    trailerUrl
-                                    isPremium
-                                    isContentFree
-                                    trailer
-                                    staticUrl
-                                    isBackgroundBlur
-                                    isBackgroundKenBurns
-                                    isTitle
-                                    contentDesign
-                                    templateCategory
-                                    order
-                                    orderType
-                                    startSecondChapter
-                                    finishSecondChapter
-                                    reference
-                                    technicalDetails
-                                    isActive
-                                    lft
-                                    rght
-                                    treeId
-                                    level
-                                }
-                            }
-                        }
-                    }`
-                }).then(result => {
-                    console.log(result.data.data.allCategories.edges)
-                    let array = [];
-                    result.data.data.allCategories.edges.forEach(element => {
-                        array.push(element.node);
-                    });
-                    const jsonData = JSON.stringify(array);
-                    const blob = new Blob([jsonData], {
-                        type: 'application/json'
-                    });
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'datos.json';
-                    link.click();
-                    URL.revokeObjectURL(url);
-                }).catch(err => {
-                    console.log(err)
-                })
-
-            }*/
-        getData(id) {
+        getCategory(id) {
             this.executionCount = this.executionCount || 0;
             this.executionCount++;
             axios.post("", {
@@ -220,42 +139,37 @@ export default {
                         if (parent.node.isFinal == false) {
                             if (parent.node.childCategories.totalCount > 0) {
                                 parent.node.childCategories.edges.forEach((child) => {
-                                    this.getData(child.node.id);
+                                    this.getCategory(child.node.id);
                                 });
                             }
                         }
                     });
+
+                    // RECORRO HIJAS Y VOY ANIDANDO
                     for (let i = 1; i < this.array.length; i++) {
                         if (!this.array[i].isFinal) {
                             if (this.array[i].childCategories.totalCount > 0) {
-                                for (
-                                    let x = 0; x < this.array[i].childCategories.edges.length; x++
-                                ) {
+                                for (let x = 0; x < this.array[i].childCategories.edges.length; x++) {
                                     for (let k = 0; k < this.array.length; k++) {
-                                        if (
-                                            this.array[i].childCategories.edges[x].node.id ==
-                                            this.array[k].id
-                                        ) {
-                                            this.array[i].childCategories.edges[x].node =
-                                                this.array[k];
+                                        if (this.array[i].childCategories.edges[x].node.id == this.array[k].id) {
+                                            this.array[i].childCategories.edges[x].node = this.array[k];
                                         }
                                     }
                                 }
                             }
                         }
                     }
+
+                    // AÑADO HIJAS ANIDADAS DENTRO DE LA PADRE
                     for (let i = 0; i < this.array.length; i++) {
-                        for (
-                            let x = 0; x < this.array[0].childCategories.edges.length; x++
-                        ) {
-                            if (
-                                this.array[0].childCategories.edges[x].node.id ==
-                                this.array[i].id
-                            ) {
+                        for (let x = 0; x < this.array[0].childCategories.edges.length; x++) {
+                            if (this.array[0].childCategories.edges[x].node.id == this.array[i].id) {
                                 this.array[0].childCategories.edges[x].node = this.array[i];
                             }
                         }
                     }
+
+                    // CUANDO ACABE DE EJECUTAR, DESCARGO EL ARCHIVO .JSON
                     if (this.executionCount === this.array.length) {
                         this.arrayFinal[0] = this.array[0];
                         const jsonData = JSON.stringify(this.arrayFinal);

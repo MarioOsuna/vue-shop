@@ -1,49 +1,51 @@
 <template>
 <div>
-        <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="primary" style="float: right; position: static;" :to="{name: 'tienda-productos'}">
-            <feather-icon icon="ArrowLeftIcon" />
-        </b-button>
+    <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="primary" style="float: right; position: static;" :to="{name: 'tienda-productos'}">
+        <feather-icon icon="ArrowLeftIcon" />
+    </b-button>
     <div>
-        <b-card>
-            <b-form class="position-relative" @submit.prevent="onSubmit">
-                <b-row>
-                    <b-col>
-                        <b-form-group label="Referencia" label-for="referencia">
-                            <b-form-input id="referencia" placeholder="Referencia" v-model="products.referencia" disabled />
-                        </b-form-group>
-                    </b-col>
-                    <b-col>
-                        <b-form-group label="Nombre" label-for="nombre">
-                            <b-form-input id="nombre" placeholder="Nombre" v-model="products.nombre" disabled />
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <b-form-group label="Talla" label-for="talla">
-                            <b-form-input id="talla" placeholder="XS, S, M, L, XL, XXL" v-model="products.talla" disabled />
-                        </b-form-group>
-                    </b-col>
-                    <b-col>
-                        <b-form-group label="Precio" label-for="precio">
-                            <b-form-input id="precio" placeholder="Precio (0.00)" v-model="products.precio" />
-                        </b-form-group>
-                    </b-col>
-                    <b-col>
-                        <b-form-group label="Cantidad" label-for="cantidad">
-                            <b-form-input id="cantidad" placeholder="Cantidad" v-model="products.cantidad" />
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col>
-                        <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" ref="submit" type="submit" :disabled="busy">
-                            Actualizar Producto
-                        </b-button>
-                    </b-col>
-                </b-row>
-            </b-form>
-        </b-card>
+        <b-overlay :show="show" rounded="sm" variant="transparent">
+            <b-card>
+                <b-form class="position-relative" @submit.prevent="onSubmit">
+                    <b-row>
+                        <b-col>
+                            <b-form-group label="Referencia" label-for="referencia">
+                                <b-form-input id="referencia" placeholder="Referencia" v-model="product.referencia" disabled />
+                            </b-form-group>
+                        </b-col>
+                        <b-col>
+                            <b-form-group label="Nombre" label-for="nombre">
+                                <b-form-input id="nombre" placeholder="Nombre" v-model="product.nombre" disabled />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <b-form-group label="Talla" label-for="talla">
+                                <b-form-input id="talla" placeholder="XS, S, M, L, XL, XXL" v-model="product.talla" disabled />
+                            </b-form-group>
+                        </b-col>
+                        <b-col>
+                            <b-form-group label="Precio" label-for="precio">
+                                <b-form-input id="precio" placeholder="Precio (0.00)" v-model="product.precio" />
+                            </b-form-group>
+                        </b-col>
+                        <b-col>
+                            <b-form-group label="Cantidad" label-for="cantidad">
+                                <b-form-input id="cantidad" placeholder="Cantidad" v-model="product.cantidad" />
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col>
+                            <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" ref="submit" type="submit" :disabled="busy">
+                                Actualizar Producto
+                            </b-button>
+                        </b-col>
+                    </b-row>
+                </b-form>
+            </b-card>
+        </b-overlay>
     </div>
     <b-overlay :show="busy" no-wrap @shown="onShown" @hidden="onHidden">
         <template v-slot:overlay>
@@ -89,11 +91,12 @@ import {
 } from 'bootstrap-vue'
 export default {
     data: () => ({
-        products: [],
         busy: false,
         processing: false,
         counter: 1,
         interval: null,
+        product: [],
+        show: false
     }),
     beforeDestroy() {
         this.clearInterval()
@@ -115,41 +118,32 @@ export default {
         BInputGroupPrepend
     },
     created() {
-        axios.get('http://localhost/shop.php/?referencia=' + this.$route.params.referencia)
-            .then((resp) => {
-                this.products = resp.data[0]
-                console.log(this.products)
-            })
+        this.getData();
     },
     methods: {
+        getData() {
+            this.show = true;
+            fetch('https://vuealvaro.000webhostapp.com/shop.php/?referencia=' + this.$route.params.referencia)
+                .then(res => res.json())
+                .then(json => {
+                    this.product = json[0]
+                    this.show = false
+                })
+        },
         editarProducto() {
             var datosEnviar = {
                 referencia: this.$route.params.referencia,
-                precio: this.products.precio,
-                cantidad: this.products.cantidad
+                precio: this.product.precio,
+                cantidad: this.product.cantidad
             }
 
-            const axios = require('axios');
-            let data = JSON.stringify(datosEnviar);
-
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: 'http://localhost/shop.php/?actualizar=' + this.$route.params.referencia,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
-
-            axios.request(config)
-                .then((response) => {
-                    console.log(JSON.stringify(response.data));
+            fetch("https://vuealvaro.000webhostapp.com/shop.php/?actualizar='" + this.$route.params.referencia + "'", {
+                    method: "POST",
+                    body: JSON.stringify(datosEnviar)
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
-            this.makeToast();
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
         },
         makeToast() {
             this.$bvToast.toast('El producto se ha actualizado correctamente', {

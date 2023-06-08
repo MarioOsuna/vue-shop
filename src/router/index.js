@@ -13,6 +13,7 @@ import formsTable from './routes/forms-tables'
 import others from './routes/others'
 import shop from './routes/shop'
 import usuario from './routes/usuario'
+import interactvty from './routes/interactvty'
 import apiAlvaro from './routes/apiAlvaro'
 
 Vue.use(VueRouter)
@@ -27,6 +28,7 @@ const router = new VueRouter({
     { path: '/', redirect: { name: 'dashboard-ecommerce' } },
     ...apps,
     ...dashboard,
+    ...interactvty,
     ...usuario,
     ...shop,
     ...apiAlvaro,

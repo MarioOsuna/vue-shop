@@ -83,7 +83,7 @@ export default class JwtService {
         return this.axiosIns.post('', {
             query: `
         mutation{
-          tokenAuth(username: "alvaro", password: "Rotary123*") {
+          tokenAuth(username: "adrian", password: "Rotary123*") {
             token
             payload
             refreshExpiresIn

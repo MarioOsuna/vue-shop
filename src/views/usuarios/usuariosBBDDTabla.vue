@@ -126,7 +126,6 @@ export default {
         BOverlay,
         BAvatar,
     },
-
     props: {
         user: {
             type: Array,

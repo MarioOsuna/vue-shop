@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 // axios
 import axios from 'axios'
-import JwtService from '@/auth/jwt/graphJwtService'
 
 import jwtService from '@/auth/jwt/graphJwtService'
 

@@ -4,8 +4,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import jwtService from '@/auth/jwt/graphJwtService'
 
-import jwtService from '@/auth/jwt/graphJwtService'
-
 const axiosIns = axios.create({
 
   baseURL: 'https://develop.interactvty.com/graphql/',

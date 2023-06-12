@@ -45,7 +45,8 @@ export default {
         id: "",
         array: [],
         arrayFinal: [],
-        show: false,
+        arrayContenidos: [],
+        show: false
     }),
     components: {
         BCard,
@@ -119,6 +120,24 @@ export default {
                                 rght
                                 treeId
                                 level
+                                categoryContent {
+                                    totalCount
+                                    edges {
+                                        node {
+                                            id
+                                            name
+                                            description
+                                        }
+                                    }
+                                }
+                                categoryContentOrder {
+                                    totalCount
+                                    edges{
+                                        node {
+                                            id
+                                        }
+                                    }
+                                }
                                 childCategories {
                                     totalCount
                                     edges {
@@ -143,10 +162,30 @@ export default {
                                 });
                             }
                         }
+                        if (parent.node.isFinal) {
+                            if (parent.node.categoryContent.totalCount > 0) {
+                                if (parent.node.categoryContent.totalCount == parent.node.categoryContentOrder.totalCount) {
+                                    this.getContent(parent.node.id, true)
+                                } else {
+                                    this.getContent(parent.node.id, false)
+                                }
+                            }
+                        }
                     });
 
                     // RECORRO HIJAS Y VOY ANIDANDO
-                    for (let i = 1; i < this.array.length; i++) {
+                    for (let i = 0; i < this.array.length; i++) {
+                        if (this.array[i].isFinal) {
+                            if (this.array[i].categoryContent.totalCount > 0) {
+                                for (let x = 0; x < this.array[i].categoryContent.edges.length; x++) {
+                                    for (let k = 0; k < this.arrayContenidos.length; k++) {
+                                        if (this.array[i].categoryContent.edges[x].node.id == this.arrayContenidos[k].id) {
+                                            this.array[i].categoryContent.edges[x].node = this.arrayContenidos[k]
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         if (!this.array[i].isFinal) {
                             if (this.array[i].childCategories.totalCount > 0) {
                                 for (let x = 0; x < this.array[i].childCategories.edges.length; x++) {
@@ -172,6 +211,10 @@ export default {
                     // CUANDO ACABE DE EJECUTAR, DESCARGO EL ARCHIVO .JSON
                     if (this.executionCount === this.array.length) {
                         this.arrayFinal[0] = this.array[0];
+
+                        console.log(this.arrayContenidos)
+                        console.log(this.arrayFinal)
+
                         const jsonData = JSON.stringify(this.arrayFinal);
                         const blob = new Blob([jsonData], {
                             type: "application/json",
@@ -188,7 +231,573 @@ export default {
                     console.log(err);
                 });
         },
-        getContent(id){
+        getContent(id, a = false) {
+            let consulta = `{
+                    allCategories(id:"${id}"){
+                        edges {
+                            node {
+                                id
+                                name
+                                isFinal`
+                                ;
+            if (a) {
+                consulta += `categoryContent {
+                                    totalCount
+                                        edges {
+                                            node {
+                                            id
+                                            name
+                                            order
+                                            isActive
+                                            description
+                                            shortDescription
+                                            image
+                                            duration
+                                            maxViews
+                                            alternativeImage
+                                            imageMobile
+                                            background
+                                            backgroundMobile
+                                            titleImage
+                                            mediaLocation
+                                            imageUrl
+                                            alternativeImageUrl
+                                            imageMobileUrl
+                                            backgroundUrl
+                                            backgroundMobileUrl
+                                            titleImageUrl
+                                            trailerUrl
+                                            quality
+                                            hasSubtitle
+                                            state
+                                            comment
+                                            isPremium
+                                            duration
+                                            type
+                                            resources {
+                                                edges {
+                                                    node {
+                                                    id
+                                                    name
+                                                    description
+                                                    type
+                                                    videotype
+                                                    file {
+                                                        id
+                                                        name
+                                                        type
+                                                        media
+                                                        staticUrl
+                                                        createdAt
+                                                        modifiedAt
+                                                        isActive
+                                                        mediaDuration
+                                                        fileUrl
+                                                    }
+                                                    directUrl
+                                                    inputStream
+                                                    passwordStream
+                                                    userStream
+                                                    product {
+                                                        id
+                                                        name
+                                                        description
+                                                        image
+                                                        imageMobile
+                                                        background
+                                                        trailer
+                                                        mediaLocation
+                                                        imageUrl
+                                                        imageMobileUrl
+                                                        backgroundUrl
+                                                        trailerUrl
+                                                        tags {
+                                                            edges {
+                                                                node {
+                                                                    id
+                                                                }
+                                                            }
+                                                        }
+                                                        categories {
+                                                            edges {
+                                                                node {
+                                                                    id
+                                                                }
+                                                            }
+                                                        }
+                                                        price
+                                                        priceOld
+                                                        stock
+                                                        weight
+                                                        high
+                                                        width
+                                                        long
+                                                        tax
+                                                        reference
+                                                        state
+                                                        comment
+                                                        order
+                                                        createdAt
+                                                        modifiedAt
+                                                        vendor {
+                                                            id
+                                                        }
+                                                        isSpecial
+                                                        isBackgroundBlur
+                                                        isBackgroundKenBurns
+                                                        isDelete
+                                                        isActive
+                                                        friendlyUrl
+                                                        seoTitle
+                                                        seoDescription
+                                                        productResource {
+                                                            edges {
+                                                                node {
+                                                                    id
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    test {
+                                                        id
+                                                        name
+                                                        correct
+                                                        intro
+                                                        failFeedback
+                                                        successFeedback
+                                                        image
+                                                        background
+                                                        isActive
+                                                        testAnswer {
+                                                            id
+                                                            response
+                                                            order
+                                                        }
+                                                        testUseranswer {
+                                                            edges {
+                                                                node {
+                                                                    id
+                                                                    test {
+                                                                        id
+                                                                        name
+                                                                        correct
+                                                                        intro
+                                                                        image
+                                                                        imageUrl
+                                                                        background
+                                                                    }
+                                                                    answer {
+                                                                        id
+                                                                        response
+                                                                    }
+                                                                    result
+                                                                }
+                                                            }
+                                                        }
+                                                        testResource {
+                                                            edges {
+                                                                node {
+                                                                    id
+                                                                    name
+                                                                    description
+                                                                    type
+                                                                    videotype
+                                                                    isActive
+                                                                }
+                                                            }
+                                                        }
+                                                        imageUrl
+                                                        backgroundUrl
+                                                    }   
+                                                    plain {
+                                                        id
+                                                        name
+                                                        title
+                                                        text
+                                                        image
+                                                        isActive
+                                                        plainResource {
+                                                            edges {
+                                                                node {
+                                                                    id
+                                                                }
+                                                            }
+                                                        }
+                                                        imageUrl
+                                                    }
+                                                    remoteProductId
+                                                    urlApp
+                                                    urlAppAndroidTv                                                        
+                                                    urlAppIos
+                                                    urlAppIosTv
+                                                    urlAppWeb
+                                                    urlAppSamsung
+                                                    urlAppLg
+                                                    deviceApp
+                                                    isActive
+                                                    resourceInteractivity {
+                                                        edges {
+                                                            node {
+                                                                id
+                                                                name
+                                                                description
+                                                                connect                                                                    
+                                                                timeType
+                                                                second
+                                                                date
+                                                                hour
+                                                                fileReco
+                                                                typeReco
+                                                                urlReco
+                                                                messageReco
+                                                                idReco
+                                                                urlPush
+                                                                typePush
+                                                                isAuto
+                                                                messagePush
+                                                                subjectMail
+                                                                bodyMail
+                                                                fileMail
+                                                                content {                                                                        
+                                                                    id
+                                                                }
+                                                                secondFile
+                                                                resourceStart {
+                                                                    id
+                                                                }
+                                                                resourceEnd {
+                                                                    id
+                                                                }
+                                                                image
+                                                                time
+                                                                isVisible
+                                                                isActive
+                                                                interactivityIdStatistics {
+                                                                    edges {
+                                                                        node {
+                                                                            id
+                                                                        }                                                                        
+                                                                    }
+                                                                }
+                                                                interactivityAd {
+                                                                    edges {
+                                                                        node {
+                                                                            id
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }`
+            } else {
+                consulta += `categoryContentOrder(orderBy: "order") {
+                                edges {
+                                    node {
+                                        id
+                                        content {
+                                            id
+                                            order
+                                            name
+                                            isActive
+                                            description
+                                            shortDescription
+                                            image
+                                            duration
+                                            maxViews
+                                            alternativeImage
+                                            imageMobile
+                                            background
+                                            backgroundMobile
+                                            titleImage
+                                            mediaLocation
+                                            imageUrl
+                                            alternativeImageUrl
+                                            imageMobileUrl
+                                            backgroundUrl
+                                            backgroundMobileUrl
+                                            titleImageUrl
+                                            trailerUrl
+                                            quality
+                                            hasSubtitle
+                                            state
+                                            comment
+                                            isPremium
+                                            duration
+                                            type
+                                            resources {
+                                                edges {
+                                                    node {
+                                                    id
+                                                    name
+                                                    description
+                                                    type
+                                                    videotype
+                                                    file {
+                                                        id
+                                                        name
+                                                        type
+                                                        media
+                                                        staticUrl
+                                                        createdAt
+                                                        modifiedAt
+                                                        isActive
+                                                        mediaDuration
+                                                        fileUrl
+                                                    }
+                                                        directUrl
+                                                        inputStream
+                                                        passwordStream
+                                                        userStream
+                                                        product {
+                                                            id
+                                                            name
+                                                            description
+                                                            image
+                                                            imageMobile
+                                                            background
+                                                            trailer
+                                                            mediaLocation
+                                                            imageUrl
+                                                            imageMobileUrl
+                                                            backgroundUrl
+                                                            trailerUrl
+                                                            tags {
+                                                                edges {
+                                                                    node {
+                                                                        id
+                                                                    }
+                                                                }
+                                                            }
+                                                            categories {
+                                                                edges {
+                                                                    node {
+                                                                        id
+                                                                    }
+                                                                }
+                                                            }
+                                                            price
+                                                            priceOld
+                                                            stock
+                                                            weight
+                                                            high
+                                                            width
+                                                            long
+                                                            tax
+                                                            reference
+                                                            state
+                                                            comment
+                                                            order
+                                                            createdAt
+                                                            modifiedAt
+                                                            vendor {
+                                                                id
+                                                            }
+                                                            isSpecial
+                                                            isBackgroundBlur
+                                                            isBackgroundKenBurns
+                                                            isDelete
+                                                            isActive
+                                                            friendlyUrl
+                                                            seoTitle
+                                                            seoDescription
+                                                            productResource {
+                                                                edges {
+                                                                    node {
+                                                                        id
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        test {
+                                                            id
+                                                            name
+                                                            correct
+                                                            intro
+                                                            failFeedback
+                                                            successFeedback
+                                                            image
+                                                            background
+                                                            isActive
+                                                            testAnswer {
+                                                                id
+                                                                response
+                                                                order
+                                                            }
+                                                            testUseranswer {
+                                                                edges {
+                                                                    node {
+                                                                        id
+                                                                        test {
+                                                                            id
+                                                                            name
+                                                                            correct
+                                                                            intro
+                                                                            image
+                                                                            imageUrl
+                                                                            background
+                                                                        }
+                                                                        answer {
+                                                                            id
+                                                                            response
+                                                                        }
+                                                                        result
+                                                                    }
+                                                                }
+                                                            }
+                                                            testResource {
+                                                                edges {
+                                                                    node {
+                                                                        id
+                                                                        name
+                                                                        description
+                                                                        type
+                                                                        videotype
+                                                                        isActive
+                                                                    }
+                                                                }
+                                                            }
+                                                            imageUrl
+                                                            backgroundUrl
+                                                        }   
+                                                        plain {
+                                                            id
+                                                            name
+                                                            title
+                                                            text
+                                                            image
+                                                            isActive
+                                                            plainResource {
+                                                                edges {
+                                                                    node {
+                                                                        id
+                                                                    }
+                                                                }
+                                                            }
+                                                            imageUrl
+                                                        }
+                                                        remoteProductId
+                                                        urlApp
+                                                        urlAppAndroidTv
+                                                        urlAppIos
+                                                        urlAppIosTv
+                                                        urlAppWeb
+                                                        urlAppSamsung
+                                                        urlAppLg
+                                                        deviceApp
+                                                        isActive
+                                                        resourceInteractivity {
+                                                            edges {
+                                                                node {
+                                                                    id
+                                                                    name
+                                                                    description
+                                                                    connect
+                                                                    timeType
+                                                                    second
+                                                                    date
+                                                                    hour
+                                                                    fileReco
+                                                                    typeReco
+                                                                    urlReco
+                                                                    messageReco
+                                                                    idReco
+                                                                    urlPush
+                                                                    typePush
+                                                                    isAuto
+                                                                    messagePush
+                                                                    subjectMail
+                                                                    bodyMail
+                                                                    fileMail
+                                                                    content {
+                                                                        id
+                                                                    }
+                                                                    secondFile
+                                                                    resourceStart {
+                                                                        id
+                                                                    }
+                                                                    resourceEnd {
+                                                                        id
+                                                                    }
+                                                                    image
+                                                                    time
+                                                                    isVisible
+                                                                    isActive
+                                                                    interactivityIdStatistics {
+                                                                        edges {
+                                                                            node {
+                                                                                id
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    interactivityAd {
+                                                                        edges {
+                                                                            node {
+                                                                                id
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }`
+            }
+
+            axios.post("", {
+                query: consulta
+                
+            }).then((result) => {
+                result.data.data.allCategories.edges.forEach(categoria => {
+                    if (a) {
+                        categoria.node.categoryContentOrder.edges.forEach(contenido => {
+                            this.arrayContenidos.push(contenido.node)
+                        })
+                    } else {
+                        categoria.node.categoryContent.edges.forEach(contenido => {
+                            if (categoria.node.categoryContent.totalCount > 0) {
+                                this.arrayContenidos.push(contenido.node)
+                            }
+                        })
+                    }
+                })
+                
+                // RECORRO HIJAS Y VOY ANIDANDO
+                for (let i = 0; i < this.array.length; i++) {
+                    if (this.array[i].isFinal) {
+                        if (this.array[i].categoryContent.totalCount > 0) {
+                            for (let x = 0; x < this.array[i].categoryContent.edges.length; x++) {
+                                for (let k = 0; k < this.arrayContenidos.length; k++) {
+                                    if (this.array[i].categoryContent.edges[x].node.id == this.arrayContenidos[k].id) {
+                                        console.log("añadiendo")
+                                        this.array[i].categoryContent.edges[x].node = this.arrayContenidos[k]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
 
         },
         login() {

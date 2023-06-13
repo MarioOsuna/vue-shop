@@ -1,16 +1,30 @@
 export default [
     {
-      path: '/apiAlvaro/API',
-      name: 'api-alvaro',
-      component: () => import('@/views/apiAlvaro/api.vue'),
+      path: '/apiAlvaro/exportar',
+      name: 'exportarJSON',
+      component: () => import('@/views/apiAlvaro/export.vue'),
       meta: {
         pageTitle: 'API',
         breadcrumb: [
           {
-            text: 'API',
+            text: 'Exportar JSON',
             active: true
           }
         ]
       }
     },
+    {
+      path: '/apiAlvaro/importar',
+      name: 'importarJSON',
+      component: () => import('@/views/apiAlvaro/import.vue'),
+      meta: {
+        pageTitle: 'API',
+        breadcrumb: [
+          {
+            text: 'Importar JSON',
+            active: true
+          }
+        ]
+      }
+    }
 ]

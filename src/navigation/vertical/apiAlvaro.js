@@ -9,6 +9,7 @@ export default [
     },
     {
         title: 'Importar',
-        route: 'importarJSON'
+        route: 'importarJSON',
+        icon: 'ExternalLinkIcon'
     }
 ]

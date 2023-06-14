@@ -15,6 +15,7 @@ import shop from './routes/shop'
 import usuario from './routes/usuario'
 import interactvty from './routes/interactvty'
 import apiAlvaro from './routes/apiAlvaro'
+import apiAdrian from './routes/apiAdrian'
 
 Vue.use(VueRouter)
 
@@ -31,6 +32,7 @@ const router = new VueRouter({
     ...interactvty,
     ...usuario,
     ...shop,
+    ...apiAdrian,
     ...apiAlvaro,
     ...pages,
     ...chartsMaps,

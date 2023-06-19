@@ -42,7 +42,7 @@ import {
 export default {
     data: () => ({
         user: null,
-        id: "23696",
+        id: "",
         array: [],
         arrayFinal: [],
         arrayContenidos: [],
@@ -119,6 +119,9 @@ export default {
                                     reference
                                     technicalDetails
                                     isActive
+                                    parent{
+                                        id
+                                    }
                                     categoryContent {
                                         totalCount
                                         edges {

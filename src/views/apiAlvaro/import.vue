@@ -47,7 +47,8 @@ export default {
             tituloBtn: 'Importar JSON',
             datos: [],
             array: [],
-            idPadre: null
+            idContent: null,
+            idResource: null
         }
     },
     components: {
@@ -73,18 +74,20 @@ export default {
 
             reader.readAsText(this.file);
         },
-        comprobarCategoria(array, a = false) {
+        comprobarCategoria(array, a = false, padre) {
             if (a) {
-                this.crearCategoria(true, array, this.idPadre)
-                if (array.isFinal == false) {
-                    if (array.childCategories.totalCount > 0) {
-                        array.childCategories.edges.forEach((child) => {
-                            this.comprobarCategoria(child.node, false)
+                this.crearCategoria(true, array) // CREACIÓN PADRE
+                if (array.isFinal == false) { // SI TIENE HIJAS
+                    if (array.childCategories.totalCount > 0) { // SI TIENE HIJAS
+                        array.childCategories.edges.forEach((child) => { // RECORREMOS HIJAS Y SACAMOS INFO
+                            this.comprobarCategoria(child.node, false, array.id)
                         });
                     }
                 }
             } else {
-                this.crearCategoria(false, array, this.idPadre)
+                if (array.parent.id == padre) {
+                    console.log("PADRES IGUALES")
+                }
                 if (array.isFinal == false) {
                     if (array.childCategories.totalCount > 0) {
                         array.childCategories.edges.forEach((child) => {
@@ -94,7 +97,7 @@ export default {
                 }
             }
         },
-        crearCategoria(a = false, array) {
+        crearCategoria(a = false, array, padre) {
             let variables = {
                 client: "Q2xpZW50Tm9kZTpvUndtRUNLQ1hhQng0SjdB",
                 name: array.name,
@@ -142,7 +145,7 @@ export default {
                 reference: array.reference,
                 technicalDetails: array.technicalDetails,
                 isActive: array.isActive,
-                parent: this.idPadre
+                parent: padre
             }
 
             if (a) {
@@ -156,8 +159,12 @@ export default {
                             }`,
                     variables
                 }).then(result => {
-                    if (!variables.isFinal){
-                        this.idPadre = result.data.data.createCategory.category.id
+                    if (!array.isFinal) {
+                        if (array.childCategories.totalCount > 0) {
+                            array.childCategories.edges.forEach(child => {
+                                this.crearCategoria(false, child.node, result.data.data.createCategory.category.id)
+                            })
+                        }
                     }
                 }).catch(err => {
                     console.log(err);
@@ -173,14 +180,130 @@ export default {
                             }`,
                     variables
                 }).then(result => {
-                    console.log(variables.parent)
-                    if (!variables.isFinal){
-                        this.idPadre = result.data.data.createCategory.category.id
+                    if (!array.isFinal) {
+                        if (array.childCategories.totalCount > 0) {
+                            array.childCategories.edges.forEach(child => {
+                                this.crearCategoria(false, child.node, result.data.data.createCategory.category.id)
+                            })
+                        }
+                    } else {
+                        if (array.categoryContentOrder.totalCount > 0) {
+                            for (let i = 0; i < array.categoryContentOrder.edges.length; i++) {
+                                for (let x = 0; x < array.categoryContentOrder.edges[i].node.content.resources.edges.length; x++) {
+                                    this.creteContent(array.categoryContentOrder.edges[i].node.content, array.categoryContentOrder.edges[i].node.content.resources.edges[x].node, result.data.data.createCategory.category.id)
+                                }
+                            }
+                        } else {
+                            for (let i = 0; i < array.categoryContent.edges.length; i++) {
+                                for (let x = 0; x < array.categoryContent.edges[i].node.resources.edges.length; x++) {
+                                    this.creteContent(array.categoryContent.edges[i].node, array.categoryContent.edges[i].node.resources.edges.node, result.data.data.createCategory.category.id)
+                                }
+
+                            }
+                        }
                     }
                 }).catch(err => {
                     console.log(err);
                 })
+
             }
+        },
+        creteContent(arrayCont, arrayRes, categoria) {
+            console.log(arrayCont)
+            let variablesContent = {
+                client: "Q2xpZW50Tm9kZTpvUndtRUNLQ1hhQng0SjdB",
+                name: arrayCont.name,
+                isActive: arrayCont.isActive,
+                description: arrayCont.description,
+                shortDescription: arrayCont.shortDescription,
+                duration: arrayCont.duration,
+                maxViews: arrayCont.maxViews,
+                imageUrl: arrayCont.imageUrl,
+                alternativeImageUrl: arrayCont.alternativeImageUrl,
+                imageMobileUrl: arrayCont.imageMobileUrl,
+                backgroundUrl: arrayCont.backgroundUrl,
+                backgroundMobileUrl: arrayCont.backgroundMobileUrl,
+                titleImageUrl: arrayCont.titleImageUrl,
+                trailerUrl: arrayCont.trailerUrl,
+                quality: arrayCont.quality,
+                hasSubtitle: arrayCont.hasSubtitle,
+                state: arrayCont.state,
+                comment: arrayCont.comment,
+                isPremium: arrayCont.isPremium,
+                type: arrayCont.type,
+                friendlyUrl: arrayCont.friendlyUrl,
+                seoTitle: arrayCont.seoTitle,
+                seoDescription: arrayCont.seoDescription,
+                trailer: arrayCont.trailer,
+                staticUrl: arrayCont.staticUrl,
+                staticMediumUrl: arrayCont.staticMediumUrl,
+                staticTinyUrl: arrayCont.staticTinyUrl,
+                staticTrailerUrl: arrayCont.staticTrailerUrl,
+                hashtag: arrayCont.hashtag,
+                isBackgroundBlur: arrayCont.isBackgroundBlur,
+                isBackgroundKenBurns: arrayCont.isBackgroundKenBurns,
+                reference: arrayCont.reference,
+                unfitTv: arrayCont.unfitTv,
+                isDownload: arrayCont.isDownload,
+                nDisplay: arrayCont.nDisplay,
+                isAds: arrayCont.isAds,
+                optaId: arrayCont.optaId,
+                categories: categoria
+            }
+            axios.post("", {
+                query: `mutation ($name: String!, $client: ID, $categories: [ID]) {
+                            createContents(input: {name: $name, client: $client, categories: $categories }) {
+                                content {
+                                    id
+                                }
+                            }
+                        }`,
+                variablesContent
+            }).then(result => {
+                this.idContent = result.data.data.createContents.content.id
+            }).catch(err => {
+                console.log(err);
+            })
+
+            let variableResource = {
+                client: "Q2xpZW50Tm9kZTpvUndtRUNLQ1hhQng0SjdB",
+                name: arrayRes.name,
+                description: arrayRes.description,
+                type: arrayRes.type,
+            }
+            axios.post("", {
+                query: `mutation($client: ID!, $name: String!, $description: String, $type: ResourceTypeInput){
+                            createResource(input: {client: $client, name: $name, description: $description, type: $type}){
+                                resource {
+                                    id
+                                }
+                            }
+                        }`,
+                variableResource
+            }).then(result => {
+                this.idResource = result.data.data.createResource.resource.id
+            }).catch(err => {
+                console.log(err);
+            })
+
+            let variableContentResource = {
+                content: this.idContent,
+                resource: this.idResource
+            }
+            axios.post("", {
+                query: `mutation($content: ID, $resource: ID) {
+                            createContentsResource(input: {content: $content, resource: $resource}) {
+                                contentResource2 {
+                                    id
+                                }
+                            }
+                        }`,
+                variableContentResource
+            }).then(result => {
+                
+            }).catch(err => {
+                console.log(err);
+            })
         },
         login() {
             useGraphJwt

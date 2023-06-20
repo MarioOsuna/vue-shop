@@ -68,118 +68,31 @@ export default {
             reader.onload = (event) => {
                 this.jsonData = JSON.parse(event.target.result);
                 this.datos = this.jsonData.map(item => item)
-
-                console.log(this.datos)
-
-                this.getData(this.datos[0].id);
-                console.log(this.array)
+                this.comprobarCategoria(this.datos[0], true)
             };
-            reader.readAsText(this.file);
 
-            for (let i = 0; i < this.array.length; i++){
-                if (this.array[i].parent == null){
-                    this.crearCategoria(true, this.array[i]);
+            reader.readAsText(this.file);
+        },
+        comprobarCategoria(array, a = false) {
+            if (a) {
+                this.crearCategoria(true, array, this.idPadre)
+                if (array.isFinal == false) {
+                    if (array.childCategories.totalCount > 0) {
+                        array.childCategories.edges.forEach((child) => {
+                            this.comprobarCategoria(child.node, false)
+                        });
+                    }
+                }
+            } else {
+                this.crearCategoria(false, array, this.idPadre)
+                if (array.isFinal == false) {
+                    if (array.childCategories.totalCount > 0) {
+                        array.childCategories.edges.forEach((child) => {
+                            this.comprobarCategoria(child.node, false)
+                        });
+                    }
                 }
             }
-        },
-        getData(id){
-            axios
-                .post("", {
-                    query: `{
-                        allCategories(id: "${id}") {
-                            edges {
-                                node {
-                                    id
-                                    name
-                                    isFinal
-                                    type
-                                    quality
-                                    hasSubtitle
-                                    modeGrid
-                                    description
-                                    shortDescription
-                                    friendlyUrl
-                                    seoTitle
-                                    seoDescription
-                                    image
-                                    imageMobile
-                                    background
-                                    backgroundMobile
-                                    backgroundRoot
-                                    backgroundRootMobile
-                                    alternativeImage
-                                    titleImage
-                                    mediaLocation
-                                    imageUrl
-                                    imageMobileUrl
-                                    backgroundUrl
-                                    backgroundMobileUrl
-                                    backgroundRootUrl
-                                    backgroundRootMobileUrl
-                                    alternativeImageUrl
-                                    titleImageUrl
-                                    trailerUrl
-                                    isPremium
-                                    isContentFree
-                                    trailer
-                                    staticUrl
-                                    isBackgroundBlur
-                                    isBackgroundKenBurns
-                                    isTitle
-                                    contentDesign
-                                    templateCategory
-                                    order
-                                    orderType
-                                    startSecondChapter
-                                    finishSecondChapter
-                                    reference
-                                    technicalDetails
-                                    isActive
-                                    parent{
-                                        id
-                                    }
-                                    categoryContent {
-                                        totalCount
-                                        edges {
-                                            node {
-                                                id
-                                            }
-                                        }
-                                    }
-                                    categoryContentOrder {
-                                        totalCount
-                                        edges{
-                                            node {
-                                                id
-                                            }
-                                        }
-                                    }
-                                    childCategories {
-                                        totalCount
-                                        edges {
-                                            node {
-                                                id
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }`,
-                })
-                .then((result) => {
-                    result.data.data.allCategories.edges.forEach((parent) => {
-                        this.array.push(parent.node);
-
-                        if (parent.node.isFinal == false) {
-                            if (parent.node.childCategories.totalCount > 0) {
-                                parent.node.childCategories.edges.forEach((child) => {
-                                    this.getData(child.node.id);
-                                });
-                            }
-                        }
-                    })
-                });
         },
         crearCategoria(a = false, array) {
             let variables = {
@@ -236,29 +149,34 @@ export default {
                 axios.post("", {
                     query: `mutation($name: String!, $client: ID!, $isFinal: Boolean, $type: CategoryTypeInput, $quality: CategoryQualityInput, $hasSubtitle: Boolean, $modeGrid: Boolean, $description: String, $shortDescription: String, $friendlyUrl: String, $seoTitle: String, $seoDescription: String, $image: String, $imageMobile: Upload, $background: Upload, $backgroundMobile: Upload, $backgroundRoot: Upload, $backgroundRootMobile: Upload, $alternativeImage: Upload, $titleImage: Upload, $mediaLocation: CategoryMediaLocationInput, $imageUrl: String, $imageMobileUrl: String,  $backgroundUrl: String, $backgroundMobileUrl: String, $backgroundRootUrl: String, $backgroundRootMobileUrl: String, $alternativeImageUrl: String, $titleImageUrl: String, $trailerUrl: String, $isPremium: Boolean, $isContentFree: Boolean, $trailer: Upload, $staticUrl: String, $isBackgroundBlur: Boolean, $isBackgroundKenBurns: Boolean, $isTitle: Boolean, $contentDesign: CategoryContentDesignInput, $templateCategory: CategoryTemplateCategoryInput, $order: Int, $orderType: CategoryOrderTypeInput, $startSecondChapter: Int, $finishSecondChapter: Int, $reference: String, $technicalDetails: String, $isActive: Boolean){ 
                                 createCategory(input: {name: $name, client: $client, isFinal: $isFinal, type: $type, quality: $quality, hasSubtitle: $hasSubtitle, modeGrid: $modeGrid, description: $description, shortDescription: $shortDescription, friendlyUrl: $friendlyUrl, seoTitle: $seoTitle, seoDescription: $seoDescription, image: $image, imageMobile: $imageMobile, background: $background, backgroundMobile: $backgroundMobile, backgroundRoot: $backgroundRoot, backgroundRootMobile: $backgroundRootMobile, alternativeImage: $alternativeImage, titleImage: $titleImage, mediaLocation: $mediaLocation, imageUrl: $imageUrl, imageMobileUrl: $imageMobileUrl, backgroundUrl: $backgroundUrl, backgroundMobileUrl: $backgroundMobileUrl, backgroundRootUrl: $backgroundRootUrl, backgroundRootMobileUrl: $backgroundRootMobileUrl, alternativeImageUrl: $alternativeImageUrl, titleImageUrl: $titleImageUrl, trailerUrl: $trailerUrl, isPremium: $isPremium, isContentFree: $isContentFree, trailer: $trailer, staticUrl: $staticUrl, isBackgroundBlur: $isBackgroundBlur, isBackgroundKenBurns: $isBackgroundKenBurns, isTitle: $isTitle, contentDesign: $contentDesign, templateCategory: $templateCategory, order: $order, orderType: $orderType,  startSecondChapter: $startSecondChapter, finishSecondChapter: $finishSecondChapter, reference: $reference, technicalDetails: $technicalDetails, isActive: $isActive }){
-                                    category{
+                                    category {
                                         id
                                     }
                                 }
                             }`,
                     variables
                 }).then(result => {
-                    this.idPadre = result.data.data.createCategory.category.id
+                    if (!variables.isFinal){
+                        this.idPadre = result.data.data.createCategory.category.id
+                    }
                 }).catch(err => {
                     console.log(err);
                 })
             } else {
                 axios.post("", {
                     query: `mutation($name: String!, $client: ID!, $parent: ID, $isFinal: Boolean, $type: CategoryTypeInput, $quality: CategoryQualityInput, $hasSubtitle: Boolean, $modeGrid: Boolean, $description: String, $shortDescription: String, $friendlyUrl: String, $seoTitle: String, $seoDescription: String, $image: String, $imageMobile: Upload, $background: Upload, $backgroundMobile: Upload, $backgroundRoot: Upload, $backgroundRootMobile: Upload, $alternativeImage: Upload, $titleImage: Upload, $mediaLocation: CategoryMediaLocationInput, $imageUrl: String, $imageMobileUrl: String,  $backgroundUrl: String, $backgroundMobileUrl: String, $backgroundRootUrl: String, $backgroundRootMobileUrl: String, $alternativeImageUrl: String, $titleImageUrl: String, $trailerUrl: String, $isPremium: Boolean, $isContentFree: Boolean, $trailer: Upload, $staticUrl: String, $isBackgroundBlur: Boolean, $isBackgroundKenBurns: Boolean, $isTitle: Boolean, $contentDesign: CategoryContentDesignInput, $templateCategory: CategoryTemplateCategoryInput, $order: Int, $orderType: CategoryOrderTypeInput, $startSecondChapter: Int, $finishSecondChapter: Int, $reference: String, $technicalDetails: String, $isActive: Boolean){ 
-                                createCategory(input: {name: $name, client: $client, isFinal: $isFinal, type: $type, quality: $quality, hasSubtitle: $hasSubtitle, modeGrid: $modeGrid, description: $description, shortDescription: $shortDescription, friendlyUrl: $friendlyUrl, seoTitle: $seoTitle, seoDescription: $seoDescription, image: $image, imageMobile: $imageMobile, background: $background, backgroundMobile: $backgroundMobile, backgroundRoot: $backgroundRoot, backgroundRootMobile: $backgroundRootMobile, alternativeImage: $alternativeImage, titleImage: $titleImage, mediaLocation: $mediaLocation, imageUrl: $imageUrl, imageMobileUrl: $imageMobileUrl, backgroundUrl: $backgroundUrl, backgroundMobileUrl: $backgroundMobileUrl, backgroundRootUrl: $backgroundRootUrl, backgroundRootMobileUrl: $backgroundRootMobileUrl, alternativeImageUrl: $alternativeImageUrl, titleImageUrl: $titleImageUrl, trailerUrl: $trailerUrl, isPremium: $isPremium, isContentFree: $isContentFree, trailer: $trailer, staticUrl: $staticUrl, isBackgroundBlur: $isBackgroundBlur, isBackgroundKenBurns: $isBackgroundKenBurns, isTitle: $isTitle, contentDesign: $contentDesign, templateCategory: $templateCategory, order: $order, orderType: $orderType,  startSecondChapter: $startSecondChapter, finishSecondChapter: $finishSecondChapter, reference: $reference, technicalDetails: $technicalDetails, isActive: $isActive }){
-                                    category{
+                                createCategory(input: {name: $name, client: $client, parent: $parent, isFinal: $isFinal, type: $type, quality: $quality, hasSubtitle: $hasSubtitle, modeGrid: $modeGrid, description: $description, shortDescription: $shortDescription, friendlyUrl: $friendlyUrl, seoTitle: $seoTitle, seoDescription: $seoDescription, image: $image, imageMobile: $imageMobile, background: $background, backgroundMobile: $backgroundMobile, backgroundRoot: $backgroundRoot, backgroundRootMobile: $backgroundRootMobile, alternativeImage: $alternativeImage, titleImage: $titleImage, mediaLocation: $mediaLocation, imageUrl: $imageUrl, imageMobileUrl: $imageMobileUrl, backgroundUrl: $backgroundUrl, backgroundMobileUrl: $backgroundMobileUrl, backgroundRootUrl: $backgroundRootUrl, backgroundRootMobileUrl: $backgroundRootMobileUrl, alternativeImageUrl: $alternativeImageUrl, titleImageUrl: $titleImageUrl, trailerUrl: $trailerUrl, isPremium: $isPremium, isContentFree: $isContentFree, trailer: $trailer, staticUrl: $staticUrl, isBackgroundBlur: $isBackgroundBlur, isBackgroundKenBurns: $isBackgroundKenBurns, isTitle: $isTitle, contentDesign: $contentDesign, templateCategory: $templateCategory, order: $order, orderType: $orderType,  startSecondChapter: $startSecondChapter, finishSecondChapter: $finishSecondChapter, reference: $reference, technicalDetails: $technicalDetails, isActive: $isActive }){
+                                    category {
                                         id
                                     }
                                 }
                             }`,
                     variables
                 }).then(result => {
-                    this.idPadre = result.data.data.createCategory.category.id
+                    console.log(variables.parent)
+                    if (!variables.isFinal){
+                        this.idPadre = result.data.data.createCategory.category.id
+                    }
                 }).catch(err => {
                     console.log(err);
                 })
